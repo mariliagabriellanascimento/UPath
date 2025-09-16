@@ -1,0 +1,24 @@
+:root {
+  --cor-primaria: #3B82F6;
+  --cor-secundaria: #7C3AED;
+  --cor-apoio: #F97316; 
+  --cor-destaque: #10B981;
+  --cor-cinza-escuro: #E5E7EB;
+  --cor-cinza-medio: #F3F4F6;
+  --cor-cinza-claro: #F9FAFB;
+  --cor-neutra: #FFFFFF;
+  --cor-texto-primario: #000000;
+  --cor-texto-secundario: #1F2937;
+  --cor-sucesso: #22C55E;
+  --cor-erro: #EF4444;
+  --cor-aviso: #FACC15;
+  --cor-informacao: #3B82F6;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--cor-primaria);
+  color: var(--cor-neutra);
+  margin: 0;
+  padding: 0;
+}
