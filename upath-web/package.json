@@ -1,7 +1,6 @@
 {
   "name": "upath-web",
   "private": true,
-  "homepage": "https://mariliagabriellanascimento.github.io/UPath",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
