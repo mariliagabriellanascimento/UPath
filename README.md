@@ -24,7 +24,7 @@ Essa versão é voltada para **navegadores desktop e mobile responsivo**, sendo 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
-- **Frontend:** HTML, CSS, JavaScript, Bootstrap (responsividade).
+- **Frontend:** HTML, CSS, JavaScript, React, Bootstrap (responsividade).
 - **Backend:** Java (Spring Boot).
 - **Banco de Dados:** MySQL.
 - **IA (API externa):** Python (Flask ou FastAPI) com algoritmos de Árvore de Decisão e Random Forest.
