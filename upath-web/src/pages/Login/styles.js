@@ -77,7 +77,7 @@ export const Form = styled.form`
     display: flex;
     justify-content: space-between;
     & .link-esquecimento {
-      margin-bottom: 32px;
+      align-self: center;
     }
 `;
 
