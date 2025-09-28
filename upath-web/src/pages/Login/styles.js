@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  font-family: 'Poppins', sans-serif;
-  background-color: #3B82F6;
+  font-family: "Poppins", sans-serif;
+  background-color: #3b82f6;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -19,7 +19,7 @@ export const LeftArea = styled.div`
 
 export const RightArea = styled.div`
   flex: 1;
-  max-width: 378px;
+  max-width: 384px;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -48,19 +48,19 @@ export const Form = styled.form`
   label {
     text-align: left;
     font-size: 24px;
-    color: #FFFFFF;
+    color: #ffffff;
     font-weight: 600;
   }
 
   p {
     margin-top: 1rem;
     font-size: 20px;
-    color: #FFFFFF;
+    color: #ffffff;
     align-self: center;
   }
 
   a {
-    color: #FFFFFF;
+    color: #ffffff;
     text-decoration: none;
     cursor: pointer;
     font-size: 20px;
@@ -69,7 +69,7 @@ export const Form = styled.form`
       text-decoration: underline;
     }
     &.link-cadastro {
-      color: #1F2937;
+      color: #1f2937;
     }
   }
 
@@ -79,6 +79,7 @@ export const Form = styled.form`
     & .link-esquecimento {
       align-self: center;
     }
+  }
 `;
 
 export const InputGroup = styled.div`
@@ -102,20 +103,19 @@ export const Input = styled.input`
   font-size: 20px;
   outline: none;
   width: 100%;
-  background: #3B82F6;
+  background: #3b82f6;
 
   &::placeholder {
-    color: #E5E7EB;
+    color: #e5e7eb;
   }
-
 `;
 
 export const Button = styled.button`
   padding: 0.9rem;
   border: none;
   border-radius: 8px;
-  background: #10B981;
-  color: #FFFFFF;
+  background: #10b981;
+  color: #ffffff;
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
@@ -124,12 +124,13 @@ export const Button = styled.button`
   &:hover {
     background: #059669;
   }
+
   &.botao-logar {
-  width: 103px;
+    width: 103px;
   }
 
   & .seta {
-    margin-left: 5px;  
+    margin-left: 5px;
   }
 `;
 
@@ -137,7 +138,7 @@ export const Divider = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
   margin: 1rem 0;
   font-size: 20px;
 
@@ -145,7 +146,7 @@ export const Divider = styled.div`
   &::after {
     content: "";
     flex: 1;
-    border-bottom: 1px solid #FFFFFF;
+    border-bottom: 1px solid #ffffff;
   }
 
   &:not(:empty)::before {
@@ -161,7 +162,7 @@ export const Divider = styled.div`
 
 export const GoogleButton = styled(Button)`
   background: white;
-  color: #1F2937;
+  color: #1f2937;
   border: 1px solid #ccc;
   display: flex;
   align-items: center;
@@ -173,12 +174,11 @@ export const GoogleButton = styled(Button)`
   &:hover {
     background: #f5f5f5;
   }
-
 `;
 
 export const LinkText = styled.a`
   font-size: 0.85rem;
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
   cursor: pointer;
   margin-top: -8px;

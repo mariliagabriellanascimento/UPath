@@ -35,10 +35,18 @@ export const RightArea = styled.div`
     text-align: left;
     width: 100%;
   }
+
+  h3 {
+    font-weight: 500;
+    font-size: 20px;
+    text-align: left;
+  }
+
   .cadastro {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-bottom: 10px;
   }
 `;
 

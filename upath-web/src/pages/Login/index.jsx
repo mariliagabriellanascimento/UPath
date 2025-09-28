@@ -1,4 +1,5 @@
 import React from "react";
+
 import {
   Container,
   LeftArea,
@@ -17,6 +18,7 @@ import CelularImg from "../../assets/celular.svg";
 import EnvelopeIcon from "../../assets/envelope.svg";
 import LockIcon from "../../assets/lock.svg";
 import SetaIcon from "../../assets/seta.svg";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -49,7 +51,7 @@ const Login = () => {
           </InputGroup>
 
           <div className="botao-link"><Button className="botao-logar">Logar<img src={SetaIcon} alt="Login" className="seta" /></Button>
-            <LinkText className="link-esquecimento" href="#">Esqueceu a senha?</LinkText></div>
+            <Link to="/retrieve" className="link-esquecimento">Esqueceu a senha?</Link></div>
 
           <Divider>ou</Divider>
 
@@ -63,7 +65,7 @@ const Login = () => {
           </GoogleButton>
 
           <p>
-            Não tem uma conta? <a className="link-cadastro" href="#">Cadastre-se!</a>
+            Não tem uma conta? <Link className="link-cadastro" to="/register">Cadastre-se!</Link>
           </p>
         </Form>
       </RightArea>
