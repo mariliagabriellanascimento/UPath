@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Container,
     LeftArea,
@@ -18,6 +18,11 @@ import VoltarIcon from "../../assets/seta-voltar.svg";
 import { Link } from "react-router-dom";
 
 const Retrieve = () => {
+
+    useEffect(() => {
+        document.title = "Recuperação de Conta- UPath";
+    }, []);
+    
     return (
         <Container>
             {/* Lado esquerdo - imagem do celular */}

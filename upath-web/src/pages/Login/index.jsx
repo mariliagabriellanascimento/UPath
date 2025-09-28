@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import {
   Container,
@@ -21,6 +21,11 @@ import SetaIcon from "../../assets/seta.svg";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+
+  useEffect(() => {
+    document.title = "Login - UPath";
+  }, []);
+
   return (
     <Container>
       {/* Lado esquerdo - imagem do celular */}

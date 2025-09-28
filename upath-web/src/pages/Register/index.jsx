@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Container,
     LeftArea,
@@ -20,6 +20,11 @@ import VoltarIcon from "../../assets/seta-voltar.svg";
 import { Link } from "react-router-dom";
 
 const Register = () => {
+
+    useEffect(() => {
+        document.title = "Cadastro - UPath";
+    }, []);
+
     return (
         <Container>
             {/* Lado esquerdo - imagem do celular */}
