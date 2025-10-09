@@ -8,12 +8,11 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-evenly;
   padding: 0 5%;
-  gap: 3rem;
 `;
 
 export const LeftArea = styled.div`
   img {
-    width: 600px;
+    width: 550px;
   }
 `;
 
@@ -22,18 +21,21 @@ export const RightArea = styled.div`
   max-width: 384px;
   display: flex;
   flex-direction: column;
-  align-items: left;
   color: white;
 
   .logo-area {
-    text-align: center;
     margin-bottom: 30px;
+    align-self: center;
+    & img {
+      width: 175px;
+      }
   }
 
   h1 {
     margin-top: 10px;
     font-weight: 900;
-    text-align: left;
+    align-self: center;
+    text-align: center;
     width: 100%;
   }
 `;
@@ -94,6 +96,22 @@ export const InputGroup = styled.div`
     width: 24px;
     height: 24px;
   }
+
+  .eye-icon {
+    position: absolute;
+    left: 340px;
+    top: 30%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.1s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Input = styled.input`
@@ -104,6 +122,7 @@ export const Input = styled.input`
   outline: none;
   width: 100%;
   background: #3b82f6;
+  color: #E5E7EB;
 
   &::placeholder {
     color: #e5e7eb;
@@ -187,4 +206,62 @@ export const LinkText = styled.a`
   &:hover {
     text-decoration: underline;
   }
+`;
+
+export const StoreButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 100px;
+  gap: 20px;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #000;
+    width: 160px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    img {
+      width: 28px;
+      height: 28px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+
+      span {
+        font-size: 12px;
+        color: #444;
+      }
+
+      strong {
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+  }
+`;
+
+export const ErrorMessage = styled.div`
+  color: #FFFFFF;
+  background-color:rgba(31, 41, 55, 0.25);
+  border-radius: 8px;
+  padding: 5px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500;
 `;

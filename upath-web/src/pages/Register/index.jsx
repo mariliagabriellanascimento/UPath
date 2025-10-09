@@ -8,6 +8,7 @@ import {
     Button,
     Divider,
     InputGroup,
+    StoreButtons,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -17,6 +18,8 @@ import LockIcon from "../../assets/lock.svg";
 import SetaIcon from "../../assets/seta.svg";
 import UserIcon from "../../assets/user.svg";
 import VoltarIcon from "../../assets/seta-voltar.svg";
+import PlayStoreIcon from "../../assets/google-play.svg";
+import AppStoreIcon from "../../assets/app-store.svg";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -29,6 +32,35 @@ const Register = () => {
         <Container>
             {/* Lado esquerdo - imagem do celular */}
             <LeftArea>
+                <StoreButtons>
+                    <a
+                        href="https://play.google.com/store"
+                        target="_blank"
+                        rel="noreferrer"
+                        id="buttonGooglePlay"
+                        className="buttonGooglePlay"
+                    >
+                        <img src={PlayStoreIcon} alt="Google Play" />
+                        <div>
+                            <span>Disponível no</span>
+                            <strong>Google Play</strong>
+                        </div>
+                    </a>
+
+                    <a
+                        href="https://www.apple.com/br/app-store/"
+                        target="_blank"
+                        rel="noreferrer"
+                        id="buttonAppStore"
+                        className="buttonAppStore"
+                    >
+                        <img src={AppStoreIcon} alt="App Store" />
+                        <div>
+                            <span>Baixe na</span>
+                            <strong>App Store</strong>
+                        </div>
+                    </a>
+                </StoreButtons>
                 <img src={CelularImg} alt="App Preview" />
             </LeftArea>
 
@@ -37,7 +69,7 @@ const Register = () => {
                 <div className="logo-area">
                     <img src={Logo} alt="UPATH Logo" width="175" />
                     <div className="cadastro">
-                        <Link to="/login"><img src={VoltarIcon} alt="Voltar" /></Link>
+                        <Link to="/login" id="iconVoltar"><img src={VoltarIcon} alt="Voltar" /></Link>
                         <h1>Cadastro</h1>
                     </div>
                 </div>
@@ -46,40 +78,60 @@ const Register = () => {
                     <label>Nome:</label>
                     <InputGroup>
                         <img src={UserIcon} alt="Nome" />
-                        <Input type="name" placeholder="Digite seu nome..." />
+                        <Input id="name" 
+                        name="name" 
+                        type="name" 
+                        placeholder="Digite seu nome..." 
+                        className="name" />
                         <Divider></Divider>
                     </InputGroup>
 
                     <label>E-mail:</label>
                     <InputGroup>
                         <img src={EnvelopeIcon} alt="E-mail" />
-                        <Input type="email" placeholder="Digite seu e-mail..." />
+                        <Input id="email"
+                            name="email"
+                            type="email"
+                            placeholder="Digite seu e-mail..."
+                            className="email" />
                         <Divider></Divider>
                     </InputGroup>
 
                     <label>Confirmar e-mail:</label>
                     <InputGroup>
                         <img src={EnvelopeIcon} alt="Confirmação de E-mail" />
-                        <Input type="email" placeholder="Confirme seu e-mail..." />
+                        <Input id="email"
+                            name="email"
+                            type="email"
+                            placeholder="Confirme seu e-mail..."
+                            className="email" />
                         <Divider></Divider>
                     </InputGroup>
 
                     <label>Senha:</label>
                     <InputGroup>
                         <img src={LockIcon} alt="Senha" />
-                        <Input type="password" placeholder="Digite sua senha..." />
+                        <Input id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Digite sua senha..."
+                            className="password" />
                         <Divider></Divider>
                     </InputGroup>
 
                     <label>Repetir senha:</label>
                     <InputGroup>
                         <img src={LockIcon} alt="Repetição de Senha" />
-                        <Input type="password" placeholder="Repita sua senha..." />
+                        <Input id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Repita sua senha..."
+                            className="password" />
                         <Divider></Divider>
                     </InputGroup>
 
                     <div className="botao-link">
-                        <Button className="botao-cadastrar">Cadastrar<img src={SetaIcon} alt="Login" className="seta" /></Button>
+                        <Button id="buttonCadastrar" className="botao-cadastrar">Cadastrar<img src={SetaIcon} alt="Login" className="seta" /></Button>
                     </div>
 
                 </Form>

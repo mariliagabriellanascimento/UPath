@@ -8,12 +8,11 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-evenly;
   padding: 0 5%;
-  gap: 3rem;
 `;
 
 export const LeftArea = styled.div`
   img {
-    width: 600px;
+    width: 550px;
   }
 `;
 
@@ -22,12 +21,18 @@ export const RightArea = styled.div`
   max-width: 384px;
   display: flex;
   flex-direction: column;
-  align-items: left;
   color: white;
+  position: relative;
+  padding-bottom: 300px;
 
   .logo-area {
+    margin-bottom: 30px;
     text-align: center;
-    margin-bottom: 15px;
+    
+    & .logo-upath {
+      width: 175px;
+      align-self: center;
+      }
   }
 
   h1 {
@@ -42,7 +47,7 @@ export const RightArea = styled.div`
     text-align: left;
   }
 
-  .cadastro {
+  .esquecimento {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -77,12 +82,6 @@ export const Form = styled.form`
     cursor: pointer;
     font-size: 20px;
 
-    &:hover {
-      text-decoration: underline;
-    }
-    &.link-cadastro {
-      color: #1F2937;
-    }
   }
 
   & .botao-link {
@@ -166,5 +165,53 @@ export const Divider = styled.div`
   &:not(:empty)::after {
     margin-left: 32px;
     margin-right: 32px;
+  }
+`;
+
+export const StoreButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 100px;
+  gap: 20px;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #000;
+    width: 160px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    img {
+      width: 28px;
+      height: 28px;
+    }
+
+    div {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+
+      span {
+        font-size: 12px;
+        color: #444;
+      }
+
+      strong {
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
   }
 `;
