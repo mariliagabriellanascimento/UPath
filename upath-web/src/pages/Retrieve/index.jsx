@@ -46,7 +46,7 @@ const Retrieve = () => {
       setMensagem("E-mail inválido. Tente novamente.");
       setErro(true);
     } else {
-      setMensagem("Uma mensagem foi enviada no seu e-mail! Siga os passos para recuperação da sua conta.");
+      alert("Uma mensagem foi enviada no seu e-mail! Siga os passos para recuperação da sua conta.");
       setErro(false);
       console.log("Enviar código de recuperação para:", email);
     }

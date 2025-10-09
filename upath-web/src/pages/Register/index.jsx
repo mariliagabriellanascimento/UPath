@@ -88,7 +88,7 @@ const Register = () => {
             return;
         }
 
-        alert("Cadastro realizado com sucesso!");
+        alert("Seu cadastro foi realizado com sucesso, faça seu primeiro acesso na tela inicial de login!");
         console.log("Dados enviados:", formData);
     };
 
