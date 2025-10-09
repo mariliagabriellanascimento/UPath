@@ -17,7 +17,6 @@ export const LeftArea = styled.div`
 `;
 
 export const RightArea = styled.div`
-  flex: 1;
   max-width: 384px;
   display: flex;
   flex-direction: column;
@@ -26,7 +25,7 @@ export const RightArea = styled.div`
   padding-bottom: 300px;
 
   .logo-area {
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     text-align: center;
     
     & .logo-upath {
@@ -36,6 +35,7 @@ export const RightArea = styled.div`
   }
 
   h1 {
+    
     font-weight: 900;
     text-align: left;
     width: 100%;
@@ -112,6 +112,7 @@ export const Input = styled.input`
   outline: none;
   width: 100%;
   background: #3b82f6;
+  color: #E5E7EB;
 
   &::placeholder {
     color: #e5e7eb;
@@ -214,4 +215,15 @@ export const StoreButtons = styled.div`
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
   }
+`;
+
+export const ErrorMessage = styled.div`
+  color: #ffffff;
+  background-color: rgba(31, 41, 55, 0.25);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 10px;
 `;

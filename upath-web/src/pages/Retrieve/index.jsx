@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   LeftArea,
@@ -9,6 +9,7 @@ import {
   Divider,
   InputGroup,
   StoreButtons,
+  ErrorMessage
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -21,14 +22,38 @@ import AppStoreIcon from "../../assets/app-store.svg";
 import { Link } from "react-router-dom";
 
 const Retrieve = () => {
-
   useEffect(() => {
     document.title = "Recuperação de Conta- UPath";
   }, []);
 
+  const [email, setEmail] = useState("");
+  const [mensagem, setMensagem] = useState(""); 
+  const [erro, setErro] = useState(false);
+
+  const registeredUsers = ["mauricio.gabriel.al.jr@email.com", "mauricio.gabriel.al@email.com"];
+
+  const handleEnviar = (e) => {
+    e.preventDefault();
+    setMensagem("");
+
+    if (!email.trim()) {
+      setMensagem("Por favor, preencha o campo de e-mail.");
+      setErro(true);
+      return;
+    }
+
+    if (!registeredUsers.includes(email.trim())) {
+      setMensagem("E-mail inválido. Tente novamente.");
+      setErro(true);
+    } else {
+      setMensagem("Uma mensagem foi enviada no seu e-mail! Siga os passos para recuperação da sua conta.");
+      setErro(false);
+      console.log("Enviar código de recuperação para:", email);
+    }
+  };
+
   return (
     <Container>
-      {/* Lado esquerdo - imagem do celular */}
       <LeftArea>
         <StoreButtons>
           <a
@@ -62,10 +87,9 @@ const Retrieve = () => {
         <img src={CelularImg} alt="App Preview" />
       </LeftArea>
 
-      {/* Lado direito - formulário */}
       <RightArea>
         <div className="logo-area">
-          <img src={Logo} alt="UPATH Logo" className="logo-upath" />
+          <img src={Logo} alt="UPATH Logo" className="logo-upath"/>
           <div className="esquecimento">
             <Link to="/login" id="iconVoltar"><img  src={VoltarIcon} alt="Voltar" /></Link>
             <h1>Recuperação</h1>
@@ -73,22 +97,38 @@ const Retrieve = () => {
           <h3>Digite seu e-mail para continuar o processo de recuperação da conta:</h3>
         </div>
 
-        <Form>
+        <Form onSubmit={handleEnviar}>
+          {mensagem && (
+            <ErrorMessage className={erro ? "erro" : "sucesso"}>
+              {mensagem}
+            </ErrorMessage>
+          )}
+
           <label>E-mail:</label>
           <InputGroup>
             <img src={EnvelopeIcon} alt="E-mail" />
-            <Input id="email"
+            <Input
+              id="email"
               name="email"
               type="email"
               placeholder="Digite seu e-mail..."
-              className="email" />
+              className="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
             <Divider></Divider>
           </InputGroup>
 
           <div className="botao-link">
-            <Button id="buttonEnviarEmail" className="botao-enviarEmail" alt="Enviar">Enviar<img src={SetaIcon} className="seta" /></Button>
+            <Button
+              id="buttonEnviarEmail"
+              className="botao-enviarEmail"
+              type="submit"
+              alt="Enviar"
+            >
+              Enviar<img src={SetaIcon} className="seta" />
+            </Button>
           </div>
-
         </Form>
       </RightArea>
     </Container>

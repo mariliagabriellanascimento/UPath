@@ -17,25 +17,25 @@ export const LeftArea = styled.div`
 `;
 
 export const RightArea = styled.div`
-  flex: 1;
-  max-width: 384px;
+  min-width: 384px;
   display: flex;
   flex-direction: column;
   color: white;
 
   .logo-area {
     margin-bottom: 30px;
-    align-self: center;
-    & img {
+    text-align: center;
+    
+    & .logo-upath {
       width: 175px;
+      align-self: center;
       }
   }
 
   h1 {
     margin-top: 10px;
     font-weight: 900;
-    align-self: center;
-    text-align: center;
+    text-align: left;
     width: 100%;
   }
 `;

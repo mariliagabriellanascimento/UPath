@@ -17,16 +17,19 @@ export const LeftArea = styled.div`
 `;
 
 export const RightArea = styled.div`
-  flex: 1;
-  max-width: 384px;
+  min-width: 384px;
   display: flex;
   flex-direction: column;
-  align-items: left;
   color: white;
 
   .logo-area {
+    margin-bottom: 10px;
     text-align: center;
-    margin-bottom: 15px;
+
+    & .logo-upath {
+      width: 175px;
+      align-self: center;
+    }
   }
 
   h1 {
@@ -34,6 +37,7 @@ export const RightArea = styled.div`
     text-align: left;
     width: 100%;
   }
+
   .cadastro {
     display: flex;
     gap: 10px;
@@ -51,32 +55,11 @@ export const Form = styled.form`
   label {
     text-align: left;
     font-size: 24px;
-    color: #FFFFFF;
+    color: #ffffff;
     font-weight: 600;
   }
 
-  p {
-    margin-top: 1rem;
-    font-size: 20px;
-    color: #FFFFFF;
-    align-self: center;
-  }
-
-  a {
-    color: #FFFFFF;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 20px;
-
-    &:hover {
-      text-decoration: underline;
-    }
-    &.link-cadastro {
-      color: #1F2937;
-    }
-  }
-
-  & .botao-link {
+  .botao-link {
     display: flex;
     justify-content: end;
   }
@@ -94,6 +77,21 @@ export const InputGroup = styled.div`
     width: 24px;
     height: 24px;
   }
+  .eye-icon {
+    position: absolute;
+    left: 340px;
+    top: 30%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.1s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 `;
 
 export const Input = styled.input`
@@ -104,9 +102,16 @@ export const Input = styled.input`
   outline: none;
   width: 100%;
   background: #3b82f6;
+  color: #e5e7eb;
+  transition: 0.3s ease;
 
   &::placeholder {
     color: #e5e7eb;
+  }
+
+  &.input-error {
+    border-radius: 8px;
+    background-color: rgba(239, 68, 68, 0.2);
   }
 `;
 
@@ -129,7 +134,7 @@ export const Button = styled.button`
     width: 150px;
   }
 
-  & .seta {
+  .seta {
     margin-left: 5px;
   }
 `;
@@ -206,4 +211,15 @@ export const StoreButtons = styled.div`
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
   }
+`;
+
+export const ErrorMessage = styled.div`
+  color: #ffffff;
+  background-color: rgba(31, 41, 55, 0.25);
+  border-radius: 8px;
+  padding: 5px 10px;
+  font-size: 16px;
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 10px;
 `;

@@ -20,8 +20,8 @@ import PlayStoreIcon from "../../assets/google-play.svg";
 import AppStoreIcon from "../../assets/app-store.svg";
 import EnvelopeIcon from "../../assets/envelope.svg";
 import LockIcon from "../../assets/lock.svg";
-import EyeIcon from "../../assets/eye.svg"; // 👁️ Ícone olho aberto
-import EyeSlashIcon from "../../assets/eye-slash.svg"; // 👁️‍🗨️ Ícone olho fechado
+import EyeIcon from "../../assets/eye.svg";
+import EyeSlashIcon from "../../assets/eye-slash.svg";
 import SetaIcon from "../../assets/seta.svg";
 import GoogleIcon from "../../assets/google.svg";
 import { Link } from "react-router-dom";
@@ -91,7 +91,9 @@ const Login = () => {
       {/* Lado direito */}
       <RightArea>
         <div className="logo-area">
-          <img src={Logo} alt="UPATH Logo" width="175" />
+          <div className="logo">
+            <img src={Logo} alt="UPATH Logo" className="logo-upath"/>
+          </div>        
           <h1>Login</h1>
         </div>
 
