@@ -24,13 +24,14 @@ import EyeIcon from "../../assets/eye.svg";
 import EyeSlashIcon from "../../assets/eye-slash.svg";
 import SetaIcon from "../../assets/seta.svg";
 import GoogleIcon from "../../assets/google.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Login - UPath";
@@ -39,17 +40,54 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // [RF001] - Autenticar no sistema
-    // Regras de Negócio:
-    // - Se o usuário preencher e-mail ou senha inválidos, exibir mensagem: "Usuário ou senha inválidos. Tente novamente."
+    // Lista simulada de usuários
+    const adminUser = {
+      email: "mauricio.gabriel.al@email.com",
+      senha: "Senh@123",
+      role: "admin",
+    };
 
-    if (email !== "mauricio.gabriel.al.jr@email.com" || senha !== "Senh@123") {
+    const studentUser = {
+      email: "mauricio.gabriel.al.jr@email.com",
+      senha: "Senh@123",
+      role: "user",
+    };
+
+    // Validação básica
+    let loggedUser = null;
+
+    if (
+      email === adminUser.email &&
+      senha === adminUser.senha
+    ) {
+      loggedUser = adminUser;
+    } else if (
+      email === studentUser.email &&
+      senha === studentUser.senha
+    ) {
+      loggedUser = studentUser;
+    }
+
+    if (!loggedUser) {
       setError("Usuário ou senha inválidos. Tente novamente.");
       return;
     }
 
+    // Armazena os dados de login (simulação)
+    localStorage.setItem("userRole", loggedUser.role);
+    localStorage.setItem("userEmail", loggedUser.email);
+
     setError("");
-    alert("Login realizado com sucesso! Redirecionando para o dashboard...");
+
+    if (loggedUser.role === "admin") {
+      localStorage.setItem("emailAdmin", loggedUser.email);
+      localStorage.setItem("pinAdmin", "1234"); // PIN de teste
+      alert("Login de administrador detectado! Indo para autenticação PIN...");
+      navigate("/auth");
+    } else {
+      alert("Login realizado com sucesso! Redirecionando para a home...");
+      navigate("/homeUser");
+    }
   };
 
   return (
@@ -92,8 +130,8 @@ const Login = () => {
       <RightArea>
         <div className="logo-area">
           <div className="logo">
-            <img src={Logo} alt="UPATH Logo" className="logo-upath"/>
-          </div>        
+            <img src={Logo} alt="UPATH Logo" className="logo-upath" />
+          </div>
           <h1>Login</h1>
         </div>
 
@@ -138,8 +176,11 @@ const Login = () => {
               Logar <img src={SetaIcon} alt="Login" className="seta" />
             </Button>
 
-            {/* [RF002] - Recuperar Senha */}
-            <Link className="link-esquecimento" to="/retrieve" id="linkRecuperar" >
+            <Link
+              className="link-esquecimento"
+              to="/retrieve"
+              id="linkRecuperar"
+            >
               Esqueceu a senha?
             </Link>
           </div>
@@ -151,7 +192,6 @@ const Login = () => {
             Logar com Google
           </GoogleButton>
 
-          {/* [RF003] - Realizar Cadastro */}
           <p>
             Não tem uma conta?{" "}
             <Link id="linkCadastrar" className="link-cadastro" to="/register">
