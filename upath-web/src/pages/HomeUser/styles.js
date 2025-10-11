@@ -17,29 +17,37 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 48px;
+  padding: 12px 30px;
   border-radius: 0 0 12px 12px;
-`;
 
-export const Logo = styled.h1`
-  font-size: 1.5rem;
-  font-weight: 700;
+  & .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  & .logo-upath {
+    width: 80px;
+  }
 `;
 
 export const NavLinks = styled.nav`
   display: flex;
-  gap: 3rem;
+  gap: 200px;
 
   a {
-    color: #fff;
-    font-weight: 600;
+    color: #1f2937;
+    font-weight: 700;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 24px;
     transition: 0.3s;
   }
 
+  a.active {
+    color: #ffffff;
+  }
+
   a:hover {
-    opacity: 0.8;
+    color: #ffffff;
   }
 `;
 
@@ -55,11 +63,29 @@ export const UserArea = styled.div`
     font-size: 1.3rem;
   }
 
-  img {
-    width: 44px;
-    height: 44px;
+  #iconPerfil {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     cursor: pointer;
+  }
+
+  #iconNotificacoes {
+    & img {
+      width: 36px;
+    }
+  }
+  h3 {
+    font-size: 20px;
+    color: #ffffff;
+  }
+  p {
+    font-size: 16px;
+    color: #e5e7eb;
+  }
+
+  user-info {
+    display: flex;
   }
 `;
 
@@ -78,7 +104,7 @@ export const WelcomeSection = styled.section`
   border-radius: 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 40px;
   padding: 32px 48px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 
@@ -102,15 +128,16 @@ export const WelcomeSection = styled.section`
 `;
 
 export const ButtonEscolherTeste = styled.button`
-  background-color: #9333ea;
+  background-color: #7C3AED;
   color: white;
   padding: 10px 24px;
   border: none;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 500;
   margin-top: 16px;
   cursor: pointer;
   transition: 0.3s;
+  font-size: 20px;
 
   &:hover {
     background-color: #7e22ce;
@@ -194,11 +221,8 @@ export const Footer = styled.footer`
 // 🎯 Overlay dos modais
 export const ModalOverlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.35);
+  top: 120px;
+  right: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -207,9 +231,9 @@ export const ModalOverlay = styled.div`
 
 // 🎯 Modal de Notificações
 export const ModalNotificacoes = styled.div`
-  background: white;
+  background: #3174f6;
   border-radius: 16px;
-  padding: 32px;
+  padding: 24px;
   width: 360px;
   display: flex;
   flex-direction: column;
@@ -218,14 +242,16 @@ export const ModalNotificacoes = styled.div`
   h3 {
     text-align: center;
     font-weight: 700;
+    color: #ffffff;
+    text-align: center;
   }
 
   button {
     padding: 10px;
     border: none;
     border-radius: 8px;
-    background-color: #3174f6;
-    color: #fff;
+    background-color: #ffffff;
+    color: #1f2937;
     font-weight: 600;
     cursor: pointer;
   }
@@ -234,7 +260,48 @@ export const ModalNotificacoes = styled.div`
     align-self: flex-start;
     background: none;
     color: #000;
-    font-size: 1.3rem;
+  }
+
+  #buttonConfig {
+    align-self: center;
+    background: none;
+    color: #000;
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .icon-bolsa {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .icon-bolsa img {
+    width: 30px;
+  }
+
+  .icon-nota {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .icon-nota img {
+    width: 30px;
+  }
+
+  .icon-curso {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .icon-curso img {
+    width: 30px;
   }
 `;
 
