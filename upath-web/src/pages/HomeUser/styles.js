@@ -3,7 +3,7 @@ import styled from "styled-components";
 // 🎯 Container geral
 export const Container = styled.div`
   font-family: "Poppins", sans-serif;
-  color: #1e1e1e;
+  color: #1f2937;
   background-color: #f8f9fb;
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 // 🎯 Cabeçalho
 export const Header = styled.header`
-  background-color: #3174f6;
+  background-color: #3b82f6;
   color: #fff;
   display: flex;
   align-items: center;
@@ -25,6 +25,7 @@ export const Header = styled.header`
     align-items: center;
     gap: 10px;
   }
+
   & .logo-upath {
     width: 80px;
   }
@@ -105,7 +106,7 @@ export const WelcomeSection = styled.section`
   display: flex;
   align-items: center;
   gap: 40px;
-  padding: 32px 48px;
+  padding: 24px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 
   h2 {
@@ -116,7 +117,7 @@ export const WelcomeSection = styled.section`
 
   p {
     font-size: 1rem;
-    color: #555;
+    color: #1f2937;
     line-height: 1.5;
     margin-bottom: 8px;
   }
@@ -128,7 +129,7 @@ export const WelcomeSection = styled.section`
 `;
 
 export const ButtonEscolherTeste = styled.button`
-  background-color: #7C3AED;
+  background-color: #7c3aed;
   color: white;
   padding: 10px 24px;
   border: none;
@@ -186,13 +187,13 @@ export const CardNoticias = styled.div`
 
   p {
     font-size: 0.9rem;
-    color: #555;
+    color: #1f2937;
   }
 `;
 
 // 🎯 Rodapé
 export const Footer = styled.footer`
-  background-color: #3174f6;
+  background-color: #3b82f6;
   color: white;
   text-align: center;
   padding: 16px 0;
@@ -227,14 +228,18 @@ export const ModalOverlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 99;
+
+  &.modalPerfilOverlay {
+    right: 20px;
+  }
 `;
 
 // 🎯 Modal de Notificações
 export const ModalNotificacoes = styled.div`
-  background: #3174f6;
+  background: #3b82f6;
   border-radius: 16px;
   padding: 24px;
-  width: 360px;
+  width: 330px;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -271,7 +276,11 @@ export const ModalNotificacoes = styled.div`
   .modal-header {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
+
+    & img {
+      width: 24px;
+    }
   }
 
   .icon-bolsa {
@@ -306,52 +315,258 @@ export const ModalNotificacoes = styled.div`
 `;
 
 // 🎯 Modal de Links das Notificações
-export const ModalLinkNotificacoes = styled(ModalNotificacoes)`
-  a {
-    color: #3174f6;
-    font-weight: 600;
-    text-decoration: none;
-    margin: 4px 0;
+export const ModalLinkNotificacoes = styled.div`
+  background-color: #3b82f6;
+  color: white;
+  width: 380px;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    img {
+      width: 22px;
+    }
   }
 
-  a:hover {
-    text-decoration: underline;
+  .notificacoes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .notificacao-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    background-color: #fff;
+    color: #1f2937;
+    border-radius: 12px;
+    padding: 12px 14px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .icon-bolsaLink img,
+    .icon-notaLink img,
+    .icon-cursoLink img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .notificacao-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin: 0;
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 14px;
+      color: #1f2937;
+      margin: 0;
+      margin-bottom: 4px;
+    }
+
+    span {
+      font-size: 12px;
+      color: #3b82f6;
+      text-align: right;
+      align-self: flex-end;
+    }
   }
 `;
 
 // 🎯 Modal Configurações
-export const ModalConfig = styled(ModalNotificacoes)`
-  label {
+export const ModalConfig = styled.div`
+  background: #3b82f6;
+  color: #fff;
+  width: 360px;
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+
+  .modal-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-size: 0.95rem;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    h3 {
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    button {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    img {
+      width: 22px;
+      height: 22px;
+    }
   }
 
-  input[type="checkbox"] {
-    transform: scale(1.2);
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .toggle-area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .nots-active {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: #1f2937;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(18px);
+  }
+
+  .checkbox-group {
+    display: flex;
+
+    flex-direction: column;
+    gap: 8px;
+
+    & #checkBolsas,
+    #checkNotas,
+    #checkCursos,
+    #checkNotificacoesPref {
+      accent-color: #FFFFFF;
+      height: 18px;
+      width: 18px;
+    }
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+  }
+
+  .filter-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      font-size: 14px;
+    }
+
+    select {
+      background: #3b82f6;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 14px;
+      outline: none;
+    }
   }
 `;
 
 // 🎯 Modal Perfil
 export const ModalPerfil = styled(ModalNotificacoes)`
+  width: 220px;
+  border-radius: 4px;
+
   button {
-    background-color: #f3f3f3;
-    color: #222;
-    border: 1px solid #ddd;
-  }
-
-  #buttonSair {
-    background-color: #ff4d4f;
-    color: #fff;
-  }
-
-  #buttonConfig {
-    background-color: #3174f6;
+    background-color: transparent;
     color: #fff;
   }
 
   button:hover {
-    opacity: 0.85;
+    background-color: rgba(31, 41, 55, 0.2);
+  }
+
+  .icon-edit,
+  .icon-salvos,
+  .icon-planos,
+  .icon-sobre,
+  .icon-logout {
+    display: flex;
+    align-items: center;
+    gap: 30px;
   }
 `;
