@@ -5,22 +5,21 @@ import {
   NavLinks,
   UserArea,
   Main,
-  WelcomeSection,
-  ButtonEscolherTeste,
-  NoticiasSection,
-  CardNoticias,
+  EscolherTesteSection,
+  CardTeste,
+  CardTitulo,
+  CardDescricao,
+  CardItem,
+  ButtonTeste,
+  FooterInfo,
   Footer,
   ModalOverlay,
   ModalNotificacoes,
   ModalLinkNotificacoes,
   ModalConfig,
-  ModalPerfil
+  ModalPerfil,
 } from "./styles";
 
-import EquipeUPathImg from "../../assets/EquipeUPath.png";
-import Sisu from "../../assets/sisu.png";
-import UFPE from "../../assets/ufpe.jpg";
-import UFRPE from "../../assets/ufrpe.jpeg";
 import Logo from "../../assets/logo-upath-2.svg";
 import UserImg from "../../assets/userImg.svg";
 import BellIcon from "../../assets/notification.svg";
@@ -38,7 +37,7 @@ import SobreIcon from "../../assets/sobre.svg";
 import LogoutIcon from "../../assets/logout.svg";
 import { Link } from "react-router-dom";
 
-const HomeUser = () => {
+const Teste = () => {
   // Estados dos modais
   const [showNotificacoes, setShowNotificacoes] = useState(false);
   const [showLinkNotificacoes, setShowLinkNotificacoes] = useState(false);
@@ -47,41 +46,11 @@ const HomeUser = () => {
   const [showPerfil, setShowPerfil] = useState(false);
 
   useEffect(() => {
-    document.title = "Home - UPath";
+    document.title = "Teste - UPath";
   }, []);
 
   // Estado do link ativo
-  const [activeLink, setActiveLink] = useState("home");
-  // Estado das notícias
-  const [noticias, setNoticias] = useState([]);
-
-  // Simulação de fetch de notícias
-  useEffect(() => {
-    const noticiasExemplo = [
-      {
-        id: 1,
-        titulo: "Inscrições do SISU 2025 abertas",
-        descricao:
-          "Prazo vai de 10 a 15 de fevereiro para universidades públicas de todo o país.",
-        imagem: Sisu, 
-      },
-      {
-        id: 2,
-        titulo: "UFPE lança curso de Design Digital",
-        descricao:
-          "Graduação voltada para inovação, tecnologia e criatividade.",
-        imagem: UFPE, 
-      },
-      {
-        id: 3,
-        titulo: "UFRPE apresenta Eng. de Software",
-        descricao:
-          "Curso com foco em programação, projetos e desenvolvimento ágil.",
-        imagem: UFRPE, 
-      },
-    ];
-    setNoticias(noticiasExemplo);
-  }, []);
+  const [activeLink, setActiveLink] = useState("teste");
 
   return (
     <Container>
@@ -138,37 +107,37 @@ const HomeUser = () => {
 
       {/* Conteúdo Principal */}
       <Main>
-        <WelcomeSection>
-          <img src={EquipeUPathImg} alt="Equipe UPath" />
-          <div>
-            <h2>Bem-vindo ao UPath!</h2>
-            <p>
-              Realize o teste de orientação vocacional para identificar a área
-              que mais se alinha ao seu perfil.
-            </p>
-            <p>
-              Nossa plataforma analisará suas chances em programas como Sisu,
-              ProUni e Fies, além de sugerir cursos e instituições compatíveis.
-            </p>
-            <ButtonEscolherTeste id="buttonEscolherTeste" to="/typeTest">
-              Iniciar Teste
-            </ButtonEscolherTeste>
-          </div>
+        <EscolherTesteSection>
+          <h2>Escolha seu tipo de teste</h2>
 
-        </WelcomeSection>
-
-        <NoticiasSection>
-          <h3>Notícias</h3>
           <div className="cards-container">
-            {noticias.map((n) => (
-              <CardNoticias key={n.id}>
-                <img src={n.imagem} alt={n.titulo} />
-                <h4>{n.titulo}</h4>
-                <p>{n.descricao}</p>
-              </CardNoticias>
-            ))}
+            <CardTeste className="gratis" id="cardGratis">
+              <CardTitulo tipo="gratis">Teste Diário (Gratuito)</CardTitulo>
+              <CardDescricao tipo="gratis">Descrição:</CardDescricao>
+              <ul>
+                <CardItem tipo="gratis">1 teste por dia</CardItem>
+                <CardItem tipo="gratis">Resultados gerais e medianos</CardItem>
+                <CardItem tipo="gratis">Respostas menos específicas</CardItem>
+              </ul>
+              <ButtonTeste id="buttonIniciarTesteGratis">Fazer teste grátis</ButtonTeste>
+            </CardTeste>
+
+            <CardTeste className="premium" id="cardPremium">
+              <CardTitulo tipo="premium">Teste Premium (Ilimitado)</CardTitulo>
+              <CardDescricao tipo="premium">Descrição:</CardDescricao>
+              <ul>
+                <CardItem tipo="premium">Testes ilimitados</CardItem>
+                <CardItem tipo="premium">Respostas detalhadas e inteligentes</CardItem>
+                <CardItem tipo="premium">Resultados personalizados</CardItem>
+              </ul>
+              <ButtonTeste id="buttonAtivarPremium" className="premium-btn">Ativar Premium</ButtonTeste>
+            </CardTeste>
           </div>
-        </NoticiasSection>
+
+          <FooterInfo>
+            Você pode realizar testes gratuitos ou desbloquear recursos premium para resultados avançados
+          </FooterInfo>
+        </EscolherTesteSection>
       </Main>
 
       {/* Rodapé */}
@@ -463,4 +432,4 @@ const HomeUser = () => {
   );
 }
 
-export default HomeUser;
+export default Teste;

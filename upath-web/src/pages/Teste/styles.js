@@ -41,7 +41,6 @@ export const NavLinks = styled.nav`
     text-decoration: none;
     font-size: 24px;
     transition: 0.3s;
-    cursor: pointer;
   }
 
   a.active {
@@ -81,6 +80,7 @@ export const UserArea = styled.div`
     font-size: 20px;
     color: #ffffff;
   }
+
   p {
     font-size: 16px;
     color: #e5e7eb;
@@ -100,96 +100,98 @@ export const Main = styled.main`
   padding: 32px 64px;
 `;
 
-// 🎯 Boas-vindas
-export const WelcomeSection = styled.section`
-  background-color: #fff;
-  border-radius: 16px;
+// 🎯 Escolha de Teste
+export const EscolherTesteSection = styled.section`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 40px;
-  padding: 24px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  gap: 28px;
+  border-radius: 16px;
 
   h2 {
-    font-size: 1.8rem;
-    margin-bottom: 12px;
+    font-size: 22px;
     font-weight: 700;
-  }
-
-  p {
-    font-size: 1rem;
-    color: #1f2937;
-    line-height: 1.5;
-    margin-bottom: 8px;
-  }
-
-  img {
-    width: 300px;
-    max-width: 40%;
-  }
-`;
-
-export const ButtonEscolherTeste = styled.button`
-  background-color: #7c3aed;
-  color: white;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  margin-top: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 20px;
-
-  &:hover {
-    background-color: #7e22ce;
-  }
-`;
-
-// 🎯 Notícias
-export const NoticiasSection = styled.section`
-  h3 {
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 24px;
+    color: #1F2937;
   }
 
   .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    max-width: 600px;
   }
 `;
 
-export const CardNoticias = styled.div`
-  background-color: #fff;
+export const CardTeste = styled.div`
+  background-color: ${({ className }) =>
+    className === "premium" ? "#1F2937" : "#fff"};
+
+  color: ${({ className }) => (className === "premium" ? "#fff" : "#111827")};
   border-radius: 16px;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
-  padding: 12px;
-  transition: 0.3s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 24px;
+  width: 100%;
+    max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s ease;
 
   &:hover {
-    transform: translateY(-3px);
+    transform: scale(1.02);
   }
 
-  img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 10px;
+  ul {
+    list-style: disc;
+    padding: 0;
+    margin: 0;
   }
+`;
 
-  h4 {
-    font-weight: 700;
-    margin-bottom: 4px;
-    font-size: 1rem;
-  }
+export const CardTitulo = styled.h3`
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: ${({ tipo }) => (tipo === "premium" ? "#ffffff" : "#3b82f6")};
+`;
 
-  p {
-    font-size: 0.9rem;
-    color: #1f2937;
+export const CardDescricao = styled.p`
+  font-weight: 500;
+  font-size: 16px;
+  color: ${({ tipo }) => (tipo === "premium" ? "#ffffff" : "#3b82f6")};
+`;
+
+export const CardItem = styled.li`
+  font-size: 16px;
+  margin-left: 8px;
+  color: ${({ tipo }) => (tipo === "premium" ? "#ffffff" : "#1F2937")};
+`;
+
+export const ButtonTeste = styled.button`
+  align-self: flex-end;
+  background-color: ${({ className }) =>
+    className === "premium-btn" ? "#7C3AED" : "#7C3AED"};
+  color: #fff;
+  font-size: 20px;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    opacity: 0.9;
   }
+`;
+
+export const FooterInfo = styled.p`
+  font-size: 12px;
+  color: #000000;
+  text-align: center;
+  margin-top: 8px;
+  max-width: 500px;
 `;
 
 // 🎯 Rodapé
@@ -512,7 +514,7 @@ export const ModalConfig = styled.div`
     #checkNotas,
     #checkCursos,
     #checkNotificacoesPref {
-      accent-color: #FFFFFF;
+      accent-color: #ffffff;
       height: 18px;
       width: 18px;
     }

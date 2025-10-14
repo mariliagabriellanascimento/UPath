@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Retrieve from "./pages/Retrieve";
 import Auth from "./pages/Auth";
 import HomeUser from "./pages/HomeUser";
+import Teste from "./pages/Teste";
 import HomeAdmin from "./pages/HomeAdmin";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/retrieve" element={<Retrieve />} />
         <Route path="/auth" element={<Auth />} />
         <Route path="/homeUser" element={<HomeUser />} />
+        <Route path="/teste" element={<Teste />} />
         <Route path="/homeAdmin" element={<HomeAdmin />} />
       </Routes>
     </Router>
