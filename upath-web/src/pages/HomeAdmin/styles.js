@@ -204,14 +204,14 @@ export const ContentBox = styled.div`
         }
 
         p {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 16px;
           margin: 4px 0;
         }
 
         strong {
           font-weight: 600;
-          color: #FFFFFF
+          color: #ffffff;
         }
 
         .ativo {
@@ -258,7 +258,7 @@ export const ContentBox = styled.div`
       }
 
       .bloquear {
-        background-color: #F97316;
+        background-color: #f97316;
         color: #fff;
 
         &:hover {
@@ -267,7 +267,7 @@ export const ContentBox = styled.div`
       }
 
       .excluir {
-        background-color: #EF4444;
+        background-color: #ef4444;
         color: #fff;
 
         &:hover {
@@ -284,7 +284,7 @@ export const ContentBox = styled.div`
     display: flex;
 
     .ultima-atualizacao {
-      color: #3B82F6;
+      color: #3b82f6;
       font-weight: 600;
       margin: 12px;
     }
@@ -389,7 +389,7 @@ export const FormNotas = styled.form`
   }
 
   button {
-    background-color: #10B981;
+    background-color: #10b981;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -419,7 +419,7 @@ export const UploadArea = styled.div`
   margin: 0 auto;
 
   h2 {
-    color: #3B82F6;
+    color: #3b82f6;
   }
 
   .resumo {
@@ -433,7 +433,7 @@ export const UploadArea = styled.div`
 
     p {
       margin: 8px 0;
-      color: #3B82F6;
+      color: #3b82f6;
       strong {
         color: #1f2937;
       }
@@ -467,14 +467,14 @@ export const SuccessBox = styled.div`
   margin: 0 auto;
 
   h2 {
-    color: #3B82F6;
+    color: #3b82f6;
     font-size: 1.8rem;
     margin-bottom: 12px;
     font-weight: 700;
   }
 
   p {
-    color: #3B82F6;
+    color: #3b82f6;
     font-size: 1.1rem;
     margin-bottom: 20px;
   }
@@ -494,7 +494,6 @@ export const SuccessBox = styled.div`
       background-color: #6d28d9;
     }
   }
-
 `;
 
 // 🔹 Overlay central do modal de confirmação
@@ -515,12 +514,18 @@ export const ConfirmBox = styled.div`
   width: 400px;
   text-align: center;
   color: #fff;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   animation: aparecer 0.2s ease-in-out;
 
   @keyframes aparecer {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   h3 {
@@ -529,7 +534,7 @@ export const ConfirmBox = styled.div`
   }
 
   p {
-    color: #d1d5db;
+    color: #ffffff;
     font-size: 1rem;
     margin-bottom: 20px;
   }
@@ -550,7 +555,7 @@ export const ConfirmBox = styled.div`
     }
 
     .confirmar {
-      background-color: #10B981;
+      background-color: #10b981;
       color: white;
       &:hover {
         background-color: #059669;
@@ -558,11 +563,230 @@ export const ConfirmBox = styled.div`
     }
 
     .cancelar {
-      background-color: #EF4444;
+      background-color: #ef4444;
       color: white;
       &:hover {
         background-color: #dc2626;
       }
+    }
+  }
+`;
+
+export const RelatoriosContainer = styled.div`
+  display: flex;
+  background-color: #1f2937;
+  padding: 30px;
+  border-radius: 12px;
+`;
+
+export const FiltrosContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+  margin-right: 20px;
+
+  h1 {
+    color: #ffffff;
+    font-size: 32px;
+  }
+
+  p {
+    color: #ffffff;
+    font-size: 16px;
+    text-align: left;
+    margin: 0;
+  }
+
+  .tipo-relatorio-select,
+  .periodo-select {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 20px;
+    text-align: left;
+  }
+
+  select {
+    background: #1f2937;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 16px;
+    outline: none;
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    & #checkDadosCursos {
+      accent-color: #1f2937;
+      height: 20px;
+      width: 20px;
+    }
+
+    label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
+    }
+  }
+`;
+
+export const GraficoContainer = styled.div`
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 40px;
+
+  h2 {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 24px;
+  }
+
+  .grafico-barras {
+    display: flex;
+    align-items: flex-end;
+    height: 200px;
+    gap: 10px;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .barra {
+    width: 40px;
+    background: #3b82f6;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .legenda {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 24px 0px 24px;
+    font-size: 14px;
+    color: #ffffff;
+    gap: 24px;
+  }
+
+  .periodo-info {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+
+    h3 {
+      color: #ffffff;
+      font-size: 20px;
+    }
+    p {
+      color: #ffffff;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+
+  label {
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  select {
+    background: #1f2937;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .toggle-area {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .dados-active {
+      font-size: 20px;
+      font-weight: 500;
+    }
+  }
+
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+  }
+
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.4s;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: #7c3aed;
+  }
+
+  input:checked + .slider:before {
+    transform: translateX(18px);
+  }
+
+  .export-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  button {
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #6d28d9;
     }
   }
 `;

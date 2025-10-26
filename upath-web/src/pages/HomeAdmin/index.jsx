@@ -14,7 +14,10 @@ import {
   UploadArea,
   SuccessBox,
   ConfirmOverlay,
-  ConfirmBox
+  ConfirmBox,
+  RelatoriosContainer,
+  FiltrosContainer,
+  GraficoContainer,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -230,8 +233,78 @@ const HomeAdmin = () => {
       case "relatorios":
         return (
           <ContentBox>
-            <h1>Gerar Relatórios e Métricas</h1>
-            <p>Visualize métricas e gere relatórios administrativos.</p>
+            <h1>Gerenciamento de Relatório e Métricas</h1>
+            <RelatoriosContainer>
+              {/* Filtros */}
+              <FiltrosContainer>
+                <div className="intro-text">
+                  <h1>Gerar de Relatório e Métricas</h1>
+                  <p>Selecione os parâmetros e exporte em PDF ou XLSX.</p>
+                </div>
+                <div className="tipo-relatorio-select">
+                  <label htmlFor="tipoRelatorio">Tipo de Relatório:</label>
+                  <select id="tipoRelatorio">
+                    <option value="">Selecione</option>
+                    <option value="usuarios">Usuários Ativos</option>
+                    <option value="acessos">Acessos</option>
+                    <option value="erros">Erros do Sistema</option>
+                  </select>
+                </div>
+
+                <div className="periodo-select">
+                  <label htmlFor="periodo">Filtro:</label>
+                  <select id="periodo">
+                    <option value="">Selecione</option>
+                    <option value="7d">Últimos 7 dias</option>
+                    <option value="30d">Últimos 30 dias</option>
+                    <option value="90d">Últimos 90 dias</option>
+                  </select>
+                </div>
+
+                <div className="checkbox-group">
+                <label>
+                  <input id="checkDadosCursos" type="checkbox" />
+                  Cursos 
+                </label>
+                </div>
+
+                
+              </FiltrosContainer>
+
+              {/* Gráfico (simulado) */}
+              <GraficoContainer>
+                <h2>Gráfico de Acesso</h2>
+                <div className="grafico-barras">
+                  {[60, 90, 40, 80, 70].map((valor, i) => (
+                    <div key={i} className="barra" style={{ height: `${valor * 2}px` }}></div>
+                  ))}
+                </div>
+                <div className="legenda">
+                  <span>Seg</span>
+                  <span>Ter</span>
+                  <span>Qua</span>
+                  <span>Qui</span>
+                  <span>Sex</span>
+                </div>
+                <div className="periodo-info">
+                  <h3>Período:</h3>
+                  <p>Últimos 30 dias</p>
+                </div>
+                <div className="toggle-area"> 
+                  <label className="switch">
+                    <input id="switchAtivarDadosSensiveis" type="checkbox" />
+                    <span className="slider"></span>
+                  </label>
+                  <label htmlFor="switchAtivarDadosSensiveis" className="dados-active">Anonimizar dados sensíveis</label>
+                </div>
+                <div className="export-buttons">
+                  <button className="pdf" id="buttonExportarPDF">Exportar PDF</button>
+                  <button className="xlsx" id="buttonExportarXLSX">Exportar XLSX</button>
+                </div>
+                
+              </GraficoContainer>
+             
+            </RelatoriosContainer>
           </ContentBox>
         );
 
