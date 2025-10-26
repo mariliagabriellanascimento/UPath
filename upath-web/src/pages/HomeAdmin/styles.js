@@ -25,7 +25,7 @@ export const Header = styled.header`
   }
 `;
 
-// 🎯 Área do usuário
+// 🎯 Área do usuário (lado direito do cabeçalho)
 export const UserArea = styled.div`
   display: flex;
   align-items: center;
@@ -58,11 +58,12 @@ export const NavBar = styled.nav`
   flex-wrap: wrap;
 `;
 
-// 🎯 Botão de navegação
+// 🎯 Botões da barra de navegação
 export const NavButton = styled.button`
   display: flex;
   align-items: center;
   gap: 8px;
+  font-size: 16px;
   background-color: ${(props) => (props.active ? "#7C3AED" : "#fff")};
   color: ${(props) => (props.active ? "#fff" : "#1f2937")};
   border: none;
@@ -100,10 +101,11 @@ export const Main = styled.main`
 export const ContentBox = styled.div`
   background-color: white;
   border-radius: 16px;
-  padding: 40px;
+  padding: 25px;
   width: 70%;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   text-align: center;
+  justify-items: center;
 
   h1 {
     font-size: 2rem;
@@ -114,11 +116,10 @@ export const ContentBox = styled.div`
   p {
     font-size: 1rem;
     color: #1f2937;
-    margin-top: 12px;
-    margin-bottom: 24px;
+    margin: 12px;
   }
 
-  /* 🎯 Estilos da área de pesquisa */
+  /* 🎯 Pesquisa de usuário */
   .pesquisa-estudante {
     display: flex;
     flex-direction: column;
@@ -275,6 +276,19 @@ export const ContentBox = styled.div`
       }
     }
   }
+
+  .info-final {
+    border-radius: 8px;
+    justify-content: center;
+    width: 70%;
+    display: flex;
+
+    .ultima-atualizacao {
+      color: #3B82F6;
+      font-weight: 600;
+      margin: 12px;
+    }
+  }
 `;
 
 // 🎯 Rodapé
@@ -344,5 +358,211 @@ export const ModalPerfil = styled.div`
     display: flex;
     align-items: center;
     gap: 10px;
+  }
+`;
+
+// 🎯 Formulário de atualização de notas
+export const FormNotas = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  background-color: #1f2937;
+  border-radius: 12px;
+  padding: 25px;
+  width: 40%;
+  justify-self: center;
+
+  input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+
+    &:focus {
+      border-color: #7c3aed;
+    }
+  }
+
+  button {
+    background-color: #10B981;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+
+    &:hover {
+      background-color: #10a981;
+    }
+  }
+`;
+
+// 🎯 Área de upload de dados
+export const UploadArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  border-radius: 12px;
+  padding: 30px;
+  width: 80%;
+  margin: 0 auto;
+
+  h2 {
+    color: #3B82F6;
+  }
+
+  .resumo {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    width: 60%;
+    font-size: 16px;
+
+    p {
+      margin: 8px 0;
+      color: #3B82F6;
+      strong {
+        color: #1f2937;
+      }
+    }
+  }
+
+  button {
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #6d28d9;
+    }
+  }
+`;
+
+// 🎯 Caixa de sucesso após upload
+export const SuccessBox = styled.div`
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  padding: 30px 40px;
+  text-align: center;
+  width: 70%;
+  margin: 0 auto;
+
+  h2 {
+    color: #3B82F6;
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  p {
+    color: #3B82F6;
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  button {
+    background-color: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: #6d28d9;
+    }
+  }
+
+`;
+
+// 🔹 Overlay central do modal de confirmação
+export const ConfirmOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+`;
+
+export const ConfirmBox = styled.div`
+  background-color: #1f2937;
+  border-radius: 12px;
+  padding: 30px 40px;
+  width: 400px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  animation: aparecer 0.2s ease-in-out;
+
+  @keyframes aparecer {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #d1d5db;
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .botoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+
+    button {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .confirmar {
+      background-color: #10B981;
+      color: white;
+      &:hover {
+        background-color: #059669;
+      }
+    }
+
+    .cancelar {
+      background-color: #EF4444;
+      color: white;
+      &:hover {
+        background-color: #dc2626;
+      }
+    }
   }
 `;

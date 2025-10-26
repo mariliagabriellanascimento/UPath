@@ -9,7 +9,12 @@ import {
   ModalPerfil,
   NavBar,
   NavButton,
-  ContentBox
+  ContentBox,
+  FormNotas,
+  UploadArea,
+  SuccessBox,
+  ConfirmOverlay,
+  ConfirmBox
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -25,20 +30,19 @@ import CursoBolsaIconAtivo from "../../assets/cursoBolsaAtivo.svg";
 import RelatorioIcon from "../../assets/relatorio.svg";
 import RelatorioIconAtivo from "../../assets/relatorioAtivo.svg";
 
-
 const HomeAdmin = () => {
   const [showPerfil, setShowPerfil] = useState(false);
   const [activeTab, setActiveTab] = useState("usuarios");
-  const [searchId, setSearchId] = useState(""); // ID digitado
-  const [student, setStudent] = useState(null); // dados do aluno encontrado
+  const [searchId, setSearchId] = useState("");
+  const [student, setStudent] = useState(null);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     document.title = "Home Administrativa - UPath";
   }, []);
 
-  // 🧠 Função simulada de pesquisa
-  const handlePesquisar = () => {
-    // Exemplo de dado fixo (simulação)
+  // 🔍 Simulação de busca de usuário
+  const handlePesquisarUser = () => {
     if (searchId === "11111111") {
       setStudent({
         nome: "Maurício Gabriel Almeida de Lima Jr",
@@ -48,7 +52,7 @@ const HomeAdmin = () => {
         simulacoes: 2,
         ultimoLogin: "15/09/2025",
         resetPedido: false,
-        foto: UserImg,
+        foto: UserImg
       });
     } else {
       setStudent(null);
@@ -56,31 +60,64 @@ const HomeAdmin = () => {
     }
   };
 
+  // 🔹 Estados das notas
+  const [notasStage, setNotasStage] = useState("form");
+  const [notas, setNotas] = useState({
+    instituicao: "",
+    curso: "",
+    estado: "",
+    modalidade: "",
+    ano: "",
+    nota: ""
+  });
+
+  // 🔹 Modal de confirmação
+  const ConfirmModal = ({ onConfirm, onCancel }) => (
+    <ConfirmOverlay>
+      <ConfirmBox>
+        <h3>Confirmar ação</h3>
+        <p>Deseja realmente salvar esses dados?</p>
+        <div className="botoes">
+          <button className="confirmar" onClick={onConfirm}>
+            Sim, salvar
+          </button>
+          <button className="cancelar" onClick={onCancel}>
+            Cancelar
+          </button>
+        </div>
+      </ConfirmBox>
+    </ConfirmOverlay>
+  );
+
+  // 💾 Simula salvar notas
+  const handleSalvarNotas = () => {
+    setShowConfirmModal(false);
+    setNotasStage("upload");
+  };
+
+  const handleUpload = () => {
+    setNotasStage("success");
+  };
+
+  // 🔹 Conteúdo dinâmico das abas
   const renderContent = () => {
     switch (activeTab) {
       case "usuarios":
         return (
           <ContentBox>
-            <h1>Gerenciar Usuários</h1>
-            <p>Pesquise um estudante pelo ID para visualizar ou editar suas informações.</p>
-
+            <h1>Pesquisar Estudante</h1>
             <div className="pesquisa-estudante">
-              <h3>Pesquisar Estudante</h3>
               <div className="input-area">
                 <input
                   type="text"
-                  id="inputPesquisarUser"
                   placeholder="Digite o ID do usuário..."
                   value={searchId}
                   onChange={(e) => setSearchId(e.target.value)}
                 />
-                <button id="buttonPesquisarUser" onClick={handlePesquisar}>
-                  Pesquisar
-                </button>
+                <button onClick={handlePesquisarUser}>Pesquisar</button>
               </div>
             </div>
 
-            {/* 🎯 Mostra o card se o estudante foi encontrado */}
             {student && (
               <div className="card-estudante">
                 <div className="info-principal">
@@ -107,20 +144,97 @@ const HomeAdmin = () => {
                 </div>
 
                 <div className="acoes">
-                  <button className="resetar" id="buttonResetarUser" disabled>Resetar</button>
-                  <button className="bloquear" id="buttonBloquearUser">Bloquear</button>
-                  <button className="excluir" id="buttonExcluirUser">Excluir</button>
+                  <button className="resetar" disabled>Resetar</button>
+                  <button className="bloquear">Bloquear</button>
+                  <button className="excluir">Excluir</button>
                 </div>
               </div>
             )}
           </ContentBox>
         );
+
       case "notas":
-        return <ContentBox><h1>Atualizar Notas de Corte</h1><p>Atualize as notas de corte dos cursos cadastrados.</p></ContentBox>;
+        return (
+          <ContentBox>
+            {notasStage === "form" && (
+              <>
+                <h1>Inserir Dados para Atualização</h1>
+                <FormNotas onSubmit={(e) => { e.preventDefault(); setShowConfirmModal(true); }}>
+                  <input type="text" placeholder="Instituição" value={notas.instituicao} onChange={(e) => setNotas({ ...notas, instituicao: e.target.value })} required />
+                  <input type="text" placeholder="Curso" value={notas.curso} onChange={(e) => setNotas({ ...notas, curso: e.target.value })} required />
+                  <input type="text" placeholder="Estado" value={notas.estado} onChange={(e) => setNotas({ ...notas, estado: e.target.value })} required />
+                  <input type="text" placeholder="Modalidade" value={notas.modalidade} onChange={(e) => setNotas({ ...notas, modalidade: e.target.value })} required />
+                  <input type="number" placeholder="Ano" value={notas.ano} onChange={(e) => setNotas({ ...notas, ano: e.target.value })} required />
+                  <input type="number" step="0.01" placeholder="Nota de Corte" value={notas.nota} onChange={(e) => setNotas({ ...notas, nota: e.target.value })} required />
+                  <button type="submit">Salvar</button>
+                </FormNotas>
+              </>
+            )}
+
+            {notasStage === "upload" && (
+              <UploadArea>
+                <h2>Upload de Dados</h2>
+                <div className="resumo">
+                  <p><strong>Instituição:</strong> {notas.instituicao}</p>
+                  <p><strong>Curso:</strong> {notas.curso}</p>
+                  <p><strong>Estado:</strong> {notas.estado}</p>
+                  <p><strong>Modalidade:</strong> {notas.modalidade}</p>
+                  <p><strong>Ano:</strong> {notas.ano}</p>
+                  <p><strong>Nota de Corte:</strong> {notas.nota}</p>
+                </div>
+                <button onClick={handleUpload}>Fazer Upload</button>
+              </UploadArea>
+            )}
+
+            {notasStage === "success" && (
+              <SuccessBox>
+                <h2>Tudo pronto!</h2>
+                <p>Agora as simulações passam a usar os novos dados.</p>
+                <button onClick={() => {
+                  setNotas({
+                    instituicao: "",
+                    curso: "",
+                    estado: "",
+                    modalidade: "",
+                    ano: "",
+                    nota: ""
+                  });
+                  setNotasStage("form");
+                }}>Atualizar Nota de Corte</button>
+              </SuccessBox>
+            )}
+
+            {showConfirmModal && (
+              <ConfirmModal
+                onConfirm={handleSalvarNotas}
+                onCancel={() => setShowConfirmModal(false)}
+              />
+            )}
+
+            <div className="info-final">
+              <p className="ultima-atualizacao">
+                Última atualização: 25/10/2025 às 10:25 - Maurício Gabriel
+              </p>
+            </div>
+          </ContentBox>
+        );
+
       case "cursos":
-        return <ContentBox><h1>Gerenciar Cursos e Bolsas</h1><p>Adicione, edite ou remova cursos e bolsas disponíveis.</p></ContentBox>;
+        return (
+          <ContentBox>
+            <h1>Gerenciar Cursos e Bolsas</h1>
+            <p>Adicione, edite ou remova cursos e bolsas disponíveis.</p>
+          </ContentBox>
+        );
+
       case "relatorios":
-        return <ContentBox><h1>Gerar Relatórios e Métricas</h1><p>Visualize métricas e gere relatórios administrativos.</p></ContentBox>;
+        return (
+          <ContentBox>
+            <h1>Gerar Relatórios e Métricas</h1>
+            <p>Visualize métricas e gere relatórios administrativos.</p>
+          </ContentBox>
+        );
+
       default:
         return null;
     }
@@ -128,7 +242,6 @@ const HomeAdmin = () => {
 
   return (
     <Container>
-      {/* Cabeçalho */}
       <Header>
         <div className="logo">
           <img src={Logo} alt="UPATH Logo" className="logo-upath" />
@@ -148,67 +261,37 @@ const HomeAdmin = () => {
         </UserArea>
       </Header>
 
-      {/* Barra de navegação */}
       <NavBar>
-        <NavButton
-          active={activeTab === "usuarios"}
-          onClick={() => setActiveTab("usuarios")}
-        >
-          <img
-            src={activeTab === "usuarios" ? EstudanteIconAtivo : EstudanteIcon}
-            alt="Usuários"
-          />
+        <NavButton active={activeTab === "usuarios"} onClick={() => setActiveTab("usuarios")}>
+          <img src={activeTab === "usuarios" ? EstudanteIconAtivo : EstudanteIcon} alt="Usuários" />
           Gerenciar Usuários
         </NavButton>
 
-        <NavButton
-          active={activeTab === "notas"}
-          onClick={() => setActiveTab("notas")}
-        >
-          <img
-            src={activeTab === "notas" ? AtualizarIconAtivo : AtualizarIcon}
-            alt="Notas"
-          />
+        <NavButton active={activeTab === "notas"} onClick={() => setActiveTab("notas")}>
+          <img src={activeTab === "notas" ? AtualizarIconAtivo : AtualizarIcon} alt="Notas" />
           Atualizar Notas de Corte
         </NavButton>
 
-        <NavButton
-          active={activeTab === "cursos"}
-          onClick={() => setActiveTab("cursos")}
-        >
-          <img
-            src={activeTab === "cursos" ? CursoBolsaIconAtivo : CursoBolsaIcon}
-            alt="Cursos"
-          />
+        <NavButton active={activeTab === "cursos"} onClick={() => setActiveTab("cursos")}>
+          <img src={activeTab === "cursos" ? CursoBolsaIconAtivo : CursoBolsaIcon} alt="Cursos" />
           Gerenciar Cursos e Bolsas
         </NavButton>
 
-        <NavButton
-          active={activeTab === "relatorios"}
-          onClick={() => setActiveTab("relatorios")}
-        >
-          <img
-            src={activeTab === "relatorios" ? RelatorioIconAtivo : RelatorioIcon}
-            alt="Relatórios"
-          />
-          Gerar Relatório e Métricas
+        <NavButton active={activeTab === "relatorios"} onClick={() => setActiveTab("relatorios")}>
+          <img src={activeTab === "relatorios" ? RelatorioIconAtivo : RelatorioIcon} alt="Relatórios" />
+          Gerar Relatórios e Métricas
         </NavButton>
       </NavBar>
 
-
-      {/* Conteúdo principal dinâmico */}
       <Main>{renderContent()}</Main>
 
-      {/* Rodapé */}
       <Footer>
         <p>UPath © 2025 - Todos os direitos reservados</p>
         <div>
-          <a href="#">Contato</a> | <a href="#">Política de Privacidade</a> |{" "}
-          <a href="#">Termos de Uso</a>
+          <a href="#">Contato</a> | <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
         </div>
       </Footer>
 
-      {/* Modal Perfil */}
       {showPerfil && (
         <ModalOverlay>
           <ModalPerfil>
