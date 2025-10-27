@@ -4,6 +4,7 @@ import {
   Header,
   UserArea,
   Main,
+  Divider,
   Footer,
   ModalOverlay,
   ModalPerfil,
@@ -163,12 +164,83 @@ const HomeAdmin = () => {
               <>
                 <h1>Inserir Dados para Atualização</h1>
                 <FormNotas onSubmit={(e) => { e.preventDefault(); setShowConfirmModal(true); }}>
-                  <input type="text" placeholder="Instituição" value={notas.instituicao} onChange={(e) => setNotas({ ...notas, instituicao: e.target.value })} required />
-                  <input type="text" placeholder="Curso" value={notas.curso} onChange={(e) => setNotas({ ...notas, curso: e.target.value })} required />
-                  <input type="text" placeholder="Estado" value={notas.estado} onChange={(e) => setNotas({ ...notas, estado: e.target.value })} required />
-                  <input type="text" placeholder="Modalidade" value={notas.modalidade} onChange={(e) => setNotas({ ...notas, modalidade: e.target.value })} required />
-                  <input type="number" placeholder="Ano" value={notas.ano} onChange={(e) => setNotas({ ...notas, ano: e.target.value })} required />
-                  <input type="number" step="0.01" placeholder="Nota de Corte" value={notas.nota} onChange={(e) => setNotas({ ...notas, nota: e.target.value })} required />
+                  <div className="instituicaoCurso">
+                    <div className="instituicao-input">
+                      <input type="text" placeholder="Instituição" value={notas.instituicao} onChange={(e) => setNotas({ ...notas, instituicao: e.target.value })} required />
+                      <Divider />
+                    </div>
+                    <div className="curso-input">
+                      <input type="text" placeholder="Curso" value={notas.curso} onChange={(e) => setNotas({ ...notas, curso: e.target.value })} required />
+                      <Divider />
+                    </div>
+                  </div>
+                  <div className="selects">
+                    <div className="estado-select">
+                      <label htmlFor="estado">Estado:</label>
+                      <select
+                        id="Estado"
+                        value={notas.estado || ""}
+                        onChange={(e) => setNotas({ ...notas, estado: e.target.value })}
+                        required
+                      >
+                        <option value="" disabled>
+                          Selecione
+                        </option>
+                        <option value="AC">Acre (AC)</option>
+                        <option value="AL">Alagoas (AL)</option>
+                        <option value="AP">Amapá (AP)</option>
+                        <option value="AM">Amazonas (AM)</option>
+                        <option value="BA">Bahia (BA)</option>
+                        <option value="CE">Ceará (CE)</option>
+                        <option value="DF">Distrito Federal (DF)</option>
+                        <option value="ES">Espírito Santo (ES)</option>
+                        <option value="GO">Goiás (GO)</option>
+                        <option value="MA">Maranhão (MA)</option>
+                        <option value="MT">Mato Grosso (MT)</option>
+                        <option value="MS">Mato Grosso do Sul (MS)</option>
+                        <option value="MG">Minas Gerais (MG)</option>
+                        <option value="PA">Pará (PA)</option>
+                        <option value="PB">Paraíba (PB)</option>
+                        <option value="PR">Paraná (PR)</option>
+                        <option value="PE">Pernambuco (PE)</option>
+                        <option value="PI">Piauí (PI)</option>
+                        <option value="RJ">Rio de Janeiro (RJ)</option>
+                        <option value="RN">Rio Grande do Norte (RN)</option>
+                        <option value="RS">Rio Grande do Sul (RS)</option>
+                        <option value="RO">Rondônia (RO)</option>
+                        <option value="RR">Roraima (RR)</option>
+                        <option value="SC">Santa Catarina (SC)</option>
+                        <option value="SP">São Paulo (SP)</option>
+                        <option value="SE">Sergipe (SE)</option>
+                        <option value="TO">Tocantins (TO)</option>
+                      </select>
+                    </div>
+                    <div className="modalidade-select">
+                      <label htmlFor="estado">Modalidade:</label>
+                      <select
+                        id="Modalidade"
+                        value={notas.modalidade || ""}
+                        onChange={(e) => setNotas({ ...notas, modalidade: e.target.value })}
+                        required
+                      >
+                        <option value="" disabled>
+                          Selecione
+                        </option>
+                        <option value="ampla">Ampla</option>
+                        <option value="cota">Cota</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="anoNota">
+                    <div className="ano-input">
+                      <input type="number" placeholder="Ano" value={notas.ano} onChange={(e) => setNotas({ ...notas, ano: e.target.value })} required />
+                      <Divider />
+                    </div>
+                    <div className="nota-input">
+                      <input type="number" step="50.00" placeholder="Nota de Corte" value={notas.nota} onChange={(e) => setNotas({ ...notas, nota: e.target.value })} required />
+                      <Divider />
+                    </div>
+                  </div>
                   <button type="submit">Salvar</button>
                 </FormNotas>
               </>
@@ -262,13 +334,13 @@ const HomeAdmin = () => {
                 </div>
 
                 <div className="checkbox-group">
-                <label>
-                  <input id="checkDadosCursos" type="checkbox" />
-                  Cursos 
-                </label>
+                  <label>
+                    <input id="checkDadosCursos" type="checkbox" />
+                    Cursos
+                  </label>
                 </div>
 
-                
+
               </FiltrosContainer>
 
               {/* Gráfico (simulado) */}
@@ -290,7 +362,7 @@ const HomeAdmin = () => {
                   <h3>Período:</h3>
                   <p>Últimos 30 dias</p>
                 </div>
-                <div className="toggle-area"> 
+                <div className="toggle-area">
                   <label className="switch">
                     <input id="switchAtivarDadosSensiveis" type="checkbox" />
                     <span className="slider"></span>
@@ -301,9 +373,9 @@ const HomeAdmin = () => {
                   <button className="pdf" id="buttonExportarPDF">Exportar PDF</button>
                   <button className="xlsx" id="buttonExportarXLSX">Exportar XLSX</button>
                 </div>
-                
+
               </GraficoContainer>
-             
+
             </RelatoriosContainer>
           </ContentBox>
         );

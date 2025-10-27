@@ -371,22 +371,60 @@ export const FormNotas = styled.form`
   background-color: #1f2937;
   border-radius: 12px;
   padding: 25px;
-  width: 40%;
+  width: 50%;
   justify-self: center;
+
+  label {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 16px;
+    text-align: left;
+  }
+
+  select {
+    background: #1f2937;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 16px;
+    outline: none;
+    max-width: 60%;
+  }
 
   input {
     width: 100%;
     padding: 10px 16px;
-    border: 1px solid #d1d5db;
+    border: none;
     border-radius: 8px;
     font-size: 16px;
     outline: none;
     transition: border-color 0.3s;
+    background-color: #1f2937;
+    color: #ffffff;
+
+    &::placeholder {
+      color: #ffffff;
+      }
 
     &:focus {
-      border-color: #7c3aed;
+      border-color: #ffffff;
     }
   }
+  
+  .selects {
+    display: flex; 
+    gap: 10px;
+  }
+
+  .instituicaoCurso {
+    display: flex; 
+    gap: 10px;}
+
+  .anoNota {
+    display: flex; 
+    gap: 10px;
+}
 
   button {
     background-color: #10b981;
@@ -404,6 +442,16 @@ export const FormNotas = styled.form`
       background-color: #10a981;
     }
   }
+`;
+
+export const Divider = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  font-size: 20px;
+  border-bottom: 1px solid #ffffff;
+  width: 160px;
 `;
 
 // 🎯 Área de upload de dados

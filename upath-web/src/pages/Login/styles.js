@@ -116,7 +116,7 @@ export const InputGroup = styled.div`
 
 export const Input = styled.input`
   padding: 0.5rem;
-  padding-left: 2.8rem; /* espaço pro ícone */
+  padding-left: 2.8rem;
   border: none;
   font-size: 20px;
   outline: none;
