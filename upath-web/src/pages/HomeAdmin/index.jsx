@@ -12,6 +12,7 @@ import {
   NavButton,
   ContentBox,
   FormNotas,
+  FormCurso,
   UploadArea,
   SuccessBox,
   ConfirmOverlay,
@@ -37,7 +38,8 @@ import RelatorioIconAtivo from "../../assets/relatorioAtivo.svg";
 const HomeAdmin = () => {
   const [showPerfil, setShowPerfil] = useState(false);
   const [activeTab, setActiveTab] = useState("usuarios");
-  const [searchId, setSearchId] = useState("");
+  const [searchIdUser, setSearchIdUser] = useState("");
+  const [searchIdCurso, setSearchIdCurso] = useState("");
   const [student, setStudent] = useState(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -47,7 +49,7 @@ const HomeAdmin = () => {
 
   // 🔍 Simulação de busca de usuário
   const handlePesquisarUser = () => {
-    if (searchId === "11111111") {
+    if (searchIdUser === "11111111") {
       setStudent({
         nome: "Maurício Gabriel Almeida de Lima Jr",
         id: "11111111",
@@ -65,7 +67,7 @@ const HomeAdmin = () => {
   };
 
   // 🔹 Estados das notas
-  const [notasStage, setNotasStage] = useState("form");
+  const [notasStage, setNotasStage] = useState("formNotas");
   const [notas, setNotas] = useState({
     instituicao: "",
     curso: "",
@@ -103,6 +105,32 @@ const HomeAdmin = () => {
     setNotasStage("success");
   };
 
+  const handlePesquisarCurso = () => {
+    if (searchIdCurso === "25252525") {
+      setCurso({
+        curso: "Medicina",
+        area: "Saúde",
+        instituicao: "UNINASSAU",
+        estado: "Pernambuco",
+        duracao: "6 anos",
+        valor: "7.480,00",
+      });
+    } else {
+      setCurso(null);
+      alert("Curso não encontrado!");
+    }
+  };
+
+  const [cursoStage, setCursoStage] = useState("formCurso");
+  const [curso, setCurso] = useState({
+    curso: "",
+    area: "",
+    instituicao: "",
+    estado: "",
+    duracao: "",
+    valor: ""
+  });
+
   // 🔹 Conteúdo dinâmico das abas
   const renderContent = () => {
     switch (activeTab) {
@@ -115,8 +143,8 @@ const HomeAdmin = () => {
                 <input
                   type="text"
                   placeholder="Digite o ID do usuário..."
-                  value={searchId}
-                  onChange={(e) => setSearchId(e.target.value)}
+                  value={searchIdUser}
+                  onChange={(e) => setSearchIdUser(e.target.value)}
                 />
                 <button onClick={handlePesquisarUser}>Pesquisar</button>
               </div>
@@ -147,10 +175,10 @@ const HomeAdmin = () => {
                   </div>
                 </div>
 
-                <div className="acoes">
-                  <button className="resetar" disabled>Resetar</button>
-                  <button className="bloquear">Bloquear</button>
-                  <button className="excluir">Excluir</button>
+                <div className="acoes-estudante">
+                  <button className="resetarUser" disabled>Resetar</button>
+                  <button className="bloquearUser">Bloquear</button>
+                  <button className="excluirUser">Excluir</button>
                 </div>
               </div>
             )}
@@ -160,7 +188,7 @@ const HomeAdmin = () => {
       case "notas":
         return (
           <ContentBox>
-            {notasStage === "form" && (
+            {notasStage === "formNotas" && (
               <>
                 <h1>Inserir Dados para Atualização</h1>
                 <FormNotas onSubmit={(e) => { e.preventDefault(); setShowConfirmModal(true); }}>
@@ -274,7 +302,7 @@ const HomeAdmin = () => {
                     ano: "",
                     nota: ""
                   });
-                  setNotasStage("form");
+                  setNotasStage("formNotas");
                 }}>Atualizar Nota de Corte</button>
               </SuccessBox>
             )}
@@ -297,8 +325,76 @@ const HomeAdmin = () => {
       case "cursos":
         return (
           <ContentBox>
-            <h1>Gerenciar Cursos e Bolsas</h1>
-            <p>Adicione, edite ou remova cursos e bolsas disponíveis.</p>
+            <h1>Pesquisar Curso</h1>
+            <div className="pesquisa-curso">
+              <div className="input-area">
+                <input
+                  type="text"
+                  placeholder="Digite o ID do curso..."
+                  value={searchIdCurso}
+                  onChange={(e) => setSearchIdCurso(e.target.value)}
+                />
+                <button onClick={handlePesquisarCurso}>Pesquisar</button>
+              </div>
+            </div>
+
+            <div className="adicionarCurso">
+              <button
+                className="buttonAdicionarCurso"
+                id="buttonAdicionarCurso"
+                onClick={() => {
+                  setCurso({
+                    instituicao: "",
+                    curso: "",
+                    estado: "",
+                    modalidade: "",
+                    ano: "",
+                    nota: ""
+                  });
+                  setCursoStage("formCurso");
+                }} >Adicionar Curso</button>
+            </div>
+
+            {cursoStage === "formCurso" && !curso && (
+              <>
+                <h2>Adicionar Curso</h2>
+                <FormCurso onSubmit={(e) => { e.preventDefault(); setShowConfirmModal(true); }}>
+                  {/* Campos do formulário para adicionar curso */}
+                  <input type="text" placeholder="Curso" required />
+                  <input type="text" placeholder="Área" required />
+                  <input type="text" placeholder="Instituição" required />
+                  <input type="text" placeholder="Estado" required />
+                  <input type="text" placeholder="Duração" required />
+                  <input type="number" step="0.01" placeholder="Valor" required />
+                  <button type="submit">Adicionar Curso</button>
+                </FormCurso>
+              </>
+            )}
+
+            {curso && (
+              <div className="card-curso">
+                <div className="dados-curso">
+                  <h3>Dados do Curso</h3>
+                  <div className="info-curso">
+                    <div className="curso-instituicao-duracao">
+                      <p><strong>Curso:</strong> {curso.curso}</p>
+                      <p><strong>Instituição:</strong> {curso.instituicao}</p>
+                      <p><strong>Duração:</strong> {curso.duracao}</p>
+                    </div>
+                    <div className="area-estado-valor">
+                      <p><strong>Área:</strong> {curso.area}</p>
+                      <p><strong>Estado:</strong> {curso.estado}</p>
+                      <p><strong>Valor:</strong> R$ {curso.valor}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="acoes-curso">
+                  <button className="editarCurso">Editar</button>
+                  <button className="excluirCurso">Excluir</button>
+                  <button className="vincularBolsa">Vincular Bolsa</button>
+                </div>
+              </div>
+            )}
           </ContentBox>
         );
 

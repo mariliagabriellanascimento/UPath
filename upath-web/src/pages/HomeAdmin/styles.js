@@ -108,7 +108,7 @@ export const ContentBox = styled.div`
   justify-items: center;
 
   h1 {
-    font-size: 2rem;
+    font-size: 32px;
     font-weight: 700;
     margin-bottom: 12px;
   }
@@ -236,7 +236,7 @@ export const ContentBox = styled.div`
       }
     }
 
-    .acoes {
+    .acoes-estudante {
       display: flex;
       justify-content: center;
       gap: 12px;
@@ -251,13 +251,13 @@ export const ContentBox = styled.div`
         transition: all 0.3s;
       }
 
-      .resetar {
+      .resetarUser {
         background-color: #e5e7eb;
         color: #9ca3af;
         cursor: not-allowed;
       }
 
-      .bloquear {
+      .bloquearUser {
         background-color: #f97316;
         color: #fff;
 
@@ -266,7 +266,7 @@ export const ContentBox = styled.div`
         }
       }
 
-      .excluir {
+      .excluirUser {
         background-color: #ef4444;
         color: #fff;
 
@@ -288,6 +288,164 @@ export const ContentBox = styled.div`
       font-weight: 600;
       margin: 12px;
     }
+  }
+
+  /* 🎯 Pesquisa de curso */
+  .pesquisa-curso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 30px;
+    h3 {
+    
+      color: #1f2937;
+      font-weight: 600;
+    }
+    .input-area {
+      display: flex;
+      gap: 10px;  
+      justify-content: center;
+
+      input {
+        width: 280px;
+        padding: 10px 16px; 
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        font-size: 16px;
+        outline: none;
+        transition: border-color 0.3s;
+        &:focus {
+          border-color: #7c3aed;
+        }
+      }
+
+      button {
+        background-color: #7c3aed;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        &:hover {
+          background-color: #6d28d9;
+        }
+      }
+    }
+  }
+
+  /* 🎯 Adicionar curso */
+  .adicionarCurso {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+    .buttonAdicionarCurso {
+      background-color: #7c3aed;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #6d28d9;
+      }
+    }
+  }
+
+  /* 🎯 Card do curso */
+  .card-curso {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    background-color: #FFFFFF;
+    color: #3B82F6;
+    border-radius: 12px;
+    padding: 20px 30px;
+    width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    word-wrap: break-word;
+    .dados-curso {
+      h3 {
+        font-size: 1.1rem;
+        margin-bottom: 6px;
+        font-weight: 600;
+      }
+      p {
+        color: #3B82F6;
+        font-size: 16px;
+        margin: 4px 0;
+      }
+      strong {
+        font-weight: 600;
+        color: #1F2937;
+      }
+    }
+    
+    .info-curso {
+    display: flex;
+    justify-content: center;
+
+    .curso-instituicao-duracao,
+    .area-estado-valor {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 0 20px;
+    }
+
+  }
+
+
+  .acoes-curso {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+
+    button {
+      padding: 8px 16px;  
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .editarCurso {
+      background-color: #F97316;
+      color: #fff;
+      &:hover {
+        background-color: #D97706;
+      }
+    }
+
+    .excluirCurso {
+      background-color: #EF4444;
+      color: #fff;
+      &:hover {
+        background-color: #DC2626;
+      }
+    }
+      
+    .vincularBolsa {
+      background-color: #7C3AED;
+      color: #fff;
+      &:hover {
+        background-color: #6D28D9;
+      }
   }
 `;
 
@@ -371,7 +529,7 @@ export const FormNotas = styled.form`
   background-color: #1f2937;
   border-radius: 12px;
   padding: 25px;
-  width: 50%;
+
   justify-self: center;
 
   label {
@@ -393,7 +551,6 @@ export const FormNotas = styled.form`
   }
 
   input {
-    width: 100%;
     padding: 10px 16px;
     border: none;
     border-radius: 8px;
