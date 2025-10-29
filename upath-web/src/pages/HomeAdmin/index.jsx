@@ -12,7 +12,6 @@ import {
   NavButton,
   ContentBox,
   FormNotas,
-  FormCurso,
   UploadArea,
   SuccessBox,
   ConfirmOverlay,
@@ -21,6 +20,7 @@ import {
   FiltrosContainer,
   GraficoContainer,
 } from "./styles";
+
 
 import Logo from "../../assets/logo-upath-2.svg";
 import AdminImg from "../../assets/adminImg.svg";
@@ -35,17 +35,21 @@ import CursoBolsaIconAtivo from "../../assets/cursoBolsaAtivo.svg";
 import RelatorioIcon from "../../assets/relatorio.svg";
 import RelatorioIconAtivo from "../../assets/relatorioAtivo.svg";
 
+
 const HomeAdmin = () => {
   const [showPerfil, setShowPerfil] = useState(false);
   const [activeTab, setActiveTab] = useState("usuarios");
   const [searchIdUser, setSearchIdUser] = useState("");
   const [searchIdCurso, setSearchIdCurso] = useState("");
   const [student, setStudent] = useState(null);
+  const [curso, setCurso] = useState("");
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
 
   useEffect(() => {
     document.title = "Home Administrativa - UPath";
   }, []);
+
 
   // 🔍 Simulação de busca de usuário
   const handlePesquisarUser = () => {
@@ -66,6 +70,7 @@ const HomeAdmin = () => {
     }
   };
 
+
   // 🔹 Estados das notas
   const [notasStage, setNotasStage] = useState("formNotas");
   const [notas, setNotas] = useState({
@@ -76,6 +81,7 @@ const HomeAdmin = () => {
     ano: "",
     nota: ""
   });
+
 
   // 🔹 Modal de confirmação
   const ConfirmModal = ({ onConfirm, onCancel }) => (
@@ -95,15 +101,18 @@ const HomeAdmin = () => {
     </ConfirmOverlay>
   );
 
+
   // 💾 Simula salvar notas
   const handleSalvarNotas = () => {
     setShowConfirmModal(false);
     setNotasStage("upload");
   };
 
+
   const handleUpload = () => {
     setNotasStage("success");
   };
+
 
   const handlePesquisarCurso = () => {
     if (searchIdCurso === "25252525") {
@@ -121,15 +130,6 @@ const HomeAdmin = () => {
     }
   };
 
-  const [cursoStage, setCursoStage] = useState("formCurso");
-  const [curso, setCurso] = useState({
-    curso: "",
-    area: "",
-    instituicao: "",
-    estado: "",
-    duracao: "",
-    valor: ""
-  });
 
   // 🔹 Conteúdo dinâmico das abas
   const renderContent = () => {
@@ -149,6 +149,7 @@ const HomeAdmin = () => {
                 <button onClick={handlePesquisarUser}>Pesquisar</button>
               </div>
             </div>
+
 
             {student && (
               <div className="card-estudante">
@@ -175,6 +176,7 @@ const HomeAdmin = () => {
                   </div>
                 </div>
 
+
                 <div className="acoes-estudante">
                   <button className="resetarUser" disabled>Resetar</button>
                   <button className="bloquearUser">Bloquear</button>
@@ -184,6 +186,7 @@ const HomeAdmin = () => {
             )}
           </ContentBox>
         );
+
 
       case "notas":
         return (
@@ -274,6 +277,7 @@ const HomeAdmin = () => {
               </>
             )}
 
+
             {notasStage === "upload" && (
               <UploadArea>
                 <h2>Upload de Dados</h2>
@@ -288,6 +292,7 @@ const HomeAdmin = () => {
                 <button onClick={handleUpload}>Fazer Upload</button>
               </UploadArea>
             )}
+
 
             {notasStage === "success" && (
               <SuccessBox>
@@ -307,12 +312,14 @@ const HomeAdmin = () => {
               </SuccessBox>
             )}
 
+
             {showConfirmModal && (
               <ConfirmModal
                 onConfirm={handleSalvarNotas}
                 onCancel={() => setShowConfirmModal(false)}
               />
             )}
+
 
             <div className="info-final">
               <p className="ultima-atualizacao">
@@ -321,6 +328,7 @@ const HomeAdmin = () => {
             </div>
           </ContentBox>
         );
+
 
       case "cursos":
         return (
@@ -338,38 +346,13 @@ const HomeAdmin = () => {
               </div>
             </div>
 
+
             <div className="adicionarCurso">
               <button
                 className="buttonAdicionarCurso"
-                id="buttonAdicionarCurso"
-                onClick={() => {
-                  setCurso({
-                    instituicao: "",
-                    curso: "",
-                    estado: "",
-                    modalidade: "",
-                    ano: "",
-                    nota: ""
-                  });
-                  setCursoStage("formCurso");
-                }} >Adicionar Curso</button>
+                id="buttonAdicionarCurso">Adicionar Curso</button>
             </div>
 
-            {cursoStage === "formCurso" && !curso && (
-              <>
-                <h2>Adicionar Curso</h2>
-                <FormCurso onSubmit={(e) => { e.preventDefault(); setShowConfirmModal(true); }}>
-                  {/* Campos do formulário para adicionar curso */}
-                  <input type="text" placeholder="Curso" required />
-                  <input type="text" placeholder="Área" required />
-                  <input type="text" placeholder="Instituição" required />
-                  <input type="text" placeholder="Estado" required />
-                  <input type="text" placeholder="Duração" required />
-                  <input type="number" step="0.01" placeholder="Valor" required />
-                  <button type="submit">Adicionar Curso</button>
-                </FormCurso>
-              </>
-            )}
 
             {curso && (
               <div className="card-curso">
@@ -398,6 +381,7 @@ const HomeAdmin = () => {
           </ContentBox>
         );
 
+
       case "relatorios":
         return (
           <ContentBox>
@@ -419,6 +403,7 @@ const HomeAdmin = () => {
                   </select>
                 </div>
 
+
                 <div className="periodo-select">
                   <label htmlFor="periodo">Filtro:</label>
                   <select id="periodo">
@@ -429,6 +414,7 @@ const HomeAdmin = () => {
                   </select>
                 </div>
 
+
                 <div className="checkbox-group">
                   <label>
                     <input id="checkDadosCursos" type="checkbox" />
@@ -437,7 +423,10 @@ const HomeAdmin = () => {
                 </div>
 
 
+
+
               </FiltrosContainer>
+
 
               {/* Gráfico (simulado) */}
               <GraficoContainer>
@@ -470,16 +459,20 @@ const HomeAdmin = () => {
                   <button className="xlsx" id="buttonExportarXLSX">Exportar XLSX</button>
                 </div>
 
+
               </GraficoContainer>
+
 
             </RelatoriosContainer>
           </ContentBox>
         );
 
+
       default:
         return null;
     }
   };
+
 
   return (
     <Container>
@@ -502,21 +495,25 @@ const HomeAdmin = () => {
         </UserArea>
       </Header>
 
+
       <NavBar>
         <NavButton active={activeTab === "usuarios"} onClick={() => setActiveTab("usuarios")}>
           <img src={activeTab === "usuarios" ? EstudanteIconAtivo : EstudanteIcon} alt="Usuários" />
           Gerenciar Usuários
         </NavButton>
 
+
         <NavButton active={activeTab === "notas"} onClick={() => setActiveTab("notas")}>
           <img src={activeTab === "notas" ? AtualizarIconAtivo : AtualizarIcon} alt="Notas" />
           Atualizar Notas de Corte
         </NavButton>
 
+
         <NavButton active={activeTab === "cursos"} onClick={() => setActiveTab("cursos")}>
           <img src={activeTab === "cursos" ? CursoBolsaIconAtivo : CursoBolsaIcon} alt="Cursos" />
           Gerenciar Cursos e Bolsas
         </NavButton>
+
 
         <NavButton active={activeTab === "relatorios"} onClick={() => setActiveTab("relatorios")}>
           <img src={activeTab === "relatorios" ? RelatorioIconAtivo : RelatorioIcon} alt="Relatórios" />
@@ -524,7 +521,9 @@ const HomeAdmin = () => {
         </NavButton>
       </NavBar>
 
+
       <Main>{renderContent()}</Main>
+
 
       <Footer>
         <p>UPath © 2025 - Todos os direitos reservados</p>
@@ -532,6 +531,7 @@ const HomeAdmin = () => {
           <a href="#">Contato</a> | <a href="#">Política de Privacidade</a> | <a href="#">Termos de Uso</a>
         </div>
       </Footer>
+
 
       {showPerfil && (
         <ModalOverlay>
@@ -547,5 +547,6 @@ const HomeAdmin = () => {
     </Container>
   );
 };
+
 
 export default HomeAdmin;
