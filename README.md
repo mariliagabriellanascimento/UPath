@@ -53,3 +53,4 @@ Essa versão é voltada para **navegadores desktop e mobile responsivo**, sendo 
   O terminal mostrará o link, geralmente algo como:  
   [http://localhost:5173](http://localhost:5173)
 
+8. Adicione ao localhost **/Login** para visualizar a tela.
