@@ -38,19 +38,15 @@ Essa versão é voltada para **navegadores desktop e mobile responsivo**, sendo 
 2. **Abra o projeto no VSCode.**
 
 3. **No terminal do VSCode, navegue até a pasta principal do projeto:**
-   ```bash
    cd upath-web
 
 4. Instale as dependências
-  ```bash
    npm install
 
 5. Instale o React Router DOM (caso ainda não esteja instalado)
-  ```bash
    npm install react-router-dom
 
 6. Execute o projeto
-  ```bash
    npm run dev
 
 7. Após isso, o projeto estará disponível localmente  
