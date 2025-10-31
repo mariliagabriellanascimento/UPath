@@ -37,6 +37,43 @@ const Login = () => {
     document.title = "Login - UPath";
   }, []);
 
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Define a função global chamada quando o login do Google é feito
+    window.handleCredentialResponse = (response) => {
+      const token = response.credential;
+
+      // Envia o token para o back-end validar
+      fetch("http://localhost:5000/api/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ token }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            localStorage.setItem("userEmail", data.email);
+            alert("Login Google realizado com sucesso!");
+            navigate("/homeUser");
+          } else {
+            alert("Erro ao autenticar com o Google.");
+          }
+        })
+        .catch((err) => console.error("Erro Google Login:", err));
+    };
+  }, [navigate]);
+
   const handleLogin = (e) => {
     e.preventDefault();
 
@@ -187,10 +224,24 @@ const Login = () => {
 
           <Divider>ou</Divider>
 
-          <GoogleButton id="buttonLogarGoogle">
-            <img src={GoogleIcon} alt="Google" width="20" />
-            Logar com Google
-          </GoogleButton>
+          <div
+            id="g_id_onload"
+            data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+            data-context="signin"
+            data-ux_mode="popup"
+            data-callback="handleCredentialResponse"
+            data-auto_prompt="false"
+          ></div>
+
+          <div
+            className="g_id_signin"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="signin_with"
+            data-size="large"
+            data-logo_alignment="left"
+          ></div>
 
           <p>
             Não tem uma conta?{" "}

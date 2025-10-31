@@ -562,6 +562,15 @@ export const ModalPerfil = styled(ModalNotificacoes)`
   button:hover {
     background-color: rgba(31, 41, 55, 0.2);
   }
+  
+  a {
+    display: inline-block; 
+    width: 100%; 
+  }
+
+  a button {
+    width: 100%; 
+  }
 
   .icon-edit,
   .icon-salvos,
@@ -573,3 +582,6 @@ export const ModalPerfil = styled(ModalNotificacoes)`
     gap: 30px;
   }
 `;
+
+//falta estilizar o chat, o resultado do teste, o forms de simulação e o resultado da simulação
+

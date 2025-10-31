@@ -561,6 +561,15 @@ export const ModalPerfil = styled(ModalNotificacoes)`
     background-color: rgba(31, 41, 55, 0.2);
   }
 
+  a {
+    display: inline-block; 
+    width: 100%; 
+  }
+
+  a button {
+    width: 100%; 
+  }
+
   .icon-edit,
   .icon-salvos,
   .icon-planos,

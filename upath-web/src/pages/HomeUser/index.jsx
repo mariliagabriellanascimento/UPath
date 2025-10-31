@@ -63,21 +63,21 @@ const HomeUser = () => {
         titulo: "Inscrições do SISU 2025 abertas",
         descricao:
           "Prazo vai de 10 a 15 de fevereiro para universidades públicas de todo o país.",
-        imagem: Sisu, 
+        imagem: Sisu,
       },
       {
         id: 2,
         titulo: "UFPE lança curso de Design Digital",
         descricao:
           "Graduação voltada para inovação, tecnologia e criatividade.",
-        imagem: UFPE, 
+        imagem: UFPE,
       },
       {
         id: 3,
         titulo: "UFRPE apresenta Eng. de Software",
         descricao:
           "Curso com foco em programação, projetos e desenvolvimento ágil.",
-        imagem: UFRPE, 
+        imagem: UFRPE,
       },
     ];
     setNoticias(noticiasExemplo);
@@ -150,9 +150,11 @@ const HomeUser = () => {
               Nossa plataforma analisará suas chances em programas como Sisu,
               ProUni e Fies, além de sugerir cursos e instituições compatíveis.
             </p>
-            <ButtonEscolherTeste id="buttonEscolherTeste" to="/typeTest">
-              Iniciar Teste
-            </ButtonEscolherTeste>
+            <Link to="/teste">
+              <ButtonEscolherTeste id="buttonEscolherTeste" >
+                Iniciar Teste
+              </ButtonEscolherTeste>
+            </Link>
           </div>
 
         </WelcomeSection>
@@ -425,36 +427,45 @@ const HomeUser = () => {
         </ModalOverlay>
       )}
 
-
       {/* MODAL Perfil */}
       {showPerfil && (
         <ModalOverlay className="modalPerfilOverlay">
           <ModalPerfil id="modalPerfil">
-            <button id="buttonEditPerfil">
-              <div className="icon-edit">
-                <img src={EditIcon} alt="Editar" />Editar Perfil
-              </div>
-            </button>
-            <button id="buttonSalvos">
-              <div className="icon-salvos">
-                <img src={SalvosIcon} alt="Salvos" />Salvos
-              </div>
-            </button>
-            <button id="buttonPlanos">
-              <div className="icon-planos">
-                <img src={PlanosIcon} alt="Planos" />Planos
-              </div>
-            </button>
-            <button id="buttonSobreNos">
-              <div className="icon-sobre">
-                <img src={SobreIcon} alt="Sobre Nós" />Sobre Nós
-              </div>
-            </button>
-            <button id="buttonSair">
-              <div className="icon-logout">
-                <img src={LogoutIcon} alt="Log Out" />Log Out
-              </div>
-            </button>
+            <Link to="/perfil">
+              <button id="buttonEditPerfil">
+                <div className="icon-edit">
+                  <img src={EditIcon} alt="Editar" /> Editar Perfil
+                </div>
+              </button>
+            </Link>
+            <Link to="/salvos">
+              <button id="buttonSalvos">
+                <div className="icon-salvos">
+                  <img src={SalvosIcon} alt="Salvos" />Salvos
+                </div>
+              </button>
+            </Link>
+            <Link to="/planos">
+              <button id="buttonPlanos">
+                <div className="icon-planos">
+                  <img src={PlanosIcon} alt="Planos" />Planos
+                </div>
+              </button>
+            </Link>
+            <Link to="/equipe">
+              <button id="buttonSobreNos">
+                <div className="icon-sobre">
+                  <img src={SobreIcon} alt="Sobre Nós" />Sobre Nós
+                </div>
+              </button>
+            </Link>
+            <Link to="/login">
+              <button id="buttonSair">
+                <div className="icon-logout">
+                  <img src={LogoutIcon} alt="Log Out" />Log Out
+                </div>
+              </button>
+            </Link>
 
           </ModalPerfil>
         </ModalOverlay>

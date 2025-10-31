@@ -44,10 +44,40 @@ const Teste = () => {
   const [tipoNotificacao, setTipoNotificacao] = useState("");
   const [showConfig, setShowConfig] = useState(false);
   const [showPerfil, setShowPerfil] = useState(false);
+  // Etapas do fluxo do teste
+  const [etapa, setEtapa] = useState("escolha");
+  const [testeResultado, setTesteResultado] = useState(null);
+  const [simulacaoResultado, setSimulacaoResultado] = useState(null);
+
 
   useEffect(() => {
     document.title = "Teste - UPath";
   }, []);
+
+  const handleFinalizarTeste = () => {
+    const dataHora = new Date();
+    setTesteResultado({
+      area: "Tecnologia",
+      cursos: [
+        "Ciência da Computação",
+        "Engenharia de Software",
+        "Análise e Desenvolvimento de Sistemas",
+        "Sistemas de Informação",
+      ],
+      data: dataHora.toLocaleDateString(),
+      hora: dataHora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    });
+    setEtapa("resultado");
+  };
+
+  const handleSalvarResultado = () => {
+    alert("Resultado salvo com sucesso!");
+  };
+
+  const handleSimulacaoResultado = (simulacao) => {
+    setSimulacaoResultado(simulacao);
+    setEtapa("resultadoSimulacao");
+  };
 
   // Estado do link ativo
   const [activeLink, setActiveLink] = useState("teste");
@@ -107,37 +137,61 @@ const Teste = () => {
 
       {/* Conteúdo Principal */}
       <Main>
-        <EscolherTesteSection>
-          <h2>Escolha seu tipo de teste</h2>
+        {etapa === "escolha" && (
+          <EscolherTesteSection>
+            <h2>Escolha seu tipo de teste</h2>
+            <div className="cards-container">
+              <CardTeste className="gratis">
+                <CardTitulo tipo="gratis">Teste Diário (Gratuito)</CardTitulo>
+                <CardDescricao tipo="gratis">Descrição:</CardDescricao>
+                <ul>
+                  <CardItem tipo="gratis">1 teste por dia</CardItem>
+                  <CardItem tipo="gratis">Resultados gerais e medianos</CardItem>
+                  <CardItem tipo="gratis">Respostas menos específicas</CardItem>
+                </ul>
+                <ButtonTeste id="buttonIniciarTesteGratis" onClick={() => setEtapa("chat")}>Fazer teste grátis</ButtonTeste>
+              </CardTeste>
 
-          <div className="cards-container">
-            <CardTeste className="gratis" id="cardGratis">
-              <CardTitulo tipo="gratis">Teste Diário (Gratuito)</CardTitulo>
-              <CardDescricao tipo="gratis">Descrição:</CardDescricao>
-              <ul>
-                <CardItem tipo="gratis">1 teste por dia</CardItem>
-                <CardItem tipo="gratis">Resultados gerais e medianos</CardItem>
-                <CardItem tipo="gratis">Respostas menos específicas</CardItem>
-              </ul>
-              <ButtonTeste id="buttonIniciarTesteGratis">Fazer teste grátis</ButtonTeste>
-            </CardTeste>
+              <CardTeste className="premium">
+                <CardTitulo tipo="premium">Teste Premium (Ilimitado)</CardTitulo>
+                <CardDescricao tipo="premium">Descrição:</CardDescricao>
+                <ul>
+                  <CardItem tipo="premium">Testes ilimitados</CardItem>
+                  <CardItem tipo="premium">Respostas detalhadas e inteligentes</CardItem>
+                  <CardItem tipo="premium">Resultados personalizados</CardItem>
+                </ul>
+                <ButtonTeste id="buttonAtivarPremium" className="premium-btn">Ativar Premium</ButtonTeste>
+              </CardTeste>
+            </div>
 
-            <CardTeste className="premium" id="cardPremium">
-              <CardTitulo tipo="premium">Teste Premium (Ilimitado)</CardTitulo>
-              <CardDescricao tipo="premium">Descrição:</CardDescricao>
-              <ul>
-                <CardItem tipo="premium">Testes ilimitados</CardItem>
-                <CardItem tipo="premium">Respostas detalhadas e inteligentes</CardItem>
-                <CardItem tipo="premium">Resultados personalizados</CardItem>
-              </ul>
-              <ButtonTeste id="buttonAtivarPremium" className="premium-btn">Ativar Premium</ButtonTeste>
-            </CardTeste>
+            <FooterInfo>Você pode realizar testes gratuitos ou desbloquear recursos premium para resultados avançados</FooterInfo>
+          </EscolherTesteSection>
+        )}
+
+        {etapa === "chat" && (
+          <div style={{ width: "100%" }}>
+            <ChatTeste
+              onFinalizar={() => handleFinalizarTeste()}
+              onSaveAnswers={(answers) => console.log("answers:", answers)}
+            />
           </div>
+        )}
 
-          <FooterInfo>
-            Você pode realizar testes gratuitos ou desbloquear recursos premium para resultados avançados
-          </FooterInfo>
-        </EscolherTesteSection>
+        {etapa === "resultado" && testeResultado && (
+          <ResultadoTeste
+            resultado={testeResultado}
+            onSimular={() => setEtapa("formSimulacao")}
+            onSalvar={handleSalvarResultado}
+          />
+        )}
+
+        {etapa === "formSimulacao" && testeResultado && (
+          <FormSimulacao cursosRelacionados={testeResultado.cursos} onResultado={handleSimulacaoResultado} />
+        )}
+
+        {etapa === "resultadoSimulacao" && simulacaoResultado && (
+          <ResultadoSimulacao simulacao={simulacaoResultado} />
+        )}
       </Main>
 
       {/* Rodapé */}
@@ -399,37 +453,177 @@ const Teste = () => {
       {showPerfil && (
         <ModalOverlay className="modalPerfilOverlay">
           <ModalPerfil id="modalPerfil">
-            <button id="buttonEditPerfil">
-              <div className="icon-edit">
-                <img src={EditIcon} alt="Editar" />Editar Perfil
-              </div>
-            </button>
-            <button id="buttonSalvos">
-              <div className="icon-salvos">
-                <img src={SalvosIcon} alt="Salvos" />Salvos
-              </div>
-            </button>
-            <button id="buttonPlanos">
-              <div className="icon-planos">
-                <img src={PlanosIcon} alt="Planos" />Planos
-              </div>
-            </button>
-            <button id="buttonSobreNos">
-              <div className="icon-sobre">
-                <img src={SobreIcon} alt="Sobre Nós" />Sobre Nós
-              </div>
-            </button>
-            <button id="buttonSair">
-              <div className="icon-logout">
-                <img src={LogoutIcon} alt="Log Out" />Log Out
-              </div>
-            </button>
+            <Link to="/perfil">
+              <button id="buttonEditPerfil">
+                <div className="icon-edit">
+                  <img src={EditIcon} alt="Editar" /> Editar Perfil
+                </div>
+              </button>
+            </Link>
+            <Link to="/salvos">
+              <button id="buttonSalvos">
+                <div className="icon-salvos">
+                  <img src={SalvosIcon} alt="Salvos" />Salvos
+                </div>
+              </button>
+            </Link>
+            <Link to="/planos">
+              <button id="buttonPlanos">
+                <div className="icon-planos">
+                  <img src={PlanosIcon} alt="Planos" />Planos
+                </div>
+              </button>
+            </Link>
+            <Link to="/equipe">
+              <button id="buttonSobreNos">
+                <div className="icon-sobre">
+                  <img src={SobreIcon} alt="Sobre Nós" />Sobre Nós
+                </div>
+              </button>
+            </Link>
+            <Link to="/login">
+              <button id="buttonSair">
+                <div className="icon-logout">
+                  <img src={LogoutIcon} alt="Log Out" />Log Out
+                </div>
+              </button>
+            </Link>
 
           </ModalPerfil>
         </ModalOverlay>
       )}
+
     </Container>
+
   );
+
 }
+
+//implementar depois
+
+const ChatTeste = ({ onFinalizar }) => {
+  return (
+    <div className="chat-section">
+      <h2>Chat do Teste</h2>
+      <p>Aqui o chat com IA aparecerá (LLaMA ou ChatGPT integrado futuramente).</p>
+      <button id="buttonFinalizarTeste" onClick={onFinalizar}>Finalizar Teste</button>
+    </div>
+  );
+};
+
+const ResultadoTeste = ({ resultado, onSimular, onSalvar }) => {
+  return (
+    <div className="resultado-section">
+      <h2>Sua principal área de afinidade é:</h2>
+      <h3>{resultado.area}</h3>
+
+      <ul>
+        {resultado.cursos.map((curso, i) => (
+          <li key={i}>{curso}</li>
+        ))}
+      </ul>
+
+      <p>
+        Teste realizado às <strong>{resultado.hora}</strong> em{" "}
+        <strong>{resultado.data}</strong>
+      </p>
+
+      <div className="buttons">
+        <button id="buttonSalvarResultado" onClick={onSalvar}>Salvar Resultado</button>
+        <button id="buttonBaixarResultado">Baixar</button>
+        <button id="buttonSimularChance" onClick={onSimular}>Simule sua chance de ingresso</button>
+      </div>
+    </div>
+  );
+};
+
+const FormSimulacao = ({ cursosRelacionados, onResultado }) => {
+  const [form, setForm] = useState({
+    ano: "",
+    notaRedacao: "",
+    notaMatematica: "",
+    notaHumanas: "",
+    notaLinguagens: "",
+    notaNatureza: "",
+    estado: "",
+    modalidade: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    const dataHora = new Date();
+    const resultado = {
+      cursos: cursosRelacionados.map((c) => ({
+        instituicao: "UFPE",
+        curso: c,
+        notaCorte: Math.floor(Math.random() * 1000) + 600,
+        notaUsuario: Math.floor(Math.random() * 1000) + 600,
+      })),
+      data: dataHora.toLocaleDateString(),
+      hora: dataHora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    };
+    onResultado(resultado);
+  };
+
+  return (
+    <div className="form-simulacao">
+      <h2>Simulação de Ingresso</h2>
+
+      <input type="number" name="ano" placeholder="Ano do ENEM" onChange={handleChange} />
+      <input type="number" name="notaRedacao" placeholder="Nota de Redação" onChange={handleChange} />
+      <input type="number" name="notaMatematica" placeholder="Nota de Matemática" onChange={handleChange} />
+      <input type="number" name="notaHumanas" placeholder="Nota de Humanas" onChange={handleChange} />
+      <input type="number" name="notaLinguagens" placeholder="Nota de Linguagens" onChange={handleChange} />
+      <input type="number" name="notaNatureza" placeholder="Nota de Natureza" onChange={handleChange} />
+      <input type="text" name="estado" placeholder="Estado (ex: PE)" onChange={handleChange} />
+      <select name="modalidade" onChange={handleChange}>
+        <option value="">Selecione a modalidade</option>
+        <option value="ampla">Ampla concorrência</option>
+        <option value="cota">Cota</option>
+      </select>
+
+      <button id="buttonSimularAgora" onClick={handleSubmit}>Simular Agora</button>
+    </div>
+  );
+};
+
+const ResultadoSimulacao = ({ simulacao }) => {
+  return (
+    <div className="resultado-simulacao">
+      <h2>Resultado da Simulação</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Instituição</th>
+            <th>Curso</th>
+            <th>Nota de Corte</th>
+            <th>Sua Nota</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {simulacao.cursos.map((curso, i) => (
+            <tr key={i}>
+              <td>{curso.instituicao}</td>
+              <td>{curso.curso}</td>
+              <td>{curso.notaCorte}</td>
+              <td>{curso.notaUsuario}</td>
+              <td>{curso.notaUsuario >= curso.notaCorte ? "Você consegue entrar pelo SISU!" : "Abaixo da nota de corte"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <p>
+        Simulação realizada às <strong>{simulacao.hora}</strong> em{" "}
+        <strong>{simulacao.data}</strong>
+      </p>
+    </div>
+  );
+};
 
 export default Teste;
