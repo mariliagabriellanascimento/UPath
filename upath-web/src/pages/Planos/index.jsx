@@ -9,7 +9,7 @@ import {
 
 import VoltarIcon from "../../assets/seta-voltar.svg";
 import PlanosIcon from "../../assets/planosAtivo.svg";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Planos = () => {
   const navigate = useNavigate();
@@ -37,7 +37,49 @@ const Planos = () => {
       {/* Conteúdo Principal */}
       <Main>
         <PacotesSection>
-          <h3>Pacotes</h3>
+          <h2 className="titulo-section">Pacotes</h2>
+          <div className="cards-pacotes">
+
+            <div className="card-pacote">
+              <div className="card-premium">
+                <div className="titulo-preco-pacote">
+                  <h2>Plano Atual</h2>
+                  <div className="preco">
+                    <h2>R$</h2>
+                    <span>0</span>
+                    <p>/mês</p>
+                  </div>
+                </div>
+                <div className="detalhe-pacote">
+                  <p>Testes limitados</p>
+                  <p>Respostas medianas</p>
+                  <p>Resultados generalistas</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="card-pacote">
+              <div className="card-premium">
+                <div className="titulo-preco-pacote">
+                  <h2>Premium</h2>
+                  <div className="preco">
+                    <h2>R$</h2>
+                    <span>20</span>
+                    <p>/mês</p>
+                  </div>
+                </div>
+                <div className="detalhe-pacote">
+                  <p>Testes ilimitados</p>
+                  <p>Melhores respostas</p>
+                  <p>Resultados específicos</p>
+                </div>
+              </div>
+              <div className="acao-pacote">
+                <button id="botaoAdquirirPremium" className="botao-adquirir">Adquirir</button>
+              </div>
+            </div>
+
+          </div>
         </PacotesSection>
       </Main>
 

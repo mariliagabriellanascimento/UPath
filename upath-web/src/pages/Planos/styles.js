@@ -52,12 +52,136 @@ export const Main = styled.main`
 
 // 🎯 Pacotes
 export const PacotesSection = styled.section`
-  h3 {
-    font-size: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  justify-content: flex-start;
+
+  .titulo-section {
+    font-size: 24px;
     font-weight: 700;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
+  .cards-pacotes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+  }
+
+  /* CARD BASE */
+  .card-pacote {
+    background-color: #fff;
+    color: #1f2937;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    width: 100%;
+    max-width: 450px;
+    max-height: 220px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s ease;
+  }
+
+  .card-pacote:hover {
+    transform: scale(1.02);
+  }
+
+  /* PREMIUM */
+  .card-pacote:nth-child(2) {
+    flex-direction: column;
+    align-items: start;
+    background-color: #1f2937;
+    color: #fff;
+  }
+
+  .card-premium {
+    display: flex;
+    gap: 50px;
+  }
+
+  /* ----- CABEÇALHO DO CARD (TÍTULO + PREÇO) ----- */
+  .titulo-preco-pacote {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .titulo-preco-pacote h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  /* BLOCO DE PREÇO (R$, valor e /mês) */
+  .titulo-preco-pacote .preco {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+  }
+
+  .titulo-preco-pacote .preco h2 {
+    font-size: 20px;
+    font-weight: 600;
+    position: relative;
+    bottom: 8px;
+  }
+
+  .titulo-preco-pacote .preco span {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .titulo-preco-pacote .preco p {
+    font-size: 14px;
+    opacity: 0.8;
+    margin-bottom: 3px;
+    position: relative;
+    top: 12px;
+  }
+
+  /* DETALHES */
+    .detalhe-pacote {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+    padding-left: 20px; 
+    list-style-type: disc;
+  }
+
+  .detalhe-pacote p {
+    display: list-item;
+    list-style-position: outside;
+  }
+
+  /* BOTÃO */
+  .acao-pacote {
+    margin-top: 16px;
+    align-self: center;
+  }
+
+  .botao-adquirir {
+    min-width: 400px;
+    background-color: #7c3aed;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+  }
+
+  .botao-adquirir:hover {
+    opacity: 0.9;
+  }
 `;
 
 // 🎯 Rodapé

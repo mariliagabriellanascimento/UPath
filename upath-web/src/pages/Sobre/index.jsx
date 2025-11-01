@@ -45,7 +45,7 @@ const Sobre = () => {
       {/* Conteúdo Principal */}
       <Main>
         <EquipeSection>
-          <h3>Conheça a Equipe UPath</h3>
+          <h2 className="titulo-section">Conheça a Equipe UPath</h2>
           <div className="cards-equipe">
             <div className="card-membro">
               <img src={ImgDirelly} alt="Direlly Kaline" />

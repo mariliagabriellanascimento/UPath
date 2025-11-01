@@ -54,7 +54,7 @@ export const Main = styled.main`
 export const EquipeSection = styled.section`
   text-align: center;
 
-  h3 {
+  .titulo-section {
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 24px;
@@ -93,7 +93,7 @@ export const EquipeSection = styled.section`
       font-size: 16px;
       color: #1F2937;
     }
-      
+
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);

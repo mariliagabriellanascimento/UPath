@@ -133,7 +133,7 @@ export const CardTeste = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   padding: 24px;
   width: 100%;
-    max-width: 600px;
+  max-width: 600px;
   display: flex;
   flex-direction: column;
   gap: 12px;
