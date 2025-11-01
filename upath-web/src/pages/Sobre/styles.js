@@ -52,12 +52,53 @@ export const Main = styled.main`
 
 // 🎯 Pacotes
 export const EquipeSection = styled.section`
+  text-align: center;
+
   h3 {
-    font-size: 1.4rem;
+    font-size: 24px;
     font-weight: 700;
     margin-bottom: 24px;
   }
 
+  .cards-equipe {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: center;
+  }
+
+  .card-membro {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+    text-align: center;
+    width: 300px;
+    transition: transform 0.2s;
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin: 8px 0;
+      color: #000000;
+    }
+
+    p {
+      font-size: 16px;
+      color: #1F2937;
+    }
+      
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
 `;
 
 // 🎯 Rodapé
