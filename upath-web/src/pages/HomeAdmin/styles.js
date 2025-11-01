@@ -18,7 +18,7 @@ export const Header = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 12px 30px;
-  border-radius: 0 0 12px 12px;
+  border-radius: 0 0 30px 30px;
 
   .logo-upath {
     width: 80px;
@@ -455,7 +455,7 @@ export const Footer = styled.footer`
   color: white;
   text-align: center;
   padding: 16px 0;
-  border-radius: 12px 12px 0 0;
+  border-radius: 30px 30px 0 0;
 
   p {
     font-size: 0.9rem;

@@ -474,7 +474,7 @@ const Teste = () => {
                 </div>
               </button>
             </Link>
-            <Link to="/equipe">
+            <Link to="/sobre">
               <button id="buttonSobreNos">
                 <div className="icon-sobre">
                   <img src={SobreIcon} alt="Sobre Nós" />Sobre Nós

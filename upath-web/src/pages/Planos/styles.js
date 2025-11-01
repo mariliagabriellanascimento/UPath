@@ -18,8 +18,8 @@ export const Header = styled.header`
   align-items: flex-start;
   justify-content: space-between;
   padding: 32px;
-  border-radius: 0 0 12px 12px;
-  height: 400px;
+  border-radius: 0 0 30px 30px;
+  height: 100px;
   gap: 30px;
 
   & .voltar {
@@ -34,7 +34,7 @@ export const Header = styled.header`
     }
   }
 
-  & .iconSobre {
+  & .iconPlanos {
     img {
       width: 32px;
     }
@@ -50,13 +50,23 @@ export const Main = styled.main`
   padding: 32px 64px;
 `;
 
+// 🎯 Pacotes
+export const PacotesSection = styled.section`
+  h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+`;
+
 // 🎯 Rodapé
 export const Footer = styled.footer`
   background-color: #3b82f6;
   color: white;
   text-align: center;
   padding: 16px 0;
-  border-radius: 12px 12px 0 0;
+  border-radius: 30px 30px 0 0;
 
   p {
     font-size: 0.9rem;

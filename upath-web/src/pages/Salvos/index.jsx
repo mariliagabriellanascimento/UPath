@@ -1,23 +1,23 @@
-import React, { useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   Container,
   Header,
   Main,
-  EquipeSection,
+  SalvosSection,
   Footer,
 } from "./styles";
 
 import VoltarIcon from "../../assets/seta-voltar.svg";
-import InfoIcon from "../../assets/sobreAtivo.svg";
+import SalvosIcon from "../../assets/salvosAtivo.svg";
 import { useNavigate  } from "react-router-dom";
 
-const Equipe = () => {
+const Salvos = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Sobre Nós - UPath";
+    document.title = "Salvos - UPath";
   }, []);
-  
+
   return (
     <Container>
       {/* Cabeçalho */}
@@ -25,18 +25,21 @@ const Equipe = () => {
         <div className="voltar">
           <button id="iconVoltar" onClick={() => navigate(-1)}>
             <img src={VoltarIcon} alt="Voltar" />
-          </button><h2>Sobre Nós</h2>
+          </button><h2>Salvos</h2>
         </div>
-        <div className="iconSobre">
-          <img src={InfoIcon} alt="SobreNos" />
+
+        <div className="iconSalvos">
+          <img src={SalvosIcon} alt="Salvos" />
         </div>
+
       </Header>
 
       {/* Conteúdo Principal */}
       <Main>
-        <EquipeSection>
-          <h3>Conheça a Equipe UPath</h3>
-        </EquipeSection>
+        <SalvosSection>
+          <h3>Testes Salvos</h3>
+          <h3>Simulações Salvas</h3>
+        </SalvosSection>
       </Main>
 
       {/* Rodapé */}
@@ -52,4 +55,4 @@ const Equipe = () => {
   );
 }
 
-export default Equipe;
+export default Salvos;
