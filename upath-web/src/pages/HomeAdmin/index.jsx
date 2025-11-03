@@ -550,3 +550,17 @@ const HomeAdmin = () => {
 
 
 export default HomeAdmin;
+
+const token = localStorage.getItem("token");
+await fetch(`${API}/api/v1/admin/cutoff/update`, {
+  method:"POST",
+  headers:{ "Content-Type":"application/json", "Authorization":`Bearer ${token}` },
+  body: JSON.stringify({
+    nome_instituicao: notas.instituicao,
+    nome_curso: notas.curso,
+    estado: notas.estado,
+    modalidade: notas.modalidade,
+    ano: Number(notas.ano),
+    nova_nota_corte: Number(notas.nota)
+  })
+});

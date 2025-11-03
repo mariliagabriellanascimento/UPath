@@ -136,3 +136,11 @@ const Retrieve = () => {
 };
 
 export default Retrieve;
+
+
+const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/auth/request-password-reset`, {
+  method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({ email })
+});
+const data = await res.json();
+if (data.success) alert("Email enviado.");
+else setMensagem(data.error || "Erro.");

@@ -205,3 +205,20 @@ const Login = () => {
 };
 
 export default Login;
+
+const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/auth/login`, {
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body: JSON.stringify({ email, senha })
+});
+const data = await res.json();
+if (data.success) {
+  localStorage.setItem("token", data.data.token);
+  localStorage.setItem("role", data.data.user.role);
+  if (data.data.user.role === "admin") {
+    // no teu fluxo atual: chamar /api/v1/admin/login e depois /2fa
+    navigate("/auth"); // tua tela PIN
+  } else {
+    navigate("/homeUser");
+  }
+} else setError(data.error || "Usuário ou senha inválidos.");
