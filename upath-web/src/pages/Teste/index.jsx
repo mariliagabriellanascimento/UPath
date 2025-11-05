@@ -18,6 +18,9 @@ import {
   ModalLinkNotificacoes,
   ModalConfig,
   ModalPerfil,
+  ChatSection,
+  ResultadoContainer,
+  FormSimulacaoContainer,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -57,13 +60,6 @@ const Teste = () => {
   const handleFinalizarTeste = () => {
     const dataHora = new Date();
     setTesteResultado({
-      area: "Tecnologia",
-      cursos: [
-        "Ciência da Computação",
-        "Engenharia de Software",
-        "Análise e Desenvolvimento de Sistemas",
-        "Sistemas de Informação",
-      ],
       data: dataHora.toLocaleDateString(),
       hora: dataHora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     });
@@ -172,17 +168,10 @@ const Teste = () => {
           <div style={{ width: "100%" }}>
             <ChatTeste
               onFinalizar={() => handleFinalizarTeste()}
-              onSaveAnswers={(answers) => console.log("answers:", answers)}
+              onSalvar={handleSalvarResultado}
+              onSimular={() => setEtapa("formSimulacao")}
             />
           </div>
-        )}
-
-        {etapa === "resultado" && testeResultado && (
-          <ResultadoTeste
-            resultado={testeResultado}
-            onSimular={() => setEtapa("formSimulacao")}
-            onSalvar={handleSalvarResultado}
-          />
         )}
 
         {etapa === "formSimulacao" && testeResultado && (
@@ -499,41 +488,130 @@ const Teste = () => {
 
 }
 
-//implementar depois
+const ChatTeste = ({ onSalvar, onSimular }) => {
+  const BACKEND_URL = "http://localhost:3000";
 
-const ChatTeste = ({ onFinalizar }) => {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+  const [resultado, setResultado] = useState("");
+
+  const addMessage = (text, sender) => {
+    setMessages((prev) => [...prev, { text, sender }]);
+  };
+
+  const startChat = async () => {
+    setIsLoading(true);
+    try {
+      const res = await fetch(`${BACKEND_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Começar" }),
+      });
+      const data = await res.json();
+      addMessage(data.reply, "assistant");
+    } catch {
+      addMessage("Erro ao conectar com o servidor.", "assistant");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    if (!input.trim() || isLoading || isFinished) return;
+
+    const userMsg = input.trim();
+    addMessage(userMsg, "user");
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      const res = await fetch(`${BACKEND_URL}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMsg }),
+      });
+
+      const data = await res.json();
+      addMessage(data.reply, "assistant");
+
+      if (data.final) {
+        setIsFinished(true);
+        setTimeout(fetchResultado, 1500);
+      }
+    } catch {
+      addMessage("Erro ao enviar mensagem.", "assistant");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchResultado = async () => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/resultado`);
+      const data = await res.json();
+
+      const dataHora = new Date();
+      setResultado({
+        texto: data.resultado,
+        data: dataHora.toLocaleDateString(),
+        hora: dataHora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      });
+    } catch {
+      setResultado({
+        texto: "Erro ao buscar resultado final.",
+        data: "-",
+        hora: "-",
+      });
+    }
+  };
+
+  useEffect(() => {
+    startChat();
+  }, []);
+
   return (
-    <div className="chat-section">
-      <h2>Chat do Teste</h2>
-      <p>Aqui o chat com IA aparecerá (LLaMA ou ChatGPT integrado futuramente).</p>
-      <button id="buttonFinalizarTeste" onClick={onFinalizar}>Finalizar Teste</button>
-    </div>
-  );
-};
+      <ChatSection>
+      {!resultado ? (
+        <>
+          <div className="chat-box">
+            {messages.map((msg, i) => (
+              <p key={i} className={msg.sender}>
+                {msg.text}
+              </p>
+            ))}
+            {isLoading && <p>Orientador está digitando...</p>}
+          </div>
 
-const ResultadoTeste = ({ resultado, onSimular, onSalvar }) => {
-  return (
-    <div className="resultado-section">
-      <h2>Sua principal área de afinidade é:</h2>
-      <h3>{resultado.area}</h3>
+          {!isFinished && (
+            <form onSubmit={sendMessage}>
+              <input
+                type="text"
+                placeholder="Digite sua resposta..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
+              <button type="submit">Enviar</button>
+            </form>
+          )}
+        </>
+      ) : (
+        <div className="resultado-chat">
+          <h2>Resultado do Teste</h2>
+          <p>{resultado.texto}</p>
+          <p>
+            Teste realizado às <strong>{resultado.hora}</strong> em{" "}
+            <strong>{resultado.data}</strong>
+          </p>
 
-      <ul>
-        {resultado.cursos.map((curso, i) => (
-          <li key={i}>{curso}</li>
-        ))}
-      </ul>
-
-      <p>
-        Teste realizado às <strong>{resultado.hora}</strong> em{" "}
-        <strong>{resultado.data}</strong>
-      </p>
-
-      <div className="buttons">
-        <button id="buttonSalvarResultado" onClick={onSalvar}>Salvar Resultado</button>
-        <button id="buttonBaixarResultado">Baixar</button>
-        <button id="buttonSimularChance" onClick={onSimular}>Simule sua chance de ingresso</button>
-      </div>
-    </div>
+          <button id="buttonSalvarResultado" onClick={onSalvar}>Salvar Resultado</button>
+          <button id="buttonBaixarResultado">Baixar</button>
+          <button id="buttonSimularChance" onClick={onSimular}>Simule sua chance de ingresso</button>
+        </div>
+      )}
+      </ChatSection>
   );
 };
 
@@ -569,7 +647,7 @@ const FormSimulacao = ({ cursosRelacionados, onResultado }) => {
   };
 
   return (
-    <div className="form-simulacao">
+      <FormSimulacaoContainer>
       <h2>Simulação de Ingresso</h2>
 
       <input type="number" name="ano" placeholder="Ano do ENEM" onChange={handleChange} />
@@ -586,13 +664,13 @@ const FormSimulacao = ({ cursosRelacionados, onResultado }) => {
       </select>
 
       <button id="buttonSimularAgora" onClick={handleSubmit}>Simular Agora</button>
-    </div>
+    </FormSimulacaoContainer>
   );
 };
 
 const ResultadoSimulacao = ({ simulacao }) => {
   return (
-    <div className="resultado-simulacao">
+     <ResultadoContainer>
       <h2>Resultado da Simulação</h2>
 
       <table>
@@ -622,7 +700,7 @@ const ResultadoSimulacao = ({ simulacao }) => {
         Simulação realizada às <strong>{simulacao.hora}</strong> em{" "}
         <strong>{simulacao.data}</strong>
       </p>
-    </div>
+     </ResultadoContainer>
   );
 };
 

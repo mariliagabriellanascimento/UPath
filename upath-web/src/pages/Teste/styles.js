@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   font-family: "Poppins", sans-serif;
   color: #1f2937;
-  background-color: #F3F4F6;
+  background-color: #f3f4f6;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -98,6 +98,7 @@ export const Main = styled.main`
   flex-direction: column;
   gap: 48px;
   padding: 32px 64px;
+
 `;
 
 // 🎯 Escolha de Teste
@@ -111,7 +112,7 @@ export const EscolherTesteSection = styled.section`
   h2 {
     font-size: 22px;
     font-weight: 700;
-    color: #1F2937;
+    color: #1f2937;
   }
 
   .cards-container {
@@ -562,14 +563,14 @@ export const ModalPerfil = styled(ModalNotificacoes)`
   button:hover {
     background-color: rgba(31, 41, 55, 0.2);
   }
-  
+
   a {
-    display: inline-block; 
-    width: 100%; 
+    display: inline-block;
+    width: 100%;
   }
 
   a button {
-    width: 100%; 
+    width: 100%;
   }
 
   .icon-edit,
@@ -583,5 +584,170 @@ export const ModalPerfil = styled(ModalNotificacoes)`
   }
 `;
 
-//falta estilizar o chat, o resultado do teste, o forms de simulação e o resultado da simulação
+// ================================
+// 🧠 Chat e Resultado do Teste
+// ================================
+export const ChatSection = styled.section`
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  background: #3b82f6;
+  color: #000000;
+  border-radius: 16px;
+  padding: 2rem;
 
+  .chat-box {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 1rem;
+    background: #f3f4f6;
+    border-radius: 12px;
+    margin-bottom: 1rem;
+  }
+
+  p.user {
+    text-align: right;
+    background: #1f2937;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin: 6px 0;
+    color: #fff;
+    width: fit-content;
+    justify-self: flex-end;
+  }
+
+  p.assistant {
+    text-align: left;
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 12px;
+    margin: 6px 0;
+    color: #000;
+    width: fit-content;
+    justify-self: flex-start;
+  }
+
+  form {
+    display: flex;
+    gap: 8px;
+  }
+
+  input {
+    flex: 1;
+    border-radius: 8px;
+    padding: 8px;
+    background: #fff;
+    color: #000;
+    border: none;
+    font-size: 20px;
+  }
+
+  button {
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    width: fit-content;
+    font-size: 20px;
+  }
+
+  button:hover {
+    opacity: 0.9;
+  }
+
+  .resultado-chat {
+    background: #ffffff;
+    color: #000000;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 2rem;
+  }
+
+  .resultado-chat button {
+    margin-top: 10px;
+    background: #7c3aed;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    justify-self: center;
+  }
+
+  .resultado-chat button:hover {
+    opacity: 0.9;
+  }
+`;
+
+export const ResultadoContainer = styled.section`
+  max-width: 800px;
+  margin: 0 auto;
+  background: #111;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 10px #0005;
+  text-align: center;
+
+  table {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 8px;
+    border-bottom: 1px solid #333;
+  }
+
+  th {
+    color: #a78bfa;
+  }
+`;
+
+export const FormSimulacaoContainer = styled.section`
+  max-width: 600px;
+  margin: 0 auto;
+  background: #111;
+  color: #fff;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 0 10px #0005;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  input,
+  select {
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid #444;
+    background: #1a1a1a;
+    color: #fff;
+  }
+
+  button {
+    background: #6b46c1;
+    border: none;
+    padding: 10px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #553c9a;
+  }
+`;
