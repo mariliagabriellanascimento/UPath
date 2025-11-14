@@ -5,22 +5,13 @@ import {
   NavLinks,
   UserArea,
   Main,
-  EscolherTesteSection,
-  CardTeste,
-  CardTitulo,
-  CardDescricao,
-  CardItem,
-  ButtonTeste,
-  FooterInfo,
+  ChatSection,
   Footer,
   ModalOverlay,
   ModalNotificacoes,
   ModalLinkNotificacoes,
   ModalConfig,
   ModalPerfil,
-  ChatSection,
-  ResultadoContainer,
-  FormSimulacaoContainer,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -34,8 +25,6 @@ import CursoIcon from "../../assets/cursos.svg";
 import ConfigIcon from "../../assets/config.svg";
 import ConfigIcon2 from "../../assets/config-2.svg";
 import EditIcon from "../../assets/edit.svg";
-import SalvosIcon from "../../assets/salvos.svg";
-import PlanosIcon from "../../assets/planos.svg";
 import SobreIcon from "../../assets/sobre.svg";
 import LogoutIcon from "../../assets/logout.svg";
 import { Link } from "react-router-dom";
@@ -47,33 +36,12 @@ const Teste = () => {
   const [tipoNotificacao, setTipoNotificacao] = useState("");
   const [showConfig, setShowConfig] = useState(false);
   const [showPerfil, setShowPerfil] = useState(false);
-  // Etapas do fluxo do teste
-  const [etapa, setEtapa] = useState("escolha");
-  const [testeResultado, setTesteResultado] = useState(null);
-  const [simulacaoResultado, setSimulacaoResultado] = useState(null);
-
 
   useEffect(() => {
     document.title = "Teste - UPath";
   }, []);
 
-  const handleFinalizarTeste = () => {
-    const dataHora = new Date();
-    setTesteResultado({
-      data: dataHora.toLocaleDateString(),
-      hora: dataHora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    });
-    setEtapa("resultado");
-  };
-
-  const handleSalvarResultado = () => {
-    alert("Resultado salvo com sucesso!");
-  };
-
-  const handleSimulacaoResultado = (simulacao) => {
-    setSimulacaoResultado(simulacao);
-    setEtapa("resultadoSimulacao");
-  };
+  const handleFinalizarRefazerTeste = () => {};
 
   // Estado do link ativo
   const [activeLink, setActiveLink] = useState("teste");
@@ -86,7 +54,14 @@ const Teste = () => {
           <img src={Logo} alt="UPATH Logo" className="logo-upath" />
         </div>
         <NavLinks>
-          <Link id="linkHome" to="/homeUser" className={activeLink === "home" ? "active" : ""} onClick={() => setActiveLink("home")}>Home</Link>
+          <Link
+            id="linkHome"
+            to="/homeUser"
+            className={activeLink === "home" ? "active" : ""}
+            onClick={() => setActiveLink("home")}
+          >
+            Home
+          </Link>
           <Link
             id="linkTeste"
             to="/teste"
@@ -95,7 +70,14 @@ const Teste = () => {
           >
             Teste
           </Link>
-          <Link id="linkResultados" to="/results" className={activeLink === "resultados" ? "active" : ""} onClick={() => setActiveLink("resultados")}>Resultados</Link>
+          <Link
+            id="linkSimulacao"
+            to="/simulacao"
+            className={activeLink === "simulacao" ? "active" : ""}
+            onClick={() => setActiveLink("simulacao")}
+          >
+            Simulação
+          </Link>
         </NavLinks>
 
         <UserArea>
@@ -106,16 +88,17 @@ const Teste = () => {
               setShowPerfil(false);
               setShowLinkNotificacoes(false);
               setShowConfig(false);
-            }
-            }
+            }}
           >
             <img
               src={showNotificacoes ? BellIconActived : BellIcon}
               alt="Notificações"
             />
           </button>
-          <div className="user-info"><h3>Maurício Gabriel Jr</h3>
-            <p>Estudante</p></div>
+          <div className="user-info">
+            <h3>Maurício Gabriel Jr</h3>
+            <p>Estudante</p>
+          </div>
           <img
             id="iconPerfil"
             src={UserImg}
@@ -125,71 +108,33 @@ const Teste = () => {
               setShowNotificacoes(false);
               setShowLinkNotificacoes(false);
               setShowConfig(false);
-            }
-            }
+            }}
           />
         </UserArea>
       </Header>
 
       {/* Conteúdo Principal */}
       <Main>
-        {etapa === "escolha" && (
-          <EscolherTesteSection>
-            <h2>Escolha seu tipo de teste</h2>
-            <div className="cards-container">
-              <CardTeste className="gratis">
-                <CardTitulo tipo="gratis">Teste Diário (Gratuito)</CardTitulo>
-                <CardDescricao tipo="gratis">Descrição:</CardDescricao>
-                <ul>
-                  <CardItem tipo="gratis">1 teste por dia</CardItem>
-                  <CardItem tipo="gratis">Resultados gerais e medianos</CardItem>
-                  <CardItem tipo="gratis">Respostas menos específicas</CardItem>
-                </ul>
-                <ButtonTeste id="buttonIniciarTesteGratis" onClick={() => setEtapa("chat")}>Fazer teste grátis</ButtonTeste>
-              </CardTeste>
-
-              <CardTeste className="premium">
-                <CardTitulo tipo="premium">Teste Premium (Ilimitado)</CardTitulo>
-                <CardDescricao tipo="premium">Descrição:</CardDescricao>
-                <ul>
-                  <CardItem tipo="premium">Testes ilimitados</CardItem>
-                  <CardItem tipo="premium">Respostas detalhadas e inteligentes</CardItem>
-                  <CardItem tipo="premium">Resultados personalizados</CardItem>
-                </ul>
-                <ButtonTeste id="buttonAtivarPremium" className="premium-btn">Ativar Premium</ButtonTeste>
-              </CardTeste>
-            </div>
-
-            <FooterInfo>Você pode realizar testes gratuitos ou desbloquear recursos premium para resultados avançados</FooterInfo>
-          </EscolherTesteSection>
-        )}
-
-        {etapa === "chat" && (
-          <div style={{ width: "100%" }}>
-            <ChatTeste
-              onFinalizar={() => handleFinalizarTeste()}
-              onSalvar={handleSalvarResultado}
-              onSimular={() => setEtapa("formSimulacao")}
-            />
-          </div>
-        )}
-
-        {etapa === "formSimulacao" && testeResultado && (
-          <FormSimulacao cursosRelacionados={testeResultado.cursos} onResultado={handleSimulacaoResultado} />
-        )}
-
-        {etapa === "resultadoSimulacao" && simulacaoResultado && (
-          <ResultadoSimulacao simulacao={simulacaoResultado} />
-        )}
+        <ChatTeste
+          onFinalizarRefazer={() => handleFinalizarRefazerTeste()}
+        />
       </Main>
 
       {/* Rodapé */}
       <Footer>
         <p>UPath © 2025 - Todos os direitos reservados</p>
         <div>
-          <a id="linkContato" href="#">Contato</a> |
-          <a id="linkPolitica" href="#">Política de Privacidade</a> |
-          <a id="linkTermo" href="#">Termos de Uso</a>
+          <a id="linkContato" href="#">
+            Contato
+          </a>{" "}
+          |
+          <a id="linkPolitica" href="#">
+            Política de Privacidade
+          </a>{" "}
+          |
+          <a id="linkTermo" href="#">
+            Termos de Uso
+          </a>
         </div>
       </Footer>
 
@@ -276,35 +221,56 @@ const Teste = () => {
             <div className="notificacoes-container">
               {tipoNotificacao === "bolsa" && (
                 <>
-                  <a id="linkNotificacoesBolsas" href="#" className="notificacao-card">
+                  <a
+                    id="linkNotificacoesBolsas"
+                    href="#"
+                    className="notificacao-card"
+                  >
                     <div className="icon-bolsaLink">
                       <img src={BolsaIcon} alt="Bolsas" />
                     </div>
                     <div className="notificacao-info">
                       <h4>Nova atualização do SiSU!</h4>
-                      <p>As notas de corte foram atualizadas. Confira sua posição agora.</p>
+                      <p>
+                        As notas de corte foram atualizadas. Confira sua posição
+                        agora.
+                      </p>
                       <span>há 1 min</span>
                     </div>
                   </a>
 
-                  <a id="linkNotificacoesBolsas" href="#" className="notificacao-card">
+                  <a
+                    id="linkNotificacoesBolsas"
+                    href="#"
+                    className="notificacao-card"
+                  >
                     <div className="icon-bolsaLink">
                       <img src={BolsaIcon} alt="Bolsas" />
                     </div>
                     <div className="notificacao-info">
                       <h4>Oportunidade no SiSU</h4>
-                      <p>Uma nova vaga pode estar ao seu alcance. Veja os detalhes.</p>
+                      <p>
+                        Uma nova vaga pode estar ao seu alcance. Veja os
+                        detalhes.
+                      </p>
                       <span>há 1 dia</span>
                     </div>
                   </a>
 
-                  <a id="linkNotificacoesBolsas" href="#" className="notificacao-card">
+                  <a
+                    id="linkNotificacoesBolsas"
+                    href="#"
+                    className="notificacao-card"
+                  >
                     <div className="icon-bolsaLink">
                       <img src={BolsaIcon} alt="Bolsas" />
                     </div>
                     <div className="notificacao-info">
                       <h4>Atualização personalizada</h4>
-                      <p>Com base no seu perfil, há novidades no SiSU que podem te interessar.</p>
+                      <p>
+                        Com base no seu perfil, há novidades no SiSU que podem
+                        te interessar.
+                      </p>
                       <span>há 1 sem</span>
                     </div>
                   </a>
@@ -313,24 +279,38 @@ const Teste = () => {
 
               {tipoNotificacao === "nota" && (
                 <>
-                  <a id="linkNotificacoesNotas" href="#" className="notificacao-card">
+                  <a
+                    id="linkNotificacoesNotas"
+                    href="#"
+                    className="notificacao-card"
+                  >
                     <div className="icon-notaLink">
                       <img src={NotaIcon} alt="Notas" />
                     </div>
                     <div className="notificacao-info">
                       <h4>Notas de corte atualizadas!</h4>
-                      <p>Confira como sua posição mudou nas universidades que você escolheu.</p>
+                      <p>
+                        Confira como sua posição mudou nas universidades que
+                        você escolheu.
+                      </p>
                       <span>há 2 min</span>
                     </div>
                   </a>
 
-                  <a id="linkNotificacoesNotas" href="#" className="notificacao-card">
+                  <a
+                    id="linkNotificacoesNotas"
+                    href="#"
+                    className="notificacao-card"
+                  >
                     <div className="icon-notaLink">
                       <img src={NotaIcon} alt="Notas" />
                     </div>
                     <div className="notificacao-info">
                       <h4>Nova média parcial</h4>
-                      <p>Suas chances foram recalculadas com base nas notas mais recentes.</p>
+                      <p>
+                        Suas chances foram recalculadas com base nas notas mais
+                        recentes.
+                      </p>
                       <span>há 5 h</span>
                     </div>
                   </a>
@@ -339,31 +319,44 @@ const Teste = () => {
 
               {tipoNotificacao === "curso" && (
                 <>
-                  <a id="linkNotificacoesCursos" href="#" className="notificacao-card">
+                  <a
+                    id="linkNotificacoesCursos"
+                    href="#"
+                    className="notificacao-card"
+                  >
                     <div className="icon-cursoLink">
                       <img src={CursoIcon} alt="Cursos" />
                     </div>
                     <div className="notificacao-info">
                       <h4>Novos cursos disponíveis</h4>
-                      <p>Veja as novas opções de graduação que acabaram de ser adicionadas.</p>
+                      <p>
+                        Veja as novas opções de graduação que acabaram de ser
+                        adicionadas.
+                      </p>
                       <span>há 3 h</span>
                     </div>
                   </a>
 
-                  <a id="linkNotificacoesCursos" href="#" className="notificacao-card">
+                  <a
+                    id="linkNotificacoesCursos"
+                    href="#"
+                    className="notificacao-card"
+                  >
                     <div className="icon-cursoLink">
                       <img src={CursoIcon} alt="Cursos" />
                     </div>
                     <div className="notificacao-info">
                       <h4>Atualização de grade</h4>
-                      <p>Alguns cursos tiveram mudanças nas disciplinas e horários.</p>
+                      <p>
+                        Alguns cursos tiveram mudanças nas disciplinas e
+                        horários.
+                      </p>
                       <span>há 2 dias</span>
                     </div>
                   </a>
                 </>
               )}
             </div>
-
           </ModalLinkNotificacoes>
         </ModalOverlay>
       )}
@@ -388,7 +381,12 @@ const Teste = () => {
 
             <div className="section">
               <div className="toggle-area">
-                <label htmlFor="switchAtivarNotificacoes" className="nots-active">Ativar Notificações</label>
+                <label
+                  htmlFor="switchAtivarNotificacoes"
+                  className="nots-active"
+                >
+                  Ativar Notificações
+                </label>
                 <label className="switch">
                   <input id="switchAtivarNotificacoes" type="checkbox" />
                   <span className="slider"></span>
@@ -397,13 +395,16 @@ const Teste = () => {
 
               <div className="checkbox-group">
                 <label>
-                  Atualizações das bolsas <input id="checkBolsas" type="checkbox" />
+                  Atualizações das bolsas{" "}
+                  <input id="checkBolsas" type="checkbox" />
                 </label>
                 <label>
-                  Atualizações das notas <input id="checkNotas" type="checkbox" />
+                  Atualizações das notas{" "}
+                  <input id="checkNotas" type="checkbox" />
                 </label>
                 <label>
-                  Atualizações dos cursos <input id="checkCursos" type="checkbox" />
+                  Atualizações dos cursos{" "}
+                  <input id="checkCursos" type="checkbox" />
                 </label>
               </div>
 
@@ -420,7 +421,8 @@ const Teste = () => {
 
               <div className="checkbox-group">
                 <label>
-                  Notificações preferenciais <input id="checkNotificacoesPref" type="checkbox" />
+                  Notificações preferenciais{" "}
+                  <input id="checkNotificacoesPref" type="checkbox" />
                 </label>
               </div>
 
@@ -437,7 +439,6 @@ const Teste = () => {
         </ModalOverlay>
       )}
 
-
       {/* MODAL Perfil */}
       {showPerfil && (
         <ModalOverlay className="modalPerfilOverlay">
@@ -449,46 +450,30 @@ const Teste = () => {
                 </div>
               </button>
             </Link>
-            <Link to="/salvos">
-              <button id="buttonSalvos">
-                <div className="icon-salvos">
-                  <img src={SalvosIcon} alt="Salvos" />Salvos
-                </div>
-              </button>
-            </Link>
-            <Link to="/planos">
-              <button id="buttonPlanos">
-                <div className="icon-planos">
-                  <img src={PlanosIcon} alt="Planos" />Planos
-                </div>
-              </button>
-            </Link>
             <Link to="/sobre">
               <button id="buttonSobreNos">
                 <div className="icon-sobre">
-                  <img src={SobreIcon} alt="Sobre Nós" />Sobre Nós
+                  <img src={SobreIcon} alt="Sobre Nós" />
+                  Sobre Nós
                 </div>
               </button>
             </Link>
             <Link to="/login">
               <button id="buttonSair">
                 <div className="icon-logout">
-                  <img src={LogoutIcon} alt="Log Out" />Log Out
+                  <img src={LogoutIcon} alt="Log Out" />
+                  Log Out
                 </div>
               </button>
             </Link>
-
           </ModalPerfil>
         </ModalOverlay>
       )}
-
     </Container>
-
   );
+};
 
-}
-
-const ChatTeste = ({ onSalvar, onSimular }) => {
+const ChatTeste = ({ onFinalizarRefazer }) => {
   const BACKEND_URL = "http://localhost:3000";
 
   const [messages, setMessages] = useState([]);
@@ -510,7 +495,10 @@ const ChatTeste = ({ onSalvar, onSimular }) => {
         body: JSON.stringify({ message: "Começar" }),
       });
       const data = await res.json();
-      addMessage(data.reply, "assistant");
+      const partes = data.reply.split(/\d+\.\s/).filter(Boolean);
+      const ultimaPergunta = partes[partes.length - 1].trim();
+
+      addMessage(ultimaPergunta, "assistant");
     } catch {
       addMessage("Erro ao conectar com o servidor.", "assistant");
     } finally {
@@ -557,7 +545,10 @@ const ChatTeste = ({ onSalvar, onSimular }) => {
       setResultado({
         texto: data.resultado,
         data: dataHora.toLocaleDateString(),
-        hora: dataHora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        hora: dataHora.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
       });
     } catch {
       setResultado({
@@ -573,7 +564,7 @@ const ChatTeste = ({ onSalvar, onSimular }) => {
   }, []);
 
   return (
-      <ChatSection>
+    <ChatSection>
       {!resultado ? (
         <>
           <div className="chat-box">
@@ -606,101 +597,12 @@ const ChatTeste = ({ onSalvar, onSimular }) => {
             <strong>{resultado.data}</strong>
           </p>
 
-          <button id="buttonSalvarResultado" onClick={onSalvar}>Salvar Resultado</button>
-          <button id="buttonBaixarResultado">Baixar</button>
-          <button id="buttonSimularChance" onClick={onSimular}>Simule sua chance de ingresso</button>
+          <button id="buttonFinalizarRefazerTeste" onClick={onFinalizarRefazer}>
+            Finzalizar e Refazer Teste
+          </button>
         </div>
       )}
-      </ChatSection>
-  );
-};
-
-const FormSimulacao = ({ cursosRelacionados, onResultado }) => {
-  const [form, setForm] = useState({
-    ano: "",
-    notaRedacao: "",
-    notaMatematica: "",
-    notaHumanas: "",
-    notaLinguagens: "",
-    notaNatureza: "",
-    estado: "",
-    modalidade: "",
-  });
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = () => {
-    const dataHora = new Date();
-    const resultado = {
-      cursos: cursosRelacionados.map((c) => ({
-        instituicao: "UFPE",
-        curso: c,
-        notaCorte: Math.floor(Math.random() * 1000) + 600,
-        notaUsuario: Math.floor(Math.random() * 1000) + 600,
-      })),
-      data: dataHora.toLocaleDateString(),
-      hora: dataHora.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-    };
-    onResultado(resultado);
-  };
-
-  return (
-      <FormSimulacaoContainer>
-      <h2>Simulação de Ingresso</h2>
-
-      <input type="number" name="ano" placeholder="Ano do ENEM" onChange={handleChange} />
-      <input type="number" name="notaRedacao" placeholder="Nota de Redação" onChange={handleChange} />
-      <input type="number" name="notaMatematica" placeholder="Nota de Matemática" onChange={handleChange} />
-      <input type="number" name="notaHumanas" placeholder="Nota de Humanas" onChange={handleChange} />
-      <input type="number" name="notaLinguagens" placeholder="Nota de Linguagens" onChange={handleChange} />
-      <input type="number" name="notaNatureza" placeholder="Nota de Natureza" onChange={handleChange} />
-      <input type="text" name="estado" placeholder="Estado (ex: PE)" onChange={handleChange} />
-      <select name="modalidade" onChange={handleChange}>
-        <option value="">Selecione a modalidade</option>
-        <option value="ampla">Ampla concorrência</option>
-        <option value="cota">Cota</option>
-      </select>
-
-      <button id="buttonSimularAgora" onClick={handleSubmit}>Simular Agora</button>
-    </FormSimulacaoContainer>
-  );
-};
-
-const ResultadoSimulacao = ({ simulacao }) => {
-  return (
-     <ResultadoContainer>
-      <h2>Resultado da Simulação</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Instituição</th>
-            <th>Curso</th>
-            <th>Nota de Corte</th>
-            <th>Sua Nota</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {simulacao.cursos.map((curso, i) => (
-            <tr key={i}>
-              <td>{curso.instituicao}</td>
-              <td>{curso.curso}</td>
-              <td>{curso.notaCorte}</td>
-              <td>{curso.notaUsuario}</td>
-              <td>{curso.notaUsuario >= curso.notaCorte ? "Você consegue entrar pelo SISU!" : "Abaixo da nota de corte"}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <p>
-        Simulação realizada às <strong>{simulacao.hora}</strong> em{" "}
-        <strong>{simulacao.data}</strong>
-      </p>
-     </ResultadoContainer>
+    </ChatSection>
   );
 };
 

@@ -35,7 +35,6 @@ import CursoBolsaIconAtivo from "../../assets/cursoBolsaAtivo.svg";
 import RelatorioIcon from "../../assets/relatorio.svg";
 import RelatorioIconAtivo from "../../assets/relatorioAtivo.svg";
 
-
 const HomeAdmin = () => {
   const [showPerfil, setShowPerfil] = useState(false);
   const [activeTab, setActiveTab] = useState("usuarios");

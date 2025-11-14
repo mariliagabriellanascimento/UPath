@@ -32,8 +32,6 @@ import CursoIcon from "../../assets/cursos.svg";
 import ConfigIcon from "../../assets/config.svg";
 import ConfigIcon2 from "../../assets/config-2.svg";
 import EditIcon from "../../assets/edit.svg";
-import SalvosIcon from "../../assets/salvos.svg";
-import PlanosIcon from "../../assets/planos.svg";
 import SobreIcon from "../../assets/sobre.svg";
 import LogoutIcon from "../../assets/logout.svg";
 import { Link } from "react-router-dom";
@@ -100,7 +98,7 @@ const HomeUser = () => {
           >
             Teste
           </Link>
-          <Link id="linkResultados" to="/results" className={activeLink === "resultados" ? "active" : ""} onClick={() => setActiveLink("resultados")}>Resultados</Link>
+          <Link id="linkSimulacao" to="/simulacao" className={activeLink === "simulacao" ? "active" : ""} onClick={() => setActiveLink("simulacao")}>Simulação</Link>
         </NavLinks>
 
         <UserArea>
@@ -435,20 +433,6 @@ const HomeUser = () => {
               <button id="buttonEditPerfil">
                 <div className="icon-edit">
                   <img src={EditIcon} alt="Editar" /> Editar Perfil
-                </div>
-              </button>
-            </Link>
-            <Link to="/salvos">
-              <button id="buttonSalvos">
-                <div className="icon-salvos">
-                  <img src={SalvosIcon} alt="Salvos" />Salvos
-                </div>
-              </button>
-            </Link>
-            <Link to="/planos">
-              <button id="buttonPlanos">
-                <div className="icon-planos">
-                  <img src={PlanosIcon} alt="Planos" />Planos
                 </div>
               </button>
             </Link>
