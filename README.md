@@ -35,7 +35,7 @@ Essa versão é voltada para **navegadores desktop e mobile responsivo**, sendo 
 
 1. **Clone o repositório** ou **baixe o ZIP** do projeto.
 
-2.**Tenha o node instalado em sua máquina.**
+2. **Tenha o Node instalado em sua máquina.**
 
 3. **Abra o projeto no VSCode.**
 
