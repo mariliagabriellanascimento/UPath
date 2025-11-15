@@ -35,22 +35,24 @@ Essa versão é voltada para **navegadores desktop e mobile responsivo**, sendo 
 
 1. **Clone o repositório** ou **baixe o ZIP** do projeto.
 
-2. **Abra o projeto no VSCode.**
+2.**Tenha o node instalado em sua máquina.**
 
-3. **No terminal do VSCode, navegue até a pasta principal do projeto:**
+3. **Abra o projeto no VSCode.**
+
+4. **No terminal do VSCode, navegue até a pasta principal do projeto:**
    **cd upath-web**
 
-4. Instale as dependências
+5. Instale as dependências
    **npm install**
 
-5. Instale o React Router DOM (caso ainda não esteja instalado)
+6. Instale o React Router DOM (caso ainda não esteja instalado)
    **npm install react-router-dom**
 
-6. Execute o projeto
+7. Execute o projeto
    **npm run dev**
 
-7. Após isso, o projeto estará disponível localmente  
+8. Após isso, o projeto estará disponível localmente  
   O terminal mostrará o link, geralmente algo como:  
   [http://localhost:5173](http://localhost:5173)
 
-8. Adicione ao localhost **/Login** para visualizar a tela.
+9. Adicione ao localhost **/Login** para visualizar a tela.
