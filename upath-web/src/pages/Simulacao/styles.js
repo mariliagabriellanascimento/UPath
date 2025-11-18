@@ -96,9 +96,121 @@ export const Main = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 48px;
+  gap: 30px;
   padding: 32px 64px;
 
+  h3 {
+    text-align: center;
+    font-size: 20px;
+  }
+`;
+
+export const CardSimulacao = styled.div`
+  background-color: #1f2937;
+  padding: 30px;
+  border-radius: 12px;
+  width: 50%;
+  max-width: 500px;
+  margin: 0 auto;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+`;
+
+export const Linha = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  align-items: center;
+`;
+
+export const Campo = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+
+  label {
+    font-size: 20px;
+    weight: 500;
+    margin-bottom: 5px;
+  }
+
+  input {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: #1f2937;
+    color: #ffffff;
+
+    &::placeholder {
+      color: #ffffff;
+      }
+
+    &:focus {
+      border-color: #ffffff;
+    }
+  }
+
+  select {
+    background: #1f2937;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 16px;
+    outline: none;  
+  }
+
+  input::placeholder {
+    color: #bbb;
+  }
+`;
+
+export const Divider = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  font-size: 20px;
+  border-bottom: 1px solid #ffffff;
+  width: 160px;
+`;
+
+export const CheckboxLinha = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  label {
+    font-size: 14px;
+  }
+
+  input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+export const BotaoSimular = styled.button`
+  background: #7c3aed;
+  border: none;
+  padding: 12px 35px;
+  border-radius: 8px;
+  font-size: 20px;
+  color: #fff;
+  margin: 30px auto 0 auto;
+  cursor: pointer;
+  transition: 0.2s;
+
+  &:hover {
+    background: #7e22ce;
+  }
 `;
 
 // 🎯 Rodapé

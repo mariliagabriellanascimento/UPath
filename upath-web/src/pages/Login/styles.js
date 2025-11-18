@@ -153,7 +153,7 @@ export const InputGroup = styled.div`
 
   .eye-icon {
     position: absolute;
-    right: 8px; /* Ajuste dinâmico */
+    left: 90%;
     top: 30%;
     transform: translateY(-50%);
     width: 24px;

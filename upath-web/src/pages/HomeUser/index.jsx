@@ -6,7 +6,8 @@ import {
   UserArea,
   Main,
   WelcomeSection,
-  ButtonEscolherTeste,
+  ButtonTeste,
+  ButtonSimulacao,
   NoticiasSection,
   CardNoticias,
   Footer,
@@ -148,11 +149,16 @@ const HomeUser = () => {
               Nossa plataforma analisará suas chances em programas como Sisu,
               ProUni e Fies, além de sugerir cursos e instituições compatíveis.
             </p>
-            <Link to="/teste">
-              <ButtonEscolherTeste id="buttonEscolherTeste" >
-                Iniciar Teste
-              </ButtonEscolherTeste>
-            </Link>
+              <Link to="/teste">
+                <ButtonTeste id="buttonTeste" >
+                  Iniciar Teste
+                </ButtonTeste>
+              </Link>
+              <Link to="/simulacao">
+                <ButtonSimulacao id="buttonSimulacao" >
+                  Iniciar Simulação
+                </ButtonSimulacao>
+              </Link>
           </div>
 
         </WelcomeSection>

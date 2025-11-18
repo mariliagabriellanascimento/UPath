@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   font-family: "Poppins", sans-serif;
   color: #1f2937;
-  background-color: #F3F4F6;
+  background-color: #f3f4f6;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
@@ -127,16 +127,17 @@ export const WelcomeSection = styled.section`
     width: 300px;
     max-width: 40%;
   }
+
 `;
 
-export const ButtonEscolherTeste = styled.button`
+export const ButtonTeste = styled.button`
   background-color: #7c3aed;
   color: white;
   padding: 10px 24px;
   border: none;
   border-radius: 8px;
   font-weight: 500;
-  margin-top: 16px;
+  margin: 16px;
   cursor: pointer;
   transition: 0.3s;
   font-size: 20px;
@@ -146,10 +147,28 @@ export const ButtonEscolherTeste = styled.button`
   }
 `;
 
+export const ButtonSimulacao = styled.button`
+  background-color: #7c3aed;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  margin: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 20px;
+
+  &:hover {
+    background-color: #7e22ce;
+  }
+`;
+
+
 // 🎯 Notícias
 export const NoticiasSection = styled.section`
   h3 {
-    font-size: 1.4rem;
+    font-size: 20px;
     font-weight: 700;
     margin-bottom: 24px;
   }
@@ -512,7 +531,7 @@ export const ModalConfig = styled.div`
     #checkNotas,
     #checkCursos,
     #checkNotificacoesPref {
-      accent-color: #FFFFFF;
+      accent-color: #ffffff;
       height: 18px;
       width: 18px;
     }
@@ -562,12 +581,12 @@ export const ModalPerfil = styled(ModalNotificacoes)`
   }
 
   a {
-    display: inline-block; 
-    width: 100%; 
+    display: inline-block;
+    width: 100%;
   }
 
   a button {
-    width: 100%; 
+    width: 100%;
   }
 
   .icon-edit,

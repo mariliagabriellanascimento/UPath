@@ -5,13 +5,17 @@ import {
   NavLinks,
   UserArea,
   Main,
+  CardSimulacao,
+  Linha,
+  Campo,
+  Divider,
+  BotaoSimular,
   Footer,
   ModalOverlay,
   ModalNotificacoes,
   ModalLinkNotificacoes,
   ModalConfig,
   ModalPerfil,
-
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -41,8 +45,37 @@ const Teste = () => {
     document.title = "Simulação - UPath";
   }, []);
 
+  // Estados da simulação
+  const [curso, setCurso] = useState("ENFERMAGEM");
+  const [nota, setNota] = useState("");
+  const [resultado, setResultado] = useState(null);
 
+  // Função de envio para API
+  function enviar() {
+    if (!nota) {
+      alert("Por favor, digite sua nota!");
+      return;
+    }
 
+    fetch("http://localhost:3000/predict", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ curso, nota: parseFloat(nota) })
+    })
+      .then(res => res.json())
+      .then(data => {
+        setResultado({
+          curso,
+          nota,
+          probabilidade: data.probabilidade,
+          status: data.status
+        });
+      })
+      .catch(err => {
+        alert("Erro ao conectar ao servidor.");
+        console.error(err);
+      });
+  }
 
   // Estado do link ativo
   const [activeLink, setActiveLink] = useState("simulacao");
@@ -102,7 +135,56 @@ const Teste = () => {
 
       {/* Conteúdo Principal */}
       <Main>
+        <h3>Simulação de Ingresso</h3>
+        <CardSimulacao>
+          <Linha>
+            <Campo>
+              <label>Curso:</label>
+              <select value={curso} onChange={(e) => setCurso(e.target.value)}>
+                <option value="" disabled>Selecione</option>
+                <option value="ENFERMAGEM">Enfermagem</option>
+                <option value="MEDICINA">Medicina</option>
+                <option value="FISIOTERAPIA">Fisioterapia</option>
+                <option value="DIREITO">Direito</option>
+                <option value="ADMINISTRACAO">Administração</option>
+                <option value="SISTEMAS DE INFORMACAO">Sistemas de Informação</option>
+                <option value="CIENCIA DA COMPUTACAO">Ciência da Computação</option>
+                <option value="PSICOLOGIA">Psicologia</option>
+              </select>
+            </Campo>
 
+            <Campo>
+              <label>Nota:</label>
+              <input
+                type="number"
+                placeholder="Digite sua nota..."
+                value={nota}
+                onChange={(e) => setNota(e.target.value)}
+              />
+              <Divider />
+            </Campo>
+          </Linha>
+
+          <BotaoSimular onClick={enviar}>
+            Simular Agora
+          </BotaoSimular>
+
+          {/* RESULTADO ABAIXO */}
+          {resultado && (
+            <ResultadoBox>
+              <strong>Resultado:</strong>
+              <br /><br />
+              Curso: {curso}
+              <br />
+              Nota: {nota}
+              <br /><br />
+              <strong>Probabilidade de Aprovação:</strong> {resultado.probabilidade}%
+              <br /><br />
+              <strong>Status:</strong> {resultado.status}
+            </ResultadoBox>
+          )}
+
+        </CardSimulacao>
       </Main>
 
       {/* Rodapé */}
