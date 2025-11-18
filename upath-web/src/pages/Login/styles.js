@@ -8,11 +8,37 @@ export const Container = styled.div`
   align-items: center;
   justify-content: space-evenly;
   padding: 0 5%;
+
+  @media (max-width: 1024px) {
+    padding: 20px;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center; /* Centraliza conteúdo */
+    align-items: center;
+    padding: 20px;
+    height: 100vh; /* Corrige espaço extra */
+    gap: 30px;
+    overflow: hidden; /* Remove qualquer scroll extra */
+  }
 `;
 
 export const LeftArea = styled.div`
   img {
     width: 550px;
+  }
+
+  @media (max-width: 1024px) {
+    img {
+      width: 400px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none; /* Oculta imagem no mobile */
   }
 `;
 
@@ -25,11 +51,11 @@ export const RightArea = styled.div`
   .logo-area {
     margin-bottom: 30px;
     text-align: center;
-    
+
     & .logo-upath {
       width: 175px;
       align-self: center;
-      }
+    }
   }
 
   h1 {
@@ -37,6 +63,17 @@ export const RightArea = styled.div`
     font-weight: 900;
     text-align: left;
     width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 320px;
+    align-items: center;
+    text-align: center;
+
+    h1 {
+      text-align: center;
+    }
   }
 `;
 
@@ -82,6 +119,23 @@ export const Form = styled.form`
       align-self: center;
     }
   }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 320px;
+
+    label {
+      font-size: 18px;
+    }
+
+    a {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
 `;
 
 export const InputGroup = styled.div`
@@ -99,7 +153,7 @@ export const InputGroup = styled.div`
 
   .eye-icon {
     position: absolute;
-    left: 340px;
+    right: 8px; /* Ajuste dinâmico */
     top: 30%;
     transform: translateY(-50%);
     width: 24px;
@@ -215,6 +269,10 @@ export const StoreButtons = styled.div`
   top: 100px;
   gap: 20px;
 
+  @media (max-width: 768px) {
+    display: none; /* Oculta botões no mobile */
+  }
+
   a {
     display: flex;
     align-items: center;
@@ -258,7 +316,7 @@ export const StoreButtons = styled.div`
 
 export const ErrorMessage = styled.div`
   color: #FFFFFF;
-  background-color:rgba(31, 41, 55, 0.25);
+  background-color: rgba(31, 41, 55, 0.25);
   border-radius: 8px;
   padding: 5px;
   font-size: 16px;
