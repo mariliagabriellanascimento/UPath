@@ -96,9 +96,8 @@ export const Main = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 48px;
-  padding: 32px 64px;
-
+  gap: 20px;
+  padding: 30px;
 `;
 
 // 🎯 Rodapé

@@ -5,7 +5,6 @@ import {
   NavLinks,
   UserArea,
   Main,
-  ChatSection,
   Footer,
   ModalOverlay,
   ModalNotificacoes,
@@ -27,6 +26,8 @@ import ConfigIcon2 from "../../assets/config-2.svg";
 import EditIcon from "../../assets/edit.svg";
 import SobreIcon from "../../assets/sobre.svg";
 import LogoutIcon from "../../assets/logout.svg";
+import Chat from "../../components/Chat";
+import Resultado from "../../components/Resultado";
 import { Link } from "react-router-dom";
 
 const Teste = () => {
@@ -36,12 +37,11 @@ const Teste = () => {
   const [tipoNotificacao, setTipoNotificacao] = useState("");
   const [showConfig, setShowConfig] = useState(false);
   const [showPerfil, setShowPerfil] = useState(false);
+  const [finalizou, setFinalizou] = useState(false);
 
   useEffect(() => {
     document.title = "Teste - UPath";
   }, []);
-
-  const handleFinalizarRefazerTeste = () => {};
 
   // Estado do link ativo
   const [activeLink, setActiveLink] = useState("teste");
@@ -115,9 +115,9 @@ const Teste = () => {
 
       {/* Conteúdo Principal */}
       <Main>
-        <ChatTeste
-          onFinalizarRefazer={() => handleFinalizarRefazerTeste()}
-        />
+        <div className="app-container">
+          {!finalizou ? <Chat setFinalizou={setFinalizou} /> : <Resultado />}
+        </div>
       </Main>
 
       {/* Rodapé */}
@@ -470,139 +470,6 @@ const Teste = () => {
         </ModalOverlay>
       )}
     </Container>
-  );
-};
-
-const ChatTeste = ({ onFinalizarRefazer }) => {
-  const BACKEND_URL = "http://localhost:3000";
-
-  const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
-  const [resultado, setResultado] = useState("");
-
-  const addMessage = (text, sender) => {
-    setMessages((prev) => [...prev, { text, sender }]);
-  };
-
-  const startChat = async () => {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`${BACKEND_URL}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: "Começar" }),
-      });
-      const data = await res.json();
-      const partes = data.reply.split(/\d+\.\s/).filter(Boolean);
-      const ultimaPergunta = partes[partes.length - 1].trim();
-
-      addMessage(ultimaPergunta, "assistant");
-    } catch {
-      addMessage("Erro ao conectar com o servidor.", "assistant");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    if (!input.trim() || isLoading || isFinished) return;
-
-    const userMsg = input.trim();
-    addMessage(userMsg, "user");
-    setInput("");
-    setIsLoading(true);
-
-    try {
-      const res = await fetch(`${BACKEND_URL}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg }),
-      });
-
-      const data = await res.json();
-      addMessage(data.reply, "assistant");
-
-      if (data.final) {
-        setIsFinished(true);
-        setTimeout(fetchResultado, 1500);
-      }
-    } catch {
-      addMessage("Erro ao enviar mensagem.", "assistant");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const fetchResultado = async () => {
-    try {
-      const res = await fetch(`${BACKEND_URL}/resultado`);
-      const data = await res.json();
-
-      const dataHora = new Date();
-      setResultado({
-        texto: data.resultado,
-        data: dataHora.toLocaleDateString(),
-        hora: dataHora.toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      });
-    } catch {
-      setResultado({
-        texto: "Erro ao buscar resultado final.",
-        data: "-",
-        hora: "-",
-      });
-    }
-  };
-
-  useEffect(() => {
-    startChat();
-  }, []);
-
-  return (
-    <ChatSection>
-      {!resultado ? (
-        <>
-          <div className="chat-box">
-            {messages.map((msg, i) => (
-              <p key={i} className={msg.sender}>
-                {msg.text}
-              </p>
-            ))}
-            {isLoading && <p>Orientador está digitando...</p>}
-          </div>
-
-          {!isFinished && (
-            <form onSubmit={sendMessage}>
-              <input
-                type="text"
-                placeholder="Digite sua resposta..."
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-              <button type="submit">Enviar</button>
-            </form>
-          )}
-        </>
-      ) : (
-        <div className="resultado-chat">
-          <h2>Resultado do Teste</h2>
-          <p>{resultado.texto}</p>
-          <p>
-            Teste realizado às <strong>{resultado.hora}</strong> em{" "}
-            <strong>{resultado.data}</strong>
-          </p>
-
-          <button id="buttonFinalizarRefazerTeste" onClick={onFinalizarRefazer}>
-            Finzalizar e Refazer Teste
-          </button>
-        </div>
-      )}
-    </ChatSection>
   );
 };
 
