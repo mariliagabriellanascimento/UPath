@@ -84,7 +84,7 @@ export default function Chat({ setFinalizou }) {
   return (
     <div className="chat-wrapper">
       <header className="chat-header">
-        <h1>Orientador Vocacional</h1>
+        <h2>Orientador Vocacional</h2>
         <p>Responda 8 perguntas para descobrir sua vocação.</p>
       </header>
 

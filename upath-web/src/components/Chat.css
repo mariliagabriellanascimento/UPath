@@ -29,14 +29,14 @@
   text-align: center;
 }
 
-.chat-header h1 {
-  font-size: 26px;
+.chat-header h2 {
+  font-size: 24px;
   font-weight: bold;
 }
 
 .chat-header p {
   font-size: 14px;
-  color: gray;
+  color: #1f2937;
 }
 
 /* Área de mensagens */
@@ -63,7 +63,7 @@
 
 .assistant {
   background: #E5E7EB;
-  color: #1f2937;
+  color: #1F2937;
   margin-right: auto;
 }
 
@@ -102,6 +102,7 @@
 
 .input-area input {
   flex-grow: 1;
+  font-size: 16px;
   padding: 12px;
   border: 1px solid #d1d5db;
   border-radius: 10px;
@@ -110,6 +111,7 @@
 
 .input-area button {
   background: #7C3AED;
+  font-size: 16px;
   color: white;
   padding: 12px 18px;
   border: none;
@@ -132,6 +134,16 @@
   text-align: center;
 }
 
+.resultado-content h2 {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.resultado-content p {
+  font-size: 14px;
+  color: #1f2937;
+}
+
 .resultado-texto {
   background: #f3f4f6;
   padding: 20px;
@@ -143,9 +155,13 @@
 
 .resultado-content button {
   margin-top: 25px;
-  background: #16a34a;
+  background: #7C3AED;
   color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 10px;
+}
+
+.resultado-content button:hover {
+  background: #7e22ce;
 }

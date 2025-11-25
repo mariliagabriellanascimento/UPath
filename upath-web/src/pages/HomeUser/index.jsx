@@ -23,7 +23,7 @@ import Sisu from "../../assets/sisu.png";
 import UFPE from "../../assets/ufpe.jpg";
 import UFRPE from "../../assets/ufrpe.jpeg";
 import Logo from "../../assets/logo-upath-2.svg";
-import UserImg from "../../assets/userImg.svg";
+import DefaultAvatar from "../../assets/default-avatar.svg";
 import BellIcon from "../../assets/notification.svg";
 import BellIconActived from "../../assets/notification-actived.svg";
 import VoltarIcon from "../../assets/seta-voltar.svg";
@@ -122,7 +122,7 @@ const HomeUser = () => {
             <p>Estudante</p></div>
           <img
             id="iconPerfil"
-            src={UserImg}
+            src={DefaultAvatar}
             alt="Perfil"
             onClick={() => {
               setShowPerfil(!showPerfil);
@@ -146,8 +146,8 @@ const HomeUser = () => {
               que mais se alinha ao seu perfil.
             </p>
             <p>
-              Nossa plataforma analisará suas chances em programas como Sisu,
-              ProUni e Fies, além de sugerir cursos e instituições compatíveis.
+              Nossa plataforma analisará suas chances em programas como Sisu e
+              ProUni, além de sugerir cursos e instituições compatíveis.
             </p>
               <Link to="/teste">
                 <ButtonTeste id="buttonTeste" >

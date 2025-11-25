@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Header,
@@ -6,7 +6,6 @@ import {
   EditUserArea,
   AvatarWrapper,
   Avatar,
-  ChangeImageButton,
   Form,
   InputGroup,
   Input,
@@ -21,33 +20,22 @@ import Sisu from "../../assets/sisu.png";
 import UFPE from "../../assets/ufpe.jpg";
 import UFRPE from "../../assets/ufrpe.jpeg";
 import VoltarIcon from "../../assets/seta-voltar.svg";
-import UserImg from "../../assets/userImg.svg"
-import EditImg from "../../assets/editImg.svg";
 import UserIcon from "../../assets/user.svg";
 import LockIcon from "../../assets/lock.svg";
 import EyeIcon from "../../assets/eye.svg";
 import EyeSlashIcon from "../../assets/eye-slash.svg";
 import EditIcon from "../../assets/editAtivo.svg";
+import DefaultAvatar from "../../assets/default-avatar.svg";
 import { useNavigate  } from "react-router-dom";
 
 const Perfil = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState(UserImg);
 
   const navigate = useNavigate();
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     document.title = "Editar Perfil - UPath";
   }, []);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const url = URL.createObjectURL(file);
-    setAvatarPreview(url);
-
-  };
 
   // Estado das notícias
   const [noticias, setNoticias] = useState([]);
@@ -92,16 +80,7 @@ const Perfil = () => {
 
         <EditUserArea>
           <AvatarWrapper>
-              <Avatar src={avatarPreview} alt="Avatar" />
-              <ChangeImageButton onClick={() => fileInputRef.current.click()}>
-                <img src={EditImg} alt="Editar" />
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-              </ChangeImageButton>
+              <Avatar src={DefaultAvatar} alt="Avatar" />
             </AvatarWrapper>
           <Form>
             <label>Editar nome:</label>

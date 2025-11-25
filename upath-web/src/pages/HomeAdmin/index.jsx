@@ -17,8 +17,7 @@ import {
 
 
 import Logo from "../../assets/logo-upath-2.svg";
-import AdminImg from "../../assets/adminImg.svg";
-import UserImg from "../../assets/userImg.svg";
+import DefaultAvatar from "../../assets/default-avatar.svg";
 import LogoutIcon from "../../assets/logout.svg";
 import EstudanteIcon from "../../assets/estudante.svg";
 import EstudanteIconAtivo from "../../assets/estudanteAtivo.svg";
@@ -44,7 +43,6 @@ const HomeAdmin = () => {
         status: "Ativo",
         ultimoLogin: "15/09/2025",
         resetPedido: false,
-        foto: UserImg
       });
     } else {
       setStudent(null);
@@ -177,7 +175,7 @@ const HomeAdmin = () => {
           </div>
           <img
             id="iconPerfil"
-            src={AdminImg}
+            src={DefaultAvatar}
             alt="Perfil"
             onClick={() => setShowPerfil(!showPerfil)}
           />

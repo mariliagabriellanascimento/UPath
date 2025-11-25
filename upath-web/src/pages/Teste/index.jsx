@@ -14,7 +14,7 @@ import {
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
-import UserImg from "../../assets/userImg.svg";
+import DefaultAvatar from "../../assets/default-avatar.svg";
 import BellIcon from "../../assets/notification.svg";
 import BellIconActived from "../../assets/notification-actived.svg";
 import VoltarIcon from "../../assets/seta-voltar.svg";
@@ -101,7 +101,7 @@ const Teste = () => {
           </div>
           <img
             id="iconPerfil"
-            src={UserImg}
+            src={DefaultAvatar}
             alt="Perfil"
             onClick={() => {
               setShowPerfil(!showPerfil);
