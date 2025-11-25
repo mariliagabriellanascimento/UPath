@@ -10,6 +10,7 @@ import {
   Campo,
   Divider,
   BotaoSimular,
+  ResultadoBox,
   Footer,
   ModalOverlay,
   ModalNotificacoes,

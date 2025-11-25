@@ -204,12 +204,40 @@ export const BotaoSimular = styled.button`
   border-radius: 8px;
   font-size: 20px;
   color: #fff;
-  margin: 30px auto 0 auto;
+  margin: 0 auto;
   cursor: pointer;
   transition: 0.2s;
 
   &:hover {
     background: #7e22ce;
+  }
+`;
+
+export const ResultadoBox = styled.div`
+  padding: 20px;
+  background-color: #111827; /* Fundo um pouco mais claro que o card */
+  border: 1px solid #ffffff30;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 18px;
+  line-height: 1.6;
+  width: 50%;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.4s ease;
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 

@@ -4,7 +4,8 @@ import sys
 import pandas as pd
 import os
 
-MODELOS_PATH = "Modelos"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+MODELOS_PATH = os.path.join(BASE_DIR, "Modelos")
 
 try:
     clf = joblib.load(os.path.join(MODELOS_PATH, "modelo_aprovacao.pkl"))
@@ -62,4 +63,3 @@ except Exception as e:
 #py -m pip install joblib
 #py -m pip install pandas
 #py -m pip install scikit-learn
-
