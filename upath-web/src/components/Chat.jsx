@@ -8,16 +8,18 @@ export default function Chat({ setFinalizou }) {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const startedRef = useRef(false);
+  const messagesEndRef = useRef(null); 
 
-  // Função para adicionar mensagens
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]); 
+
   const addMessage = (text, sender) => {
     setMessages((prev) => [...prev, { text, sender }]);
   };
 
-  // Mostrar indicador "digitando..."
   const setLoadingState = (v) => setLoading(v);
 
-  // Envia mensagem ao backend
   const sendMessage = async (message) => {
     setLoadingState(true);
 
@@ -44,7 +46,6 @@ export default function Chat({ setFinalizou }) {
     }
   };
 
-  // Envio do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim() || loading) return;
@@ -57,8 +58,8 @@ export default function Chat({ setFinalizou }) {
 
   // Primeira pergunta (start)
   useEffect(() => {
-    if (startedRef.current) return; // impede rodar 2x
-    startedRef.current = true; // marca como iniciado
+    if (startedRef.current) return;
+    startedRef.current = true;
 
     const iniciar = async () => {
       setLoadingState(true);
@@ -106,6 +107,8 @@ export default function Chat({ setFinalizou }) {
             <p>Orientador está digitando...</p>
           </div>
         )}
+        
+        <div ref={messagesEndRef} /> 
       </div>
 
       <form className="input-area" onSubmit={handleSubmit}>

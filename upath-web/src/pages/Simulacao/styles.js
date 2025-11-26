@@ -215,19 +215,23 @@ export const BotaoSimular = styled.button`
 
 export const ResultadoBox = styled.div`
   padding: 20px;
-  background-color: #111827; /* Fundo um pouco mais claro que o card */
+  background-color: #111827;
   border: 1px solid #ffffff30;
   border-radius: 12px;
   color: #ffffff;
   font-size: 18px;
   line-height: 1.6;
-  width: 50%;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;         
+  max-width: 400px;    
+  margin: 20px auto;   
   text-align: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
   animation: fadeIn 0.4s ease;
+  box-sizing: border-box;  /* <-- evita aumentar tamanho com padding */
+
+  strong {
+    color: #3b82f6; /* Azul elegante para destaque */
+  }
 
   @keyframes fadeIn {
     from {

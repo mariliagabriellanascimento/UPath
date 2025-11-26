@@ -37,7 +37,7 @@ Perguntas:
 
 
 IMPORTANTE:
-- SEMPRE FAÇA UMA PERGUNTA POR VEZ MESMO QUE O USUÁRIO NÃO RESPONDA CORRETAMENTE.
+- NUNCA faça mais de uma pergunta, SEMPRE FAÇA UMA PERGUNTA POR VEZ MESMO QUE O USUÁRIO NÃO RESPONDA CORRETAMENTE.
 - Use linguagem simples, amigável e empática com EXEMPLO.
 - gere o exemplo sem ser tendencioso.
 - SEMPRE faça a pergunta em PORTUGUÊS.
@@ -58,12 +58,10 @@ IMPORTANTE:
 "
 `;
 
-// Variáveis de estado do servidor
 let historico = [];
 let contadorPerguntas = 0;
 let resultadoFinal = null;
 
-//  Função para reiniciar o chat
 function resetChat() {
   historico = [{ role: "system", content: promptInicial }];
   contadorPerguntas = 0;
@@ -85,12 +83,12 @@ async function chamarOpenAI(prompt) {
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
 
-  if (message === "Começar" && contadorPerguntas === 0) {
-    resetChat();
-  } else {
-    historico.push({ role: "user", content: message });
-    contadorPerguntas++;
-  }
+if (message === "Começar") {
+  resetChat();
+} else {
+  historico.push({ role: "user", content: message });
+  contadorPerguntas++;
+}
 
   console.log(`Contador de perguntas: ${contadorPerguntas}`);
 
@@ -110,6 +108,7 @@ app.post("/chat", async (req, res) => {
       resultadoFinal = resposta;
       console.log("Resultado final gerado:", resultadoFinal);
       res.json({ reply: "Obrigado por responder! Seu resultado está pronto.", final: true });
+      
     }
 
   } catch (err) {
@@ -118,16 +117,23 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// resultado final
 app.get("/resultado", (req, res) => {
+const mensagemDeErro = "Não foi identificado nenhuma área de atuação, tente novamente.";
+
   if (resultadoFinal) {
-    res.json({ resultado: resultadoFinal });
+ 
+    if (resultadoFinal.includes(mensagemDeErro.trim())) {
+      console.log("Resultado 'Não Identificado' detectado. Reiniciando chat...");
+      resetChat();
+      return res.json({ resultado: resultadoFinal, reiniciado: true }); 
+    }
+    return res.json({ resultado: resultadoFinal, reiniciado: false });
+
   } else {
     res.status(404).json({ error: "Resultado ainda não disponível ou chat não finalizado" });
   }
 });
 
-// Inicia o servidor
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
