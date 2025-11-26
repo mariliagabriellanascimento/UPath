@@ -134,7 +134,7 @@ const mensagemDeErro = "Não foi identificado nenhuma área de atuação, tente 
   }
 });
 
-const PORT = 3000;
+const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
   console.log("Aguardando conexões do frontend...");

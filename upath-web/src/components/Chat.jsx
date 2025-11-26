@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import "./chat.css";
 
-const BACKEND_URL = "http://localhost:3000";
+const BACKEND_URL = "http://localhost:4000";
 
 export default function Chat({ setFinalizou }) {
   const [messages, setMessages] = useState([]);
