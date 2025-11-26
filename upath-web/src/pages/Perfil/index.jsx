@@ -26,23 +26,64 @@ import EyeIcon from "../../assets/eye.svg";
 import EyeSlashIcon from "../../assets/eye-slash.svg";
 import EditIcon from "../../assets/editAtivo.svg";
 import DefaultAvatar from "../../assets/default-avatar.svg";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Perfil = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [nome, setNome] = useState("");
+  const [senha, setSenha] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Editar Perfil - UPath";
+
+    const nomeLocal = localStorage.getItem("userNome");
+    if (nomeLocal) setNome(nomeLocal);
   }, []);
 
-  // Estado das notícias
+  // Atualizar no backend
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:5000/api/auth/update", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ nome, senha }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Erro ao atualizar.");
+        return;
+      }
+
+      // Atualiza o nome local
+      localStorage.setItem("userNome", nome);
+      setSuccess("Alterações salvas com sucesso!");
+
+    } catch (err) {
+      console.error(err);
+      setError("Erro no servidor. Tente novamente.");
+    }
+  };
+
+  // NOTÍCIAS
   const [noticias, setNoticias] = useState([]);
 
-  // Simulação de fetch de notícias
   useEffect(() => {
-    const noticiasExemplo = [
+    setNoticias([
       {
         id: 1,
         titulo: "Inscrições do SISU 2025 abertas",
@@ -64,25 +105,26 @@ const Perfil = () => {
           "Curso com foco em programação, projetos e desenvolvimento ágil.",
         imagem: UFRPE,
       },
-    ];
-    setNoticias(noticiasExemplo);
+    ]);
   }, []);
 
   return (
     <Container>
-      {/* Cabeçalho */}
+      {/* CABEÇALHO */}
       <Header>
         <div className="voltar">
           <button id="iconVoltar" onClick={() => navigate(-1)}>
             <img src={VoltarIcon} alt="Voltar" />
-          </button><h2>Editar Perfil</h2>
+          </button>
+          <h2>Editar Perfil</h2>
         </div>
 
         <EditUserArea>
           <AvatarWrapper>
-              <Avatar src={DefaultAvatar} alt="Avatar" />
-            </AvatarWrapper>
-          <Form>
+            <Avatar src={DefaultAvatar} alt="Avatar" />
+          </AvatarWrapper>
+
+          <Form onSubmit={handleUpdate}>
             <label>Editar nome:</label>
             <InputGroup>
               <img src={UserIcon} alt="Nome" />
@@ -90,6 +132,8 @@ const Perfil = () => {
                 name="nameEdit"
                 type="text"
                 placeholder="Altere seu nome..."
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
               />
               <Divider />
             </InputGroup>
@@ -101,6 +145,8 @@ const Perfil = () => {
                 id="passwordEdit"
                 type={showPassword ? "text" : "password"}
                 placeholder="Altere sua senha..."
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
               />
 
               <img
@@ -112,23 +158,36 @@ const Perfil = () => {
               <Divider />
             </InputGroup>
 
+            {error && <p style={{ color: "red" }}>{error}</p>}
+            {success && <p style={{ color: "green" }}>{success}</p>}
+
             <div className="botoes">
-              <Button id="buttonCancelarAlteracao" className="botao-cancelar" type="submit">
+              <Button
+                id="buttonCancelarAlteracao"
+                className="botao-cancelar"
+                type="button"
+                onClick={() => navigate(-1)}
+              >
                 Cancelar
               </Button>
-              <Button id="buttonConfirmarAlteracao" className="botao-confirmar" type="submit">
+
+              <Button
+                id="buttonConfirmarAlteracao"
+                className="botao-confirmar"
+                type="submit"
+              >
                 Confirmar
               </Button>
             </div>
           </Form>
         </EditUserArea>
+
         <div className="iconEdit">
           <img src={EditIcon} alt="Editar" />
         </div>
-
       </Header>
 
-      {/* Conteúdo Principal */}
+      {/* NOTÍCIAS */}
       <Main>
         <NoticiasSection>
           <h3>Notícias</h3>
@@ -144,17 +203,16 @@ const Perfil = () => {
         </NoticiasSection>
       </Main>
 
-      {/* Rodapé */}
       <Footer>
         <p>UPath © 2025 - Todos os direitos reservados</p>
         <div>
-          <a id="linkContato" href="#">Contato</a> |
-          <a id="linkPolitica" href="#">Política de Privacidade</a> |
+          <a id="linkContato" href="#">Contato</a> |{" "}
+          <a id="linkPolitica" href="#">Política de Privacidade</a> |{" "}
           <a id="linkTermo" href="#">Termos de Uso</a>
         </div>
       </Footer>
     </Container>
   );
-}
+};
 
 export default Perfil;

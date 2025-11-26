@@ -182,11 +182,11 @@ export const Button = styled.button`
   }
 
   &.botao-confirmar {
-    background: #059669;
+    background: #10B981;
     width: 120px;
 
     &:hover {
-      background: #059668e3;
+      background: #10B981e3;
     }
   }
 `;

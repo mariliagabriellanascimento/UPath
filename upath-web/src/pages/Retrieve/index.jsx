@@ -9,7 +9,7 @@ import {
   Divider,
   InputGroup,
   StoreButtons,
-  ErrorMessage
+  ErrorMessage,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -27,14 +27,13 @@ const Retrieve = () => {
   }, []);
 
   const [email, setEmail] = useState("");
-  const [mensagem, setMensagem] = useState(""); 
+  const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState(false);
 
-  const registeredUsers = ["mauricio.gabriel.al.jr@email.com", "mauricio.gabriel.al@email.com"];
-
-  const handleEnviar = (e) => {
+  const handleRecuperar = async (e) => {
     e.preventDefault();
     setMensagem("");
+    setErro(false);
 
     if (!email.trim()) {
       setMensagem("Por favor, preencha o campo de e-mail.");
@@ -42,13 +41,40 @@ const Retrieve = () => {
       return;
     }
 
-    if (!registeredUsers.includes(email.trim())) {
-      setMensagem("E-mail inválido. Tente novamente.");
-      setErro(true);
-    } else {
-      alert("Uma mensagem foi enviada no seu e-mail! Siga os passos para recuperação da sua conta.");
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/auth/forgot-password",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setMensagem(data.message || "Erro ao enviar e-mail.");
+        setErro(true);
+        return;
+      }
+
+      // SUCESSO!
+      setMensagem("Um código foi enviado ao seu e-mail!");
       setErro(false);
-      console.log("Enviar código de recuperação para:", email);
+
+      alert(
+        "Uma mensagem foi enviada no seu e-mail! Siga os passos para recuperar sua conta."
+      );
+      console.log("Código enviado para:", email);
+
+      // Se quiser, redireciona para "/codigo"
+      // window.location.href = "/codigo";
+
+    } catch (error) {
+      console.error(error);
+      setMensagem("Erro no servidor. Tente novamente mais tarde.");
+      setErro(true);
     }
   };
 
@@ -89,15 +115,19 @@ const Retrieve = () => {
 
       <RightArea>
         <div className="logo-area">
-          <img src={Logo} alt="UPATH Logo" className="logo-upath"/>
+          <img src={Logo} alt="UPATH Logo" className="logo-upath" />
           <div className="esquecimento">
-            <Link to="/login" id="iconVoltar"><img  src={VoltarIcon} alt="Voltar" /></Link>
+            <Link to="/login" id="iconVoltar">
+              <img src={VoltarIcon} alt="Voltar" />
+            </Link>
             <h1>Recuperação</h1>
           </div>
-          <h3>Digite seu e-mail para continuar o processo de recuperação da conta:</h3>
+          <h3>
+            Digite seu e-mail para continuar o processo de recuperação da conta:
+          </h3>
         </div>
 
-        <Form onSubmit={handleEnviar}>
+        <Form onSubmit={handleRecuperar}>
           {mensagem && (
             <ErrorMessage className={erro ? "erro" : "sucesso"}>
               {mensagem}
@@ -126,7 +156,8 @@ const Retrieve = () => {
               type="submit"
               alt="Enviar"
             >
-              Enviar<img src={SetaIcon} className="seta" />
+              Enviar
+              <img src={SetaIcon} className="seta" />
             </Button>
           </div>
         </Form>

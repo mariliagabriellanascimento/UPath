@@ -39,8 +39,16 @@ const Teste = () => {
   const [showPerfil, setShowPerfil] = useState(false);
   const [finalizou, setFinalizou] = useState(false);
 
+  const [userNome, setUserNome] = useState("");
+  
+  const primeiroNome = userNome.split(" ")[0];  
+
   useEffect(() => {
     document.title = "Teste - UPath";
+    const nome = localStorage.getItem("userNome");
+    if (nome) {
+      setUserNome(nome);
+    }
   }, []);
 
   // Estado do link ativo
@@ -96,7 +104,7 @@ const Teste = () => {
             />
           </button>
           <div className="user-info">
-            <h3>Maurício Gabriel Jr</h3>
+            <h3>{primeiroNome}</h3>
             <p>Estudante</p>
           </div>
           <img

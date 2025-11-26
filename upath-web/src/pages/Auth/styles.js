@@ -69,21 +69,6 @@ export const Form = styled.form`
     font-weight: 600;
   }
 
-  p {
-    margin-top: 1rem;
-    font-size: 20px;
-    color: #FFFFFF;
-    align-self: center;
-  }
-
-  a {
-    color: #FFFFFF;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 20px;
-
-  }
-
   & .botao-link {
     display: flex;
     justify-content: end;
@@ -150,39 +135,16 @@ export const Button = styled.button`
     background: #059669;
   }
 
-  &.botao-cadastrar {
-    width: 150px;
-  }
-
   & .seta {
     margin-left: 5px;
   }
 `;
 
 export const Divider = styled.div`
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #ffffff;
-  margin: 1rem 0;
-  font-size: 20px;
-
-  &::before,
-  &::after {
-    content: "";
-    flex: 1;
-    border-bottom: 1px solid #ffffff;
-  }
-
-  &:not(:empty)::before {
-    margin-right: 32px;
-    margin-left: 32px;
-  }
-
-  &:not(:empty)::after {
-    margin-left: 32px;
-    margin-right: 32px;
-  }
+  height: 1px;
+  width: 100%;
+  background: #ffffff;
+  margin: 10px;
 `;
 
 export const StoreButtons = styled.div`

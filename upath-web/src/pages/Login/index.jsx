@@ -8,8 +8,6 @@ import {
   Input,
   Button,
   Divider,
-  LinkText,
-  GoogleButton,
   InputGroup,
   ErrorMessage,
 } from "./styles";
@@ -23,7 +21,6 @@ import LockIcon from "../../assets/lock.svg";
 import EyeIcon from "../../assets/eye.svg";
 import EyeSlashIcon from "../../assets/eye-slash.svg";
 import SetaIcon from "../../assets/seta.svg";
-import GoogleIcon from "../../assets/google.svg";
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -74,56 +71,39 @@ const Login = () => {
     };
   }, [navigate]);
 
-  const handleLogin = (e) => {
+  const handleLogar = async (e) => {
     e.preventDefault();
-
-    // Lista simulada de usuários
-    const adminUser = {
-      email: "mauricio.gabriel.al@email.com",
-      senha: "Senh@123",
-      role: "admin",
-    };
-
-    const studentUser = {
-      email: "mauricio.gabriel.al.jr@email.com",
-      senha: "Senh@123",
-      role: "user",
-    };
-
-    // Validação básica
-    let loggedUser = null;
-
-    if (
-      email === adminUser.email &&
-      senha === adminUser.senha
-    ) {
-      loggedUser = adminUser;
-    } else if (
-      email === studentUser.email &&
-      senha === studentUser.senha
-    ) {
-      loggedUser = studentUser;
-    }
-
-    if (!loggedUser) {
-      setError("Usuário ou senha inválidos. Tente novamente.");
-      return;
-    }
-
-    // Armazena os dados de login (simulação)
-    localStorage.setItem("userRole", loggedUser.role);
-    localStorage.setItem("userEmail", loggedUser.email);
-
     setError("");
 
-    if (loggedUser.role === "admin") {
-      localStorage.setItem("emailAdmin", loggedUser.email);
-      localStorage.setItem("pinAdmin", "1234"); // PIN de teste
-      alert("Login de administrador detectado! Indo para autenticação PIN...");
-      navigate("/auth");
-    } else {
-      alert("Login realizado com sucesso! Redirecionando para a home...");
-      navigate("/homeUser");
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Erro ao fazer login.");
+        return;
+      }
+
+      // Salvar o token e dados do usuário
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("userEmail", data.user.email);
+      localStorage.setItem("userNome", data.user.nome); // ⭐ ADICIONE ESTA LINHA
+      localStorage.setItem("userRole", data.user.role);
+
+      // Se for admin → vai pra verificação por PIN
+      if (data.user.role === "admin") {
+        navigate("/auth");
+      } else {
+        navigate("/homeUser");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Erro no servidor. Tente novamente mais tarde.");
     }
   };
 
@@ -172,7 +152,7 @@ const Login = () => {
           <h1>Login</h1>
         </div>
 
-        <Form onSubmit={handleLogin}>
+        <Form onSubmit={handleLogar}>
           <label htmlFor="email">E-mail:</label>
           <InputGroup>
             <img src={EnvelopeIcon} alt="E-mail" />
