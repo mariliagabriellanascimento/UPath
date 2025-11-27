@@ -35,9 +35,7 @@ const Auth = () => {
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState(false);
   const [carregando, setCarregando] = useState(false);
-
-  // Pega o PIN e email armazenados
-  const emailAdmin = localStorage.getItem("emailAdmin");
+  const sessionId = localStorage.getItem("adminSessionId");
 
   const handleAutenticar = async (e) => {
     e.preventDefault();
@@ -53,33 +51,30 @@ const Auth = () => {
     setCarregando(true);
 
     try {
-      const response = await fetch("http://localhost:3000/admin-pin", {
+      const response = await fetch("http://localhost:8000/api/v1/admin/2fa", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: emailAdmin,
-          pin: pin,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ session_id: sessionId, token_4d: pin }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
+      if (!response.ok || !data.success) {
         setErro(true);
         setMensagem(data.error || "Erro ao autenticar.");
         setCarregando(false);
         return;
       }
 
-      // Sucesso
+      // Sucesso: salvar JWT do admin
+      localStorage.setItem("adminToken", data.data.token);
       setMensagem("Autenticado com sucesso!");
       setErro(false);
       setCarregando(false);
 
       setTimeout(() => navigate("/homeAdmin"), 800);
-    } catch (error) {
+    } catch (err) {
+      console.error(err); 
       setErro(true);
       setMensagem("Erro ao conectar com o servidor.");
       setCarregando(false);

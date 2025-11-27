@@ -65,76 +65,6 @@ export const Main = styled.main`
   }
 `;
 
-// 🎯 Rodapé
-export const Footer = styled.footer`
-  background-color: #1f2937;
-  color: white;
-  text-align: center;
-  padding: 16px 0;
-  border-radius: 30px 30px 0 0;
-
-  p {
-    font-size: 0.9rem;
-  }
-
-  div {
-    margin-top: 8px;
-
-    a {
-      color: #fff;
-      margin: 0 6px;
-      text-decoration: none;
-      font-size: 0.9rem;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-`;
-
-// 🎯 Modal Overlay
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 120px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99;
-`;
-
-// 🎯 Modal Perfil
-export const ModalPerfil = styled.div`
-  border-radius: 4px;
-  background-color: #1f2937;
-  padding: 24px;
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  button {
-    background-color: transparent;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-
-    &:hover {
-      background-color: rgba(31, 41, 55, 0.2);
-    }
-  }
-
-  .icon-logout {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-`;
-
 // 🎯 Container dos relatórios
 export const RelatoriosContainer = styled.div`
   display: flex;
@@ -224,5 +154,98 @@ export const GraficoContainer = styled.div`
     font-size: 14px;
     color: #ffffff;
     gap: 24px;
+  }
+`;
+
+export const Button = styled.button`
+  background-color: #7c3aed;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 20px;
+
+  &:hover {
+    background-color: #7e22ce;
+  }
+`;
+
+// 🎯 Rodapé
+export const Footer = styled.footer`
+  background-color: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 16px 0;
+  border-radius: 30px 30px 0 0;
+
+  p {
+    font-size: 0.9rem;
+  }
+
+  div {
+    margin-top: 8px;
+
+    a {
+      color: #fff;
+      margin: 0 6px;
+      text-decoration: none;
+      font-size: 0.9rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+`;
+
+// 🎯 Modal Overlay
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+`;
+
+// 🎯 Modal Perfil
+export const ModalPerfil = styled.div`
+  border-radius: 4px;
+  background-color: #1f2937;
+  padding: 24px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  button {
+    background-color: transparent;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+  a {
+    display: inline-block;
+    width: 100%;
+  }
+
+  a button {
+    width: 100%;
+  }
+  .icon-logout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
 `;

@@ -7,41 +7,29 @@ import {
   Main,
   Footer,
   ModalOverlay,
-  ModalNotificacoes,
-  ModalLinkNotificacoes,
-  ModalConfig,
   ModalPerfil,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
 import DefaultAvatar from "../../assets/default-avatar.svg";
-import BellIcon from "../../assets/notification.svg";
-import BellIconActived from "../../assets/notification-actived.svg";
-import VoltarIcon from "../../assets/seta-voltar.svg";
-import BolsaIcon from "../../assets/bolsas.svg";
-import NotaIcon from "../../assets/notas.svg";
-import CursoIcon from "../../assets/cursos.svg";
-import ConfigIcon from "../../assets/config.svg";
-import ConfigIcon2 from "../../assets/config-2.svg";
 import EditIcon from "../../assets/edit.svg";
 import SobreIcon from "../../assets/sobre.svg";
 import LogoutIcon from "../../assets/logout.svg";
 import Chat from "../../components/Chat";
 import Resultado from "../../components/Resultado";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Teste = () => {
   // Estados dos modais
-  const [showNotificacoes, setShowNotificacoes] = useState(false);
-  const [showLinkNotificacoes, setShowLinkNotificacoes] = useState(false);
-  const [tipoNotificacao, setTipoNotificacao] = useState("");
-  const [showConfig, setShowConfig] = useState(false);
   const [showPerfil, setShowPerfil] = useState(false);
   const [finalizou, setFinalizou] = useState(false);
 
+  // Estado do link ativo
+  const [activeLink, setActiveLink] = useState("teste");
+
   const [userNome, setUserNome] = useState("");
-  
-  const primeiroNome = userNome.split(" ")[0];  
+
+  const primeiroNome = userNome.split(" ")[0];
 
   useEffect(() => {
     document.title = "Teste - UPath";
@@ -51,8 +39,56 @@ const Teste = () => {
     }
   }, []);
 
-  // Estado do link ativo
-  const [activeLink, setActiveLink] = useState("teste");
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const res = await fetch("http://localhost:8000/api/v1/user/me", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setUserNome(data.user.nome);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  const navigate = useNavigate();
+
+  const realizarLogout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        navigate("/login");
+        return;
+      }
+
+      const response = await fetch("http://localhost:8000/api/v1/user/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userNome");
+
+        navigate("/login");
+      } else {
+        const data = await response.json();
+        console.error("Erro no logout:", data.message || "Erro desconhecido");
+        alert("Erro ao tentar fazer logout. Tente novamente.");
+      }
+    } catch (error) {
+      console.error("Erro ao realizar logout:", error);
+      alert("Erro no servidor. Tente novamente.");
+    }
+  };
 
   return (
     <Container>
@@ -89,20 +125,6 @@ const Teste = () => {
         </NavLinks>
 
         <UserArea>
-          <button
-            id="iconNotificacoes"
-            onClick={() => {
-              setShowNotificacoes(!showNotificacoes);
-              setShowPerfil(false);
-              setShowLinkNotificacoes(false);
-              setShowConfig(false);
-            }}
-          >
-            <img
-              src={showNotificacoes ? BellIconActived : BellIcon}
-              alt="Notificações"
-            />
-          </button>
           <div className="user-info">
             <h3>{primeiroNome}</h3>
             <p>Estudante</p>
@@ -113,9 +135,6 @@ const Teste = () => {
             alt="Perfil"
             onClick={() => {
               setShowPerfil(!showPerfil);
-              setShowNotificacoes(false);
-              setShowLinkNotificacoes(false);
-              setShowConfig(false);
             }}
           />
         </UserArea>
@@ -145,308 +164,7 @@ const Teste = () => {
           </a>
         </div>
       </Footer>
-
-      {/* MODAL Notificações */}
-      {showNotificacoes && (
-        <ModalOverlay>
-          <ModalNotificacoes id="modalNotificacoes">
-            <button
-              id="buttonNotificacoesBolsas"
-              onClick={() => {
-                setTipoNotificacao("bolsa");
-                setShowLinkNotificacoes(true);
-                setShowNotificacoes(false);
-              }}
-            >
-              <div className="icon-bolsa">
-                <img src={BolsaIcon} alt="Bolsas" />
-                Novas bolsas disponíveis
-              </div>
-            </button>
-
-            <button
-              id="buttonNotificacoesNotas"
-              onClick={() => {
-                setTipoNotificacao("nota");
-                setShowLinkNotificacoes(true);
-                setShowNotificacoes(false);
-              }}
-            >
-              <div className="icon-nota">
-                <img src={NotaIcon} alt="Notas" />
-                Atualizações nas notas de corte
-              </div>
-            </button>
-
-            <button
-              id="buttonNotificacoesCursos"
-              onClick={() => {
-                setTipoNotificacao("curso");
-                setShowLinkNotificacoes(true);
-                setShowNotificacoes(false);
-              }}
-            >
-              <div className="icon-curso">
-                <img src={CursoIcon} alt="Cursos" />
-                Novos cursos adicionados
-              </div>
-            </button>
-
-            <button
-              id="buttonConfig"
-              onClick={() => {
-                setShowConfig(true);
-                setShowNotificacoes(false);
-              }}
-            >
-              <img src={ConfigIcon} alt="Configurações" />
-            </button>
-          </ModalNotificacoes>
-        </ModalOverlay>
-      )}
-
-      {/* MODAL Links de Notificações */}
-      {showLinkNotificacoes && (
-        <ModalOverlay>
-          <ModalLinkNotificacoes id="modalLinkNotificacoes">
-            <div className="modal-header">
-              <button
-                id="iconVoltar"
-                onClick={() => {
-                  setShowLinkNotificacoes(false);
-                  setShowNotificacoes(true);
-                }}
-              >
-                <img src={VoltarIcon} alt="Voltar" />
-              </button>
-              <h3>
-                {tipoNotificacao === "bolsa" && "Atualizações de Bolsa"}
-                {tipoNotificacao === "nota" && "Atualizações de Nota"}
-                {tipoNotificacao === "curso" && "Atualizações de Curso"}
-              </h3>
-            </div>
-            {/* CONTEÚDO DAS NOTIFICAÇÕES */}
-            <div className="notificacoes-container">
-              {tipoNotificacao === "bolsa" && (
-                <>
-                  <a
-                    id="linkNotificacoesBolsas"
-                    href="#"
-                    className="notificacao-card"
-                  >
-                    <div className="icon-bolsaLink">
-                      <img src={BolsaIcon} alt="Bolsas" />
-                    </div>
-                    <div className="notificacao-info">
-                      <h4>Nova atualização do SiSU!</h4>
-                      <p>
-                        As notas de corte foram atualizadas. Confira sua posição
-                        agora.
-                      </p>
-                      <span>há 1 min</span>
-                    </div>
-                  </a>
-
-                  <a
-                    id="linkNotificacoesBolsas"
-                    href="#"
-                    className="notificacao-card"
-                  >
-                    <div className="icon-bolsaLink">
-                      <img src={BolsaIcon} alt="Bolsas" />
-                    </div>
-                    <div className="notificacao-info">
-                      <h4>Oportunidade no SiSU</h4>
-                      <p>
-                        Uma nova vaga pode estar ao seu alcance. Veja os
-                        detalhes.
-                      </p>
-                      <span>há 1 dia</span>
-                    </div>
-                  </a>
-
-                  <a
-                    id="linkNotificacoesBolsas"
-                    href="#"
-                    className="notificacao-card"
-                  >
-                    <div className="icon-bolsaLink">
-                      <img src={BolsaIcon} alt="Bolsas" />
-                    </div>
-                    <div className="notificacao-info">
-                      <h4>Atualização personalizada</h4>
-                      <p>
-                        Com base no seu perfil, há novidades no SiSU que podem
-                        te interessar.
-                      </p>
-                      <span>há 1 sem</span>
-                    </div>
-                  </a>
-                </>
-              )}
-
-              {tipoNotificacao === "nota" && (
-                <>
-                  <a
-                    id="linkNotificacoesNotas"
-                    href="#"
-                    className="notificacao-card"
-                  >
-                    <div className="icon-notaLink">
-                      <img src={NotaIcon} alt="Notas" />
-                    </div>
-                    <div className="notificacao-info">
-                      <h4>Notas de corte atualizadas!</h4>
-                      <p>
-                        Confira como sua posição mudou nas universidades que
-                        você escolheu.
-                      </p>
-                      <span>há 2 min</span>
-                    </div>
-                  </a>
-
-                  <a
-                    id="linkNotificacoesNotas"
-                    href="#"
-                    className="notificacao-card"
-                  >
-                    <div className="icon-notaLink">
-                      <img src={NotaIcon} alt="Notas" />
-                    </div>
-                    <div className="notificacao-info">
-                      <h4>Nova média parcial</h4>
-                      <p>
-                        Suas chances foram recalculadas com base nas notas mais
-                        recentes.
-                      </p>
-                      <span>há 5 h</span>
-                    </div>
-                  </a>
-                </>
-              )}
-
-              {tipoNotificacao === "curso" && (
-                <>
-                  <a
-                    id="linkNotificacoesCursos"
-                    href="#"
-                    className="notificacao-card"
-                  >
-                    <div className="icon-cursoLink">
-                      <img src={CursoIcon} alt="Cursos" />
-                    </div>
-                    <div className="notificacao-info">
-                      <h4>Novos cursos disponíveis</h4>
-                      <p>
-                        Veja as novas opções de graduação que acabaram de ser
-                        adicionadas.
-                      </p>
-                      <span>há 3 h</span>
-                    </div>
-                  </a>
-
-                  <a
-                    id="linkNotificacoesCursos"
-                    href="#"
-                    className="notificacao-card"
-                  >
-                    <div className="icon-cursoLink">
-                      <img src={CursoIcon} alt="Cursos" />
-                    </div>
-                    <div className="notificacao-info">
-                      <h4>Atualização de grade</h4>
-                      <p>
-                        Alguns cursos tiveram mudanças nas disciplinas e
-                        horários.
-                      </p>
-                      <span>há 2 dias</span>
-                    </div>
-                  </a>
-                </>
-              )}
-            </div>
-          </ModalLinkNotificacoes>
-        </ModalOverlay>
-      )}
-
-      {/* MODAL Configurações */}
-      {showConfig && (
-        <ModalOverlay>
-          <ModalConfig id="modalConfig">
-            <div className="modal-header">
-              <button
-                id="iconVoltar"
-                onClick={() => {
-                  setShowConfig(false);
-                  setShowNotificacoes(true);
-                }}
-              >
-                <img src={VoltarIcon} alt="Voltar" />
-              </button>
-              <h3>Configurações</h3>
-              <img src={ConfigIcon2} alt="Configurações" />
-            </div>
-
-            <div className="section">
-              <div className="toggle-area">
-                <label
-                  htmlFor="switchAtivarNotificacoes"
-                  className="nots-active"
-                >
-                  Ativar Notificações
-                </label>
-                <label className="switch">
-                  <input id="switchAtivarNotificacoes" type="checkbox" />
-                  <span className="slider"></span>
-                </label>
-              </div>
-
-              <div className="checkbox-group">
-                <label>
-                  Atualizações das bolsas{" "}
-                  <input id="checkBolsas" type="checkbox" />
-                </label>
-                <label>
-                  Atualizações das notas{" "}
-                  <input id="checkNotas" type="checkbox" />
-                </label>
-                <label>
-                  Atualizações dos cursos{" "}
-                  <input id="checkCursos" type="checkbox" />
-                </label>
-              </div>
-
-              <div className="filter-group">
-                <span>Filtrar por:</span>
-                <select id="filterArea">
-                  <option>Tecnologia</option>
-                  <option>Exatas</option>
-                  <option>Linguagens</option>
-                  <option>Saúde</option>
-                  <option>Humanas</option>
-                </select>
-              </div>
-
-              <div className="checkbox-group">
-                <label>
-                  Notificações preferenciais{" "}
-                  <input id="checkNotificacoesPref" type="checkbox" />
-                </label>
-              </div>
-
-              <div className="filter-group">
-                <span>Filtrar por:</span>
-                <select id="filterModalidade">
-                  <option>SISU</option>
-                  <option>Prouni</option>
-                  <option>Outros</option>
-                </select>
-              </div>
-            </div>
-          </ModalConfig>
-        </ModalOverlay>
-      )}
-
+      
       {/* MODAL Perfil */}
       {showPerfil && (
         <ModalOverlay className="modalPerfilOverlay">
@@ -466,8 +184,8 @@ const Teste = () => {
                 </div>
               </button>
             </Link>
-            <Link to="/login">
-              <button id="buttonSair">
+            <Link>
+              <button id="buttonSair" onClick={realizarLogout}>
                 <div className="icon-logout">
                   <img src={LogoutIcon} alt="Log Out" />
                   Log Out

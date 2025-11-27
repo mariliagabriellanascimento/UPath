@@ -23,24 +23,26 @@ import UserIcon from "../../assets/user.svg";
 import VoltarIcon from "../../assets/seta-voltar.svg";
 import PlayStoreIcon from "../../assets/google-play.svg";
 import AppStoreIcon from "../../assets/app-store.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     document.title = "Cadastro - UPath";
   }, []);
 
   const [formData, setFormData] = useState({
-    name: "",
+    nome: "",             
     email: "",
     confirmEmail: "",
-    password: "",
-    confirmPassword: "",
+    senha: "",            
+    confirmSenha: "",      
   });
 
   const [showPassword, setShowPassword] = useState({
-    password: false,
-    confirmPassword: false,
+    senha: false,         
+    confirmSenha: false,   
   });
 
   const [error, setError] = useState("");
@@ -53,7 +55,7 @@ const Register = () => {
 
   const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const handleSubmit = async (e) => {
+  const handleCadastrar = async (e) => {
     e.preventDefault();
     setError("");
     setHighlightFields({});
@@ -84,37 +86,39 @@ const Register = () => {
       return;
     }
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.senha !== formData.confirmSenha) {  
       setError("As senhas precisam ser iguais.");
-      setHighlightFields({ password: true, confirmPassword: true });
+      setHighlightFields({ senha: true, confirmSenha: true });  
       return;
     }
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
+      const response = await fetch("http://localhost:8000/api/v1/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: formData.name,
+          nome: formData.nome,     
           email: formData.email,
-          password: formData.password,
+          confirmEmail: formData.confirmEmail,
+          senha: formData.senha,
+          confirmSenha: formData.confirmSenha,    
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.message || "Erro ao criar a conta.");
+        setError(data.detail || "Erro ao criar a conta.");
         return;
       }
 
       alert("Cadastro realizado com sucesso! Agora faça login.");
       console.log("Usuário criado:", data);
 
-      // Redireciona para login
-      window.location.href = "/login";
+      navigate("/login");
+  
     } catch (err) {
-      console.error(err);
+      console.error (err);
       setError("Erro no servidor. Tente novamente mais tarde.");
     }
   };
@@ -165,19 +169,19 @@ const Register = () => {
           </div>
         </div>
 
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleCadastrar}>
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
           <label>Nome:</label>
           <InputGroup>
             <img src={UserIcon} alt="Nome" />
             <Input
-              name="name"
+              name="nome"                          
               type="text"
               placeholder="Digite seu nome..."
-              value={formData.name}
+              value={formData.nome}                
               onChange={handleChange}
-              className={highlightFields.name ? "input-error" : ""}
+              className={highlightFields.nome ? "input-error" : ""}  
             />
             <Divider />
           </InputGroup>
@@ -214,21 +218,21 @@ const Register = () => {
           <InputGroup>
             <img src={LockIcon} alt="Senha" />
             <Input
-              name="password"
-              type={showPassword.password ? "text" : "password"}
+              name="senha"                            
+              type={showPassword.senha ? "text" : "password"}  
               placeholder="Digite sua senha..."
-              value={formData.password}
+              value={formData.senha}                    
               onChange={handleChange}
-              className={highlightFields.password ? "input-error" : ""}
+              className={highlightFields.senha ? "input-error" : ""}  
             />
             <img
-              src={showPassword.password ? EyeSlashIcon : EyeIcon}
+              src={showPassword.senha ? EyeSlashIcon : EyeIcon}  
               alt="Mostrar senha"
               className="eye-icon"
               onClick={() =>
                 setShowPassword((prev) => ({
                   ...prev,
-                  password: !prev.password,
+                  senha: !prev.senha,        
                 }))
               }
             />
@@ -239,21 +243,21 @@ const Register = () => {
           <InputGroup>
             <img src={LockIcon} alt="Repetição de Senha" />
             <Input
-              name="confirmPassword"
-              type={showPassword.confirmPassword ? "text" : "password"}
+              name="confirmSenha"         
+              type={showPassword.confirmSenha ? "text" : "password"} 
               placeholder="Repita sua senha..."
-              value={formData.confirmPassword}
+              value={formData.confirmSenha}               
               onChange={handleChange}
-              className={highlightFields.confirmPassword ? "input-error" : ""}
+              className={highlightFields.confirmSenha ? "input-error" : ""}  
             />
             <img
-              src={showPassword.confirmPassword ? EyeSlashIcon : EyeIcon}
+              src={showPassword.confirmSenha ? EyeSlashIcon : EyeIcon}  
               alt="Mostrar senha"
               className="eye-icon"
               onClick={() =>
                 setShowPassword((prev) => ({
                   ...prev,
-                  confirmPassword: !prev.confirmPassword,
+                  confirmSenha: !prev.confirmSenha,  
                 }))
               }
             />

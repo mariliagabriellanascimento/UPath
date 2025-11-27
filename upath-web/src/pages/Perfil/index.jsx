@@ -4,8 +4,6 @@ import {
   Header,
   Main,
   EditUserArea,
-  AvatarWrapper,
-  Avatar,
   Form,
   InputGroup,
   Input,
@@ -25,7 +23,6 @@ import LockIcon from "../../assets/lock.svg";
 import EyeIcon from "../../assets/eye.svg";
 import EyeSlashIcon from "../../assets/eye-slash.svg";
 import EditIcon from "../../assets/editAtivo.svg";
-import DefaultAvatar from "../../assets/default-avatar.svg";
 import { useNavigate } from "react-router-dom";
 
 const Perfil = () => {
@@ -34,26 +31,27 @@ const Perfil = () => {
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-
   const navigate = useNavigate();
 
   useEffect(() => {
     document.title = "Editar Perfil - UPath";
 
+    // Carregar o nome do usuário armazenado no localStorage
     const nomeLocal = localStorage.getItem("userNome");
     if (nomeLocal) setNome(nomeLocal);
   }, []);
 
-  // Atualizar no backend
-  const handleUpdate = async (e) => {
+  // Função para enviar as alterações para o backend
+  const editarPerfil = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-
+  
     try {
       const token = localStorage.getItem("token");
-
-      const response = await fetch("http://localhost:5000/api/auth/update", {
+  
+      // Apenas nome e senha serão enviados
+      const response = await fetch("http://localhost:8000/api/user/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -61,25 +59,24 @@ const Perfil = () => {
         },
         body: JSON.stringify({ nome, senha }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
         setError(data.message || "Erro ao atualizar.");
         return;
       }
-
+  
       // Atualiza o nome local
       localStorage.setItem("userNome", nome);
       setSuccess("Alterações salvas com sucesso!");
-
     } catch (err) {
       console.error(err);
       setError("Erro no servidor. Tente novamente.");
     }
   };
-
-  // NOTÍCIAS
+  
+  // Carregar notícias
   const [noticias, setNoticias] = useState([]);
 
   useEffect(() => {
@@ -110,7 +107,7 @@ const Perfil = () => {
 
   return (
     <Container>
-      {/* CABEÇALHO */}
+      {/* Cabeçalho */}
       <Header>
         <div className="voltar">
           <button id="iconVoltar" onClick={() => navigate(-1)}>
@@ -120,11 +117,7 @@ const Perfil = () => {
         </div>
 
         <EditUserArea>
-          <AvatarWrapper>
-            <Avatar src={DefaultAvatar} alt="Avatar" />
-          </AvatarWrapper>
-
-          <Form onSubmit={handleUpdate}>
+          <Form onSubmit={editarPerfil}>
             <label>Editar nome:</label>
             <InputGroup>
               <img src={UserIcon} alt="Nome" />
@@ -158,8 +151,8 @@ const Perfil = () => {
               <Divider />
             </InputGroup>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            {success && <p style={{ color: "green" }}>{success}</p>}
+            {error && <p style={{ color: "red", margin: 0}}>{error}</p>}
+            {success && <p style={{ color: "green",  margin: 0 }}>{success}</p>}
 
             <div className="botoes">
               <Button
@@ -187,7 +180,7 @@ const Perfil = () => {
         </div>
       </Header>
 
-      {/* NOTÍCIAS */}
+      {/* Notícias */}
       <Main>
         <NoticiasSection>
           <h3>Notícias</h3>

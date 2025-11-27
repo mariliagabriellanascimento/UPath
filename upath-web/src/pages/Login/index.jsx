@@ -74,38 +74,37 @@ const Login = () => {
   const handleLogar = async (e) => {
     e.preventDefault();
     setError("");
-
+  
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
+      const response = await fetch("http://localhost:8000/api/v1/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
-        setError(data.message || "Erro ao fazer login.");
+        setError(data.error || "Erro ao fazer login.");
         return;
       }
-
-      // Salvar o token e dados do usuário
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userEmail", data.user.email);
-      localStorage.setItem("userNome", data.user.nome); // ⭐ ADICIONE ESTA LINHA
-      localStorage.setItem("userRole", data.user.role);
-
-      // Se for admin → vai pra verificação por PIN
-      if (data.user.role === "admin") {
-        navigate("/auth");
+  
+      // Se for admin, salvar session_id e ir para Auth (PIN)
+      if (data.success && data.data.session_id) {
+        localStorage.setItem("adminSessionId", data.data.session_id);
+        navigate("/auth"); // tela de PIN
       } else {
+        // Usuário normal
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("userEmail", data.user.email);
         navigate("/homeUser");
       }
+  
     } catch (err) {
       console.error(err);
       setError("Erro no servidor. Tente novamente mais tarde.");
     }
-  };
+  };  
 
   return (
     <Container>
@@ -170,7 +169,7 @@ const Login = () => {
           <InputGroup>
             <img src={LockIcon} alt="Senha" />
             <Input
-              id="password"
+              id="senha"
               type={showPassword ? "text" : "password"}
               placeholder="Digite sua senha..."
               value={senha}
