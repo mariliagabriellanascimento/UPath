@@ -18,8 +18,6 @@ import {
 
 import Logo from "../../assets/logo-upath-2.svg";
 import DefaultAvatar from "../../assets/default-avatar.svg";
-import BellIcon from "../../assets/notification.svg";
-import BellIconActived from "../../assets/notification-actived.svg";
 import EditIcon from "../../assets/edit.svg";
 import SobreIcon from "../../assets/sobre.svg";
 import LogoutIcon from "../../assets/logout.svg";

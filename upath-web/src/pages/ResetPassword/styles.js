@@ -22,7 +22,7 @@ export const RightArea = styled.div`
   flex-direction: column;
   color: white;
   position: relative;
-  padding-bottom: 300px;
+  padding-bottom: 190px;
 
   .logo-area {
     margin-bottom: 10px;
@@ -47,7 +47,7 @@ export const RightArea = styled.div`
     text-align: left;
   }
 
-  .esquecimento {
+  .redefinir {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -87,6 +87,12 @@ export const Form = styled.form`
     display: flex;
     justify-content: end;
   }
+
+  .redefinir{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
 `;
 
 export const InputGroup = styled.div`
@@ -100,6 +106,22 @@ export const InputGroup = styled.div`
     transform: translateY(-50%);
     width: 24px;
     height: 24px;
+  }
+
+  .eye-icon {
+    position: absolute;
+    left: 90%;
+    top: 30%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.1s ease;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 `;
 

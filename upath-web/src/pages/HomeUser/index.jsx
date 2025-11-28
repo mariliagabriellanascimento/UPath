@@ -8,17 +8,13 @@ import {
   WelcomeSection,
   ButtonTeste,
   ButtonSimulacao,
-  NoticiasSection,
-  CardNoticias,
   Footer,
   ModalOverlay,
   ModalPerfil,
 } from "./styles";
 
 import EquipeUPathImg from "../../assets/EquipeUPath.png";
-import Sisu from "../../assets/sisu.png";
-import UFPE from "../../assets/ufpe.jpg";
-import UFRPE from "../../assets/ufrpe.jpeg";
+
 import Logo from "../../assets/logo-upath-2.svg";
 import DefaultAvatar from "../../assets/default-avatar.svg";
 import EditIcon from "../../assets/edit.svg";
@@ -59,37 +55,6 @@ const HomeUser = () => {
       }
     };
     fetchUser();
-  }, []);
-
-  // Estado das notícias
-  const [noticias, setNoticias] = useState([]);
-
-  // Simulação de fetch de notícias
-  useEffect(() => {
-    const noticiasExemplo = [
-      {
-        id: 1,
-        titulo: "Inscrições do SISU 2025 abertas",
-        descricao:
-          "Prazo vai de 10 a 15 de fevereiro para universidades públicas de todo o país.",
-        imagem: Sisu,
-      },
-      {
-        id: 2,
-        titulo: "UFPE lança curso de Design Digital",
-        descricao:
-          "Graduação voltada para inovação, tecnologia e criatividade.",
-        imagem: UFPE,
-      },
-      {
-        id: 3,
-        titulo: "UFRPE apresenta Eng. de Software",
-        descricao:
-          "Curso com foco em programação, projetos e desenvolvimento ágil.",
-        imagem: UFRPE,
-      },
-    ];
-    setNoticias(noticiasExemplo);
   }, []);
 
   const navigate = useNavigate();
@@ -201,19 +166,6 @@ const HomeUser = () => {
             </Link>
           </div>
         </WelcomeSection>
-
-        <NoticiasSection>
-          <h3>Notícias</h3>
-          <div className="cards-container">
-            {noticias.map((n) => (
-              <CardNoticias key={n.id}>
-                <img src={n.imagem} alt={n.titulo} />
-                <h4>{n.titulo}</h4>
-                <p>{n.descricao}</p>
-              </CardNoticias>
-            ))}
-          </div>
-        </NoticiasSection>
       </Main>
 
       {/* Rodapé */}

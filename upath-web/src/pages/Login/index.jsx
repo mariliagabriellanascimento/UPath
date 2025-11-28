@@ -23,6 +23,9 @@ import EyeSlashIcon from "../../assets/eye-slash.svg";
 import SetaIcon from "../../assets/seta.svg";
 import { Link, useNavigate } from "react-router-dom";
 
+// ⭐ IMPORTA O CLIENTE DE API
+import { authApi, FASTAPI_BASE_URL } from "../../services/api";
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -34,6 +37,7 @@ const Login = () => {
     document.title = "Login - UPath";
   }, []);
 
+  // Carrega script do Google
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
@@ -46,65 +50,77 @@ const Login = () => {
     };
   }, []);
 
+  // Callback global do Google Login → chama o FastAPI
   useEffect(() => {
-    // Define a função global chamada quando o login do Google é feito
     window.handleCredentialResponse = (response) => {
-      const token = response.credential;
+      const tokenGoogle = response.credential;
 
-      // Envia o token para o back-end validar
-      fetch("http://localhost:5000/api/auth/google", {
+      fetch(`${FASTAPI_BASE_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token: tokenGoogle }),
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.success) {
-            localStorage.setItem("userEmail", data.email);
-            alert("Login Google realizado com sucesso!");
-            navigate("/homeUser");
+          // Aqui assumo que o FastAPI devolve mesmo formato do login normal:
+          // { access_token, user: { email, nome, role } }
+          if (data.access_token && data.user) {
+            localStorage.setItem("token", data.access_token);
+            localStorage.setItem("userEmail", data.user.email);
+            localStorage.setItem("userNome", data.user.nome);
+            localStorage.setItem("userRole", data.user.role);
+
+            if (data.user.role === "admin") {
+              navigate("/auth");
+            } else {
+              navigate("/homeUser");
+            }
           } else {
             alert("Erro ao autenticar com o Google.");
           }
         })
-        .catch((err) => console.error("Erro Google Login:", err));
+        .catch((err) => {
+          console.error("Erro Google Login:", err);
+          alert("Erro ao autenticar com o Google.");
+        });
     };
   }, [navigate]);
 
   const handleLogar = async (e) => {
     e.preventDefault();
     setError("");
-  
+
     try {
-      const response = await fetch("http://localhost:8000/api/v1/admin/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha }),
+      // ⭐ Usa o serviço do FastAPI que já criamos
+      const response = await authApi.login({
+        email,
+        senha,
       });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        setError(data.error || "Erro ao fazer login.");
-        return;
-      }
-  
-      // Se for admin, salvar session_id e ir para Auth (PIN)
-      if (data.success && data.data.session_id) {
-        localStorage.setItem("adminSessionId", data.data.session_id);
-        navigate("/auth"); // tela de PIN
+
+      const data = response.data; // axios
+
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("userEmail", data.user.email);
+      localStorage.setItem("userNome", data.user.nome);
+      localStorage.setItem("userRole", data.user.role);
+
+      if (data.user.role === "admin") {
+        navigate("/auth");
       } else {
-        // Usuário normal
-        localStorage.setItem("token", data.access_token);
-        localStorage.setItem("userEmail", data.user.email);
         navigate("/homeUser");
       }
-  
     } catch (err) {
-      console.error(err);
-      setError("Erro no servidor. Tente novamente mais tarde.");
+      // Se o back devolver 404 pro "usuário não existe", você pode mandar pra tela de cadastro
+      if (err.response?.status === 404) {
+        navigate("/register", { state: { emailInicial: email } });
+        return;
+      }
+
+      setError(
+        err.response?.data?.detail || "Erro ao fazer login. Tente novamente."
+      );
     }
-  };  
+  };
 
   return (
     <Container>
@@ -161,6 +177,7 @@ const Login = () => {
               placeholder="Digite seu e-mail..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
             <Divider />
           </InputGroup>
@@ -169,11 +186,12 @@ const Login = () => {
           <InputGroup>
             <img src={LockIcon} alt="Senha" />
             <Input
-              id="senha"
+              id="password"
               type={showPassword ? "text" : "password"}
               placeholder="Digite sua senha..."
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
+              required
             />
 
             <img
@@ -205,7 +223,7 @@ const Login = () => {
 
           <div
             id="g_id_onload"
-            data-client_id="SEU_CLIENT_ID_AQUI.apps.googleusercontent.com"
+            data-client_id="1096686352229-odd85chvi5i3o9hdae3ujg9vkcfg0l4d.apps.googleusercontent.com"
             data-context="signin"
             data-ux_mode="popup"
             data-callback="handleCredentialResponse"

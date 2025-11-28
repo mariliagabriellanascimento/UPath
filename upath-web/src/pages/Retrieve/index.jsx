@@ -19,11 +19,17 @@ import VoltarIcon from "../../assets/seta-voltar.svg";
 import SetaIcon from "../../assets/seta.svg";
 import PlayStoreIcon from "../../assets/google-play.svg";
 import AppStoreIcon from "../../assets/app-store.svg";
-import { Link } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
+
+// ⭐ Usa o mesmo cliente do login/register
+import { authApi } from "../../services/api";
 
 const Retrieve = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
-    document.title = "Recuperação de Conta- UPath";
+    document.title = "Recuperação de Conta - UPath";
   }, []);
 
   const [email, setEmail] = useState("");
@@ -42,38 +48,25 @@ const Retrieve = () => {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/v1/auth/forgot-password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        }
-      );
+      const response = await authApi.forgotPassword({ email });
+      const data = response.data;
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMensagem(data.message || "Erro ao enviar e-mail.");
-        setErro(true);
-        return;
-      }
-
-      // SUCESSO!
-      setMensagem("Um código foi enviado ao seu e-mail!");
+      setMensagem(data.message);
       setErro(false);
 
-      alert(
-        "Uma mensagem foi enviada no seu e-mail! Siga os passos para recuperar sua conta."
-      );
-      console.log("Código enviado para:", email);
+      // ⚠️ DEV MODE — redireciona automaticamente com o token
+      if (data.reset_token) {
+        console.log("RESET TOKEN (dev): ", data.reset_token);
+        navigate(`/reset-password?token=${data.reset_token}`);
+      }
 
-      // Se quiser, redireciona para "/codigo"
-      // window.location.href = "/codigo";
-
+      alert("Se o e-mail estiver cadastrado, você poderá redefinir sua senha.");
     } catch (error) {
       console.error(error);
-      setMensagem("Erro no servidor. Tente novamente mais tarde.");
+      const msg =
+        error.response?.data?.detail ||
+        "Erro ao enviar instruções. Tente novamente.";
+      setMensagem(msg);
       setErro(true);
     }
   };
@@ -86,7 +79,6 @@ const Retrieve = () => {
             href="https://play.google.com/store"
             target="_blank"
             rel="noreferrer"
-            id="buttonGooglePlay"
             className="buttonGooglePlay"
           >
             <img src={PlayStoreIcon} alt="Google Play" />
@@ -100,7 +92,6 @@ const Retrieve = () => {
             href="https://www.apple.com/br/app-store/"
             target="_blank"
             rel="noreferrer"
-            id="buttonAppStore"
             className="buttonAppStore"
           >
             <img src={AppStoreIcon} alt="App Store" />
@@ -116,15 +107,15 @@ const Retrieve = () => {
       <RightArea>
         <div className="logo-area">
           <img src={Logo} alt="UPATH Logo" className="logo-upath" />
+
           <div className="esquecimento">
             <Link to="/login" id="iconVoltar">
               <img src={VoltarIcon} alt="Voltar" />
             </Link>
             <h1>Recuperação</h1>
           </div>
-          <h3>
-            Digite seu e-mail para continuar o processo de recuperação da conta:
-          </h3>
+
+          <h3>Digite seu e-mail para recuperar sua conta:</h3>
         </div>
 
         <Form onSubmit={handleRecuperar}>
@@ -142,20 +133,14 @@ const Retrieve = () => {
               name="email"
               type="email"
               placeholder="Digite seu e-mail..."
-              className="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-            <Divider></Divider>
+            <Divider />
           </InputGroup>
 
           <div className="botao-link">
-            <Button
-              id="buttonEnviarEmail"
-              className="botao-enviarEmail"
-              type="submit"
-              alt="Enviar"
-            >
+            <Button id="buttonEnviarEmail" className="botao-enviarEmail" type="submit">
               Enviar
               <img src={SetaIcon} className="seta" />
             </Button>
