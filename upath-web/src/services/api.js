@@ -27,4 +27,6 @@ apiFast.interceptors.request.use((config) => {
 export const authApi = {
   register: (data) => apiFast.post("/auth/register", data),
   login: (data) => apiFast.post("/auth/login", data),
+  forgotPassword: (data) => apiFast.post("/auth/forgot-password", data),
+  resetPassword: (data) => apiFast.post("/auth/reset-password", data),
 };

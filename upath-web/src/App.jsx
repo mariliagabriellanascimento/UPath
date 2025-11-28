@@ -10,6 +10,7 @@ import Simulacao from "./pages/Simulacao";
 import Perfil from "./pages/Perfil";
 import Sobre from "./pages/Sobre";
 import HomeAdmin from "./pages/HomeAdmin";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/sobre" element={<Sobre/>} /> 
         <Route path="/homeAdmin" element={<HomeAdmin />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
       </Routes>
     </Router>
   );
