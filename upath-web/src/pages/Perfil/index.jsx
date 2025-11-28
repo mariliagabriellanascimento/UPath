@@ -1,3 +1,4 @@
+// src/pages/Perfil/index.jsx
 import React, { useState, useEffect } from "react";
 import {
   Container,
@@ -28,6 +29,9 @@ import EditIcon from "../../assets/editAtivo.svg";
 import DefaultAvatar from "../../assets/default-avatar.svg";
 import { useNavigate } from "react-router-dom";
 
+// 👇 usa o cliente que você já criou
+import { authApi } from "../../services/api";
+
 const Perfil = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [nome, setNome] = useState("");
@@ -35,6 +39,7 @@ const Perfil = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  const [noticias, setNoticias] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,47 +47,8 @@ const Perfil = () => {
 
     const nomeLocal = localStorage.getItem("userNome");
     if (nomeLocal) setNome(nomeLocal);
-  }, []);
 
-  // Atualizar no backend
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    setError("");
-    setSuccess("");
-
-    try {
-      const token = localStorage.getItem("token");
-
-      const response = await fetch("http://localhost:5000/api/auth/update", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ nome, senha }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.message || "Erro ao atualizar.");
-        return;
-      }
-
-      // Atualiza o nome local
-      localStorage.setItem("userNome", nome);
-      setSuccess("Alterações salvas com sucesso!");
-
-    } catch (err) {
-      console.error(err);
-      setError("Erro no servidor. Tente novamente.");
-    }
-  };
-
-  // NOTÍCIAS
-  const [noticias, setNoticias] = useState([]);
-
-  useEffect(() => {
+    // notícias mockadas
     setNoticias([
       {
         id: 1,
@@ -107,6 +73,47 @@ const Perfil = () => {
       },
     ]);
   }, []);
+
+  // Atualizar no backend (FastAPI)
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+
+    try {
+      const payload = {
+        nome,
+      };
+
+      // só envia senha se o campo tiver algo
+      if (senha && senha.trim()) {
+        payload.senha = senha;
+      }
+
+      const response = await authApi.updateProfile(payload);
+      const data = response.data;
+
+      if (!data.success) {
+        setError(data.message || "Erro ao atualizar.");
+        return;
+      }
+
+      // Atualiza o nome local
+      if (data.data?.nome) {
+        localStorage.setItem("userNome", data.data.nome);
+      }
+
+      setSuccess(data.message || "Alterações salvas com sucesso!");
+      setSenha(""); // limpa campo de senha
+    } catch (err) {
+      console.error(err);
+      const msg =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Erro no servidor. Tente novamente.";
+      setError(msg);
+    }
+  };
 
   return (
     <Container>
@@ -206,9 +213,17 @@ const Perfil = () => {
       <Footer>
         <p>UPath © 2025 - Todos os direitos reservados</p>
         <div>
-          <a id="linkContato" href="#">Contato</a> |{" "}
-          <a id="linkPolitica" href="#">Política de Privacidade</a> |{" "}
-          <a id="linkTermo" href="#">Termos de Uso</a>
+          <a id="linkContato" href="#">
+            Contato
+          </a>{" "}
+          |{" "}
+          <a id="linkPolitica" href="#">
+            Política de Privacidade
+          </a>{" "}
+          |{" "}
+          <a id="linkTermo" href="#">
+            Termos de Uso
+          </a>
         </div>
       </Footer>
     </Container>

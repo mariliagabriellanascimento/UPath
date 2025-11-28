@@ -29,4 +29,6 @@ export const authApi = {
   login: (data) => apiFast.post("/auth/login", data),
   forgotPassword: (data) => apiFast.post("/auth/forgot-password", data),
   resetPassword: (data) => apiFast.post("/auth/reset-password", data),
+  updateProfile: (data) => apiFast.put("/auth/me", data),
+
 };
