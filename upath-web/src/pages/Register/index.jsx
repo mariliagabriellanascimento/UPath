@@ -1,3 +1,4 @@
+// src/pages/Register/index.jsx
 import React, { useState, useEffect } from "react";
 import {
   Container,
@@ -23,17 +24,24 @@ import UserIcon from "../../assets/user.svg";
 import VoltarIcon from "../../assets/seta-voltar.svg";
 import PlayStoreIcon from "../../assets/google-play.svg";
 import AppStoreIcon from "../../assets/app-store.svg";
-import { Link } from "react-router-dom";
+
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+// usa o client centralizado
+import { authApi } from "../../services/api";
 
 const Register = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   useEffect(() => {
     document.title = "Cadastro - UPath";
   }, []);
 
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
-    confirmEmail: "",
+    email: location.state?.emailInicial || "",
+    confirmEmail: location.state?.emailInicial || "",
     password: "",
     confirmPassword: "",
   });
@@ -51,13 +59,15 @@ const Register = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const isValidEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setHighlightFields({});
 
+    // validações de front
     const emptyFields = Object.entries(formData)
       .filter(([, value]) => value.trim() === "")
       .map(([key]) => key);
@@ -67,7 +77,10 @@ const Register = () => {
         "Ainda há campos não preenchidos. Por favor, preencha todos os campos vazios."
       );
       setHighlightFields(
-        emptyFields.reduce((acc, field) => ({ ...acc, [field]: true }), {})
+        emptyFields.reduce(
+          (acc, field) => ({ ...acc, [field]: true }),
+          {}
+        )
       );
       return;
     }
@@ -90,31 +103,63 @@ const Register = () => {
       return;
     }
 
+    // (opcional) validação de tamanho mínimo de senha, se o back exigir
+    if (formData.password.length < 6) {
+      setError("A senha deve ter pelo menos 6 caracteres.");
+      setHighlightFields({ password: true, confirmPassword: true });
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      // 🔴 AQUI ESTÁ O PONTO CRÍTICO:
+      // Enviar APENAS o que o RegisterIn espera: nome, email, senha
+      const payload = {
+        nome: formData.name,
+        email: formData.email,
+        confirmEmail: formData.confirmEmail,
+        senha: formData.password,
+        confirmSenha: formData.confirmPassword,
+      };
 
-      const data = await response.json();
+      console.log("Enviando payload:", payload);
+      
+      const response = await authApi.register(payload);
+      const data = response.data;
 
-      if (!response.ok) {
-        setError(data.message || "Erro ao criar a conta.");
+      // seu RegisterOut está no formato:
+      // { success: bool, data: {...}, error: str | None }
+      if (!data?.success) {
+        setError(data?.error || "Erro ao criar a conta.");
         return;
       }
 
       alert("Cadastro realizado com sucesso! Agora faça login.");
-      console.log("Usuário criado:", data);
-
-      // Redireciona para login
-      window.location.href = "/login";
+      navigate("/login");
     } catch (err) {
       console.error(err);
+
+      // trata 422 / 409 / etc
+      if (err.response) {
+        const resp = err.response;
+
+        // Caso de erro de validação Pydantic (422)
+        if (resp.status === 422 && Array.isArray(resp.data?.detail)) {
+          const primeiroErro = resp.data.detail[0]?.msg;
+          setError(primeiroErro || "Erro de validação nos dados enviados.");
+          return;
+        }
+
+        const apiDetail =
+          resp.data?.detail ||
+          resp.data?.error ||
+          resp.data?.message;
+
+        if (apiDetail) {
+          setError(apiDetail);
+          return;
+        }
+      }
+
       setError("Erro no servidor. Tente novamente mais tarde.");
     }
   };
@@ -205,7 +250,9 @@ const Register = () => {
               placeholder="Confirme seu e-mail..."
               value={formData.confirmEmail}
               onChange={handleChange}
-              className={highlightFields.confirmEmail ? "input-error" : ""}
+              className={
+                highlightFields.confirmEmail ? "input-error" : ""
+              }
             />
             <Divider />
           </InputGroup>
@@ -240,14 +287,20 @@ const Register = () => {
             <img src={LockIcon} alt="Repetição de Senha" />
             <Input
               name="confirmPassword"
-              type={showPassword.confirmPassword ? "text" : "password"}
+              type={
+                showPassword.confirmPassword ? "text" : "password"
+              }
               placeholder="Repita sua senha..."
               value={formData.confirmPassword}
               onChange={handleChange}
-              className={highlightFields.confirmPassword ? "input-error" : ""}
+              className={
+                highlightFields.confirmPassword ? "input-error" : ""
+              }
             />
             <img
-              src={showPassword.confirmPassword ? EyeSlashIcon : EyeIcon}
+              src={
+                showPassword.confirmPassword ? EyeSlashIcon : EyeIcon
+              }
               alt="Mostrar senha"
               className="eye-icon"
               onClick={() =>

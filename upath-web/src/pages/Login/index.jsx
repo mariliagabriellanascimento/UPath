@@ -23,6 +23,9 @@ import EyeSlashIcon from "../../assets/eye-slash.svg";
 import SetaIcon from "../../assets/seta.svg";
 import { Link, useNavigate } from "react-router-dom";
 
+// ⭐ IMPORTA O CLIENTE DE API
+import { authApi, FASTAPI_BASE_URL } from "../../services/api";
+
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -34,6 +37,7 @@ const Login = () => {
     document.title = "Login - UPath";
   }, []);
 
+  // Carrega script do Google
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
@@ -46,28 +50,39 @@ const Login = () => {
     };
   }, []);
 
+  // Callback global do Google Login → chama o FastAPI
   useEffect(() => {
-    // Define a função global chamada quando o login do Google é feito
     window.handleCredentialResponse = (response) => {
-      const token = response.credential;
+      const tokenGoogle = response.credential;
 
-      // Envia o token para o back-end validar
-      fetch("http://localhost:5000/api/auth/google", {
+      fetch(`${FASTAPI_BASE_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token: tokenGoogle }),
       })
         .then((res) => res.json())
         .then((data) => {
-          if (data.success) {
-            localStorage.setItem("userEmail", data.email);
-            alert("Login Google realizado com sucesso!");
-            navigate("/homeUser");
+          // Aqui assumo que o FastAPI devolve mesmo formato do login normal:
+          // { access_token, user: { email, nome, role } }
+          if (data.access_token && data.user) {
+            localStorage.setItem("token", data.access_token);
+            localStorage.setItem("userEmail", data.user.email);
+            localStorage.setItem("userNome", data.user.nome);
+            localStorage.setItem("userRole", data.user.role);
+
+            if (data.user.role === "admin") {
+              navigate("/auth");
+            } else {
+              navigate("/homeUser");
+            }
           } else {
             alert("Erro ao autenticar com o Google.");
           }
         })
-        .catch((err) => console.error("Erro Google Login:", err));
+        .catch((err) => {
+          console.error("Erro Google Login:", err);
+          alert("Erro ao autenticar com o Google.");
+        });
     };
   }, [navigate]);
 
@@ -76,34 +91,34 @@ const Login = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha }),
+      // ⭐ Usa o serviço do FastAPI que já criamos
+      const response = await authApi.login({
+        email,
+        senha,
       });
 
-      const data = await response.json();
+      const data = response.data; // axios
 
-      if (!response.ok) {
-        setError(data.message || "Erro ao fazer login.");
-        return;
-      }
-
-      // Salvar o token e dados do usuário
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.access_token);
       localStorage.setItem("userEmail", data.user.email);
-      localStorage.setItem("userNome", data.user.nome); // ⭐ ADICIONE ESTA LINHA
+      localStorage.setItem("userNome", data.user.nome);
       localStorage.setItem("userRole", data.user.role);
 
-      // Se for admin → vai pra verificação por PIN
       if (data.user.role === "admin") {
         navigate("/auth");
       } else {
         navigate("/homeUser");
       }
     } catch (err) {
-      console.error(err);
-      setError("Erro no servidor. Tente novamente mais tarde.");
+      // Se o back devolver 404 pro "usuário não existe", você pode mandar pra tela de cadastro
+      if (err.response?.status === 404) {
+        navigate("/register", { state: { emailInicial: email } });
+        return;
+      }
+
+      setError(
+        err.response?.data?.detail || "Erro ao fazer login. Tente novamente."
+      );
     }
   };
 
@@ -162,6 +177,7 @@ const Login = () => {
               placeholder="Digite seu e-mail..."
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              required
             />
             <Divider />
           </InputGroup>
@@ -175,6 +191,7 @@ const Login = () => {
               placeholder="Digite sua senha..."
               value={senha}
               onChange={(e) => setSenha(e.target.value)}
+              required
             />
 
             <img
