@@ -27,8 +27,16 @@ export const Container = styled.div`
 `;
 
 export const LeftArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
   img {
-    width: 550px;
+    width: 100%;
+    max-width: 550px;
+    max-height: 420px;
+    object-fit: contain;
   }
 
   @media (max-width: 1024px) {
@@ -265,9 +273,8 @@ export const LinkText = styled.a`
 export const StoreButtons = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
-  top: 100px;
   gap: 20px;
+  margin-bottom: 20px;
 
   @media (max-width: 768px) {
     display: none; /* Oculta botões no mobile */

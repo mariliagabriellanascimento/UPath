@@ -23,9 +23,22 @@ export const Header = styled.header`
   .logo-upath {
     width: 80px;
   }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+    padding: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .logo-upath {
+      width: 60px;
+    }
+  }
 `;
 
-// 🎯 Área do usuário (lado direito do cabeçalho)
+// 🎯 Área do usuário
 export const UserArea = styled.div`
   display: flex;
   align-items: center;
@@ -47,6 +60,19 @@ export const UserArea = styled.div`
     font-size: 16px;
     color: #e5e7eb;
   }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 8px;
+
+    h3 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
 `;
 
 // 🎯 Área principal
@@ -63,6 +89,21 @@ export const Main = styled.main`
     font-size: 36px;
     margin-bottom: 20px;
   }
+
+  @media (max-width: 1024px) {
+    padding: 24px;
+    h1 {
+      font-size: 28px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    h1 {
+      font-size: 22px;
+      text-align: center;
+    }
+  }
 `;
 
 // 🎯 Container dos relatórios
@@ -72,6 +113,18 @@ export const RelatoriosContainer = styled.div`
   padding: 30px;
   border-radius: 12px;
   gap: 30px;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    gap: 16px;
+  }
 `;
 
 // 🎯 Filtros
@@ -114,6 +167,37 @@ export const FiltrosContainer = styled.div`
     font-size: 16px;
     outline: none;
   }
+
+  @media (max-width: 1024px) {
+    align-items: center;
+    text-align: center;
+    gap: 30px;
+
+    h1 {
+      font-size: 26px;
+    }
+
+    label {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    gap: 20px;
+
+    h1 {
+      font-size: 22px;
+    }
+
+    label {
+      font-size: 16px;
+    }
+
+    select {
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+  }
 `;
 
 // 🎯 Gráfico
@@ -154,9 +238,32 @@ export const GraficoContainer = styled.div`
     font-size: 14px;
     color: #ffffff;
     gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 1024px) {
+    align-items: center;
+    width: 100%;
+
+    .grafico-barras {
+      flex-wrap: wrap;
+      justify-content: center;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .barra {
+      width: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
   }
 `;
 
+// 🎯 Botão
 export const Button = styled.button`
   background-color: #7c3aed;
   color: white;
@@ -170,6 +277,11 @@ export const Button = styled.button`
 
   &:hover {
     background-color: #7e22ce;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 8px 16px;
   }
 `;
 
@@ -199,6 +311,15 @@ export const Footer = styled.footer`
       }
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 12px 0;
+
+    p,
+    a {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 // 🎯 Modal Overlay
@@ -210,6 +331,11 @@ export const ModalOverlay = styled.div`
   align-items: center;
   justify-content: center;
   z-index: 99;
+
+  @media (max-width: 768px) {
+    top: 80px;
+    right: 10px;
+  }
 `;
 
 // 🎯 Modal Perfil
@@ -235,6 +361,7 @@ export const ModalPerfil = styled.div`
       background-color: rgba(255, 255, 255, 0.2);
     }
   }
+
   a {
     display: inline-block;
     width: 100%;
@@ -243,9 +370,15 @@ export const ModalPerfil = styled.div`
   a button {
     width: 100%;
   }
+
   .icon-logout {
     display: flex;
     align-items: center;
     gap: 10px;
+  }
+
+  @media (max-width: 768px) {
+    width: 180px;
+    padding: 16px;
   }
 `;
