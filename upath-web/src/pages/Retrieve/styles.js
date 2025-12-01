@@ -11,18 +11,27 @@ export const Container = styled.div`
 `;
 
 export const LeftArea = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+
   img {
-    width: 550px;
+    width: 100%;
+    max-width: 550px;
+    max-height: 420px;
+    object-fit: contain;
   }
 `;
 
 export const RightArea = styled.div`
   max-width: 384px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   color: white;
   position: relative;
-  padding-bottom: 300px;
+  padding-bottom: 24px;
 
   .logo-area {
     margin-bottom: 10px;
@@ -171,9 +180,8 @@ export const Divider = styled.div`
 export const StoreButtons = styled.div`
   display: flex;
   flex-direction: column;
-  position: relative;
-  top: 100px;
   gap: 20px;
+  margin-bottom: 20px;
 
   a {
     display: flex;

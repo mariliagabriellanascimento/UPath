@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "styled-components"; 
 
 // 🎯 Container geral
 export const Container = styled.div`
@@ -20,17 +20,31 @@ export const Header = styled.header`
   padding: 12px 30px;
   border-radius: 0 0 30px 30px;
 
-  & .logo {
+  .logo {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  & .logo-upath {
+  .logo-upath {
     width: 80px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .logo-upath {
+      width: 60px;
+    }
   }
 `;
 
+// 🎯 Navegação
 export const NavLinks = styled.nav`
   display: flex;
   gap: 200px;
@@ -51,19 +65,29 @@ export const NavLinks = styled.nav`
   a:hover {
     color: #ffffff;
   }
+
+  @media (max-width: 1024px) {
+    gap: 40px;
+    a {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    a {
+      font-size: 16px;
+    }
+  }
 `;
 
+// 🎯 Área do usuário
 export const UserArea = styled.div`
   display: flex;
   align-items: center;
   gap: 1.5rem;
-
-  button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.3rem;
-  }
 
   #iconPerfil {
     width: 50px;
@@ -76,13 +100,23 @@ export const UserArea = styled.div`
     font-size: 20px;
     color: #ffffff;
   }
+
   p {
     font-size: 16px;
     color: #e5e7eb;
   }
 
-  user-info {
-    display: flex;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 8px;
+
+    h3 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -93,6 +127,16 @@ export const Main = styled.main`
   flex-direction: column;
   gap: 48px;
   padding: 32px 64px;
+
+  @media (max-width: 1024px) {
+    padding: 24px;
+    gap: 32px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    gap: 24px;
+  }
 `;
 
 // 🎯 Boas-vindas
@@ -121,10 +165,47 @@ export const WelcomeSection = styled.section`
   img {
     width: 300px;
     max-width: 40%;
+    border-radius: 12px;
   }
 
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    text-align: center;
+    gap: 24px;
+
+    img {
+      width: 250px;
+      max-width: 80%;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+    }
+
+    p {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 16px;
+    img {
+      width: 200px;
+    }
+
+
+    h2 {
+      font-size: 1.3rem;
+    }
+
+
+    p {
+      font-size: 0.85rem;
+    }
+  }
 `;
 
+// 🎯 Botões
 export const ButtonTeste = styled.button`
   background-color: #7c3aed;
   color: white;
@@ -140,19 +221,16 @@ export const ButtonTeste = styled.button`
   &:hover {
     background-color: #7e22ce;
   }
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+    padding: 8px 16px;
+    margin: 8px;
+  }
 `;
 
-export const ButtonSimulacao = styled.button`
+export const ButtonSimulacao = styled(ButtonTeste)`
   background-color: #7c3aed;
-  color: white;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  margin: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-size: 20px;
 
   &:hover {
     background-color: #7e22ce;
@@ -185,6 +263,15 @@ export const Footer = styled.footer`
       text-decoration: underline;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 12px 0;
+
+    p,
+    a {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 // 🎯 Overlay dos modais
@@ -200,6 +287,11 @@ export const ModalOverlay = styled.div`
   &.modalPerfilOverlay {
     right: 20px;
   }
+
+  @media (max-width: 768px) {
+    top: 80px;
+    right: 10px;
+  }
 `;
 
 // 🎯 Modal Perfil
@@ -207,12 +299,10 @@ export const ModalPerfil = styled.div`
   background: #3b82f6;
   border-radius: 16px;
   padding: 24px;
-  width: 330px;
+  width: 220px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 220px;
-  border-radius: 4px;
 
   button {
     padding: 10px;
@@ -222,10 +312,10 @@ export const ModalPerfil = styled.div`
     color: #ffffff;
     font-weight: 600;
     cursor: pointer;
-  }
 
-  button:hover {
-    background-color: rgba(31, 41, 55, 0.2);
+    &:hover {
+      background-color: rgba(31, 41, 55, 0.2);
+    }
   }
 
   a {
@@ -238,12 +328,15 @@ export const ModalPerfil = styled.div`
   }
 
   .icon-edit,
-  .icon-salvos,
-  .icon-planos,
   .icon-sobre,
   .icon-logout {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 16px;
+  }
+
+  @media (max-width: 768px) {
+    width: 180px;
+    padding: 16px;
   }
 `;
