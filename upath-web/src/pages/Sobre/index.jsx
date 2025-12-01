@@ -55,22 +55,22 @@ const Sobre = () => {
             <div className="card-membro">
               <img src={ImgFilipe} alt="Filipe Leonny" />
               <h2>Filipe Leonny</h2>
-              <p>Desenvolvedor Front-end</p>
+              <p>Analista de Dados (BD)</p>
             </div>
             <div className="card-membro">
               <img src={ImgGuilherme} alt="Guilherme Felipe" />
               <h2>Guilherme Felipe</h2>
-              <p>Analista de Dados (IA)</p>
+              <p>Desenvolvedor de Segurança</p>
             </div>
             <div className="card-membro">
               <img src={ImgIgor} alt="Igor Machado" />
               <h2>Igor Machado</h2>
-              <p>Desenvolvedor Back-end</p>
+              <p>Desenvolvedor de Segurança</p>
             </div>
             <div className="card-membro">
               <img src={ImgIngrid} alt="Ingrid Santos" />
               <h2>Ingrid Santos</h2>
-              <p>Analista de Dados (IA)</p>
+              <p>Desenvolvedora Back-End</p>
             </div>
             <div className="card-membro">
               <img src={ImgJackson} alt="Jackson Luiz" />
@@ -90,7 +90,7 @@ const Sobre = () => {
             <div className="card-membro">
               <img src={ImgMilena} alt="Milena Melo" />
               <h2>Milena Melo</h2>
-              <p>Desenvolvedora Front-end</p>
+              <p>Desenvolvedora Mobile</p>
             </div>
           </div>
         </EquipeSection>

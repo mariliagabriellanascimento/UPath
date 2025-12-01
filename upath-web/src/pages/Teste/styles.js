@@ -141,14 +141,13 @@ export const ModalOverlay = styled.div`
 // 🎯 Modal Perfil
 export const ModalPerfil = styled.div`
   background: #3b82f6;
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 24px;
   width: 330px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 220px;
-  border-radius: 4px;
 
   button {
     padding: 10px;

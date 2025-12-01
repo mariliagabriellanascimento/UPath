@@ -297,7 +297,7 @@ export const ModalOverlay = styled.div`
 // 🎯 Modal Perfil
 export const ModalPerfil = styled.div`
   background: #3b82f6;
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 24px;
   width: 220px;
   display: flex;
