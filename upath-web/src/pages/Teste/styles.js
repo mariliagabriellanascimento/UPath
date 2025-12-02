@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-// 🎯 Container geral
+/* 🎯 Container geral */
 export const Container = styled.div`
   font-family: "Poppins", sans-serif;
   color: #1f2937;
@@ -8,9 +8,16 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  /* Evita overflow lateral em telas pequenas */
+  overflow-x: hidden;
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
 `;
 
-// 🎯 Cabeçalho
+/* 🎯 Cabeçalho */
 export const Header = styled.header`
   background-color: #3b82f6;
   color: #fff;
@@ -20,17 +27,31 @@ export const Header = styled.header`
   padding: 12px 30px;
   border-radius: 0 0 30px 30px;
 
-  & .logo {
+  .logo {
     display: flex;
     align-items: center;
     gap: 10px;
   }
 
-  & .logo-upath {
+  .logo-upath {
     width: 80px;
+  }
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+    padding: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .logo-upath {
+      width: 60px;
+    }
   }
 `;
 
+/* 🎯 Navegação */
 export const NavLinks = styled.nav`
   display: flex;
   gap: 200px;
@@ -41,6 +62,7 @@ export const NavLinks = styled.nav`
     text-decoration: none;
     font-size: 24px;
     transition: 0.3s;
+    cursor: pointer;
   }
 
   a.active {
@@ -50,8 +72,25 @@ export const NavLinks = styled.nav`
   a:hover {
     color: #ffffff;
   }
+
+  @media (max-width: 1024px) {
+    gap: 40px;
+    a {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    a {
+      font-size: 16px;
+    }
+  }
 `;
 
+/* 🎯 Área do usuário */
 export const UserArea = styled.div`
   display: flex;
   align-items: center;
@@ -74,37 +113,150 @@ export const UserArea = styled.div`
   h3 {
     font-size: 20px;
     color: #ffffff;
+    margin: 0;
   }
 
   p {
     font-size: 16px;
     color: #e5e7eb;
+    margin: 0;
   }
 
   user-info {
     display: flex;
   }
+
+  @media (max-width: 768px) {
+    gap: 12px;
+
+    #iconPerfil {
+      width: 44px;
+      height: 44px;
+    }
+
+    h3 {
+      font-size: 16px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
 `;
 
-// 🎯 Área principal
+/* 🎯 Área principal */
 export const Main = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 30px;
+
+  /* =========================
+     ✅ Responsivo do Chat: input + botão Enviar
+     Alvo: elementos dentro de .app-container, sem mudar JSX.
+     ========================= */
+
+  /* Limita a largura do conteúdo do chat e centraliza */
+  .app-container {
+    width: 100%;
+    max-width: 960px;
+    margin-inline: auto;
+  }
+
+  /* Linha de input + botão (se seu Chat usa esta classe) */
+  .app-container .chat-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  /* Fallback: mesmo sem .chat-input-row, estiliza input/textarea + botão lado a lado */
+  .app-container form {
+    /* garante que o rodapé não colida com a sombra do chat */
+    margin-bottom: clamp(8px, 2vh, 16px);
+  }
+
+  /* Input/textarea se ajustam proporcionalmente */
+  .app-container .chat-input-row input,
+  .app-container .chat-input-row textarea,
+  .app-container input[type="text"],
+  .app-container textarea {
+    flex: 1 1 auto;       /* ocupa espaço restante */
+    min-width: 0;         /* evita overflow em Safari/Android */
+    font-size: clamp(12px, 3.2vw, 16px);
+    padding: clamp(8px, 2.6vw, 12px) clamp(10px, 3vw, 14px);
+    border-radius: 10px;
+  }
+
+  /* Botão Enviar proporcional e sem encolher demais */
+  .app-container .chat-input-row button,
+  .app-container button[type="submit"] {
+    flex: 0 0 auto;       /* não expande no lugar do input */
+    flex-shrink: 0;       /* não encolhe a ponto de sumir */
+    font-size: clamp(12px, 3vw, 16px);
+    padding: clamp(8px, 2.4vw, 12px) clamp(12px, 3.2vw, 16px);
+    min-width: clamp(72px, 22vw, 96px); /* proporcional à largura da tela */
+    border-radius: 10px;
+  }
+
+  /* Ajustes finos para viewports bem estreitos */
+  @media (max-width: 400px) {
+    .app-container .chat-input-row {
+      gap: 6px;
+    }
+    .app-container .chat-input-row button,
+    .app-container button[type="submit"] {
+      min-width: clamp(68px, 24vw, 88px);
+      padding: clamp(7px, 2.2vw, 10px) clamp(10px, 3vw, 14px);
+    }
+    .app-container .chat-input-row input,
+    .app-container input[type="text"],
+    .app-container textarea {
+      padding: clamp(7px, 2.4vw, 10px) clamp(8px, 2.6vw, 12px);
+      font-size: clamp(11.5px, 3.2vw, 15px);
+    }
+  }
+
+  /* Fallback extremo: se a tela for MUITO estreita, deixamos quebrar para 2 linhas */
+  @media (max-width: 330px) {
+    .app-container .chat-input-row {
+      flex-wrap: wrap;     /* botão pode descer sem cortar */
+    }
+    .app-container .chat-input-row button,
+    .app-container button[type="submit"] {
+      width: 100%;         /* ocupa a linha de baixo inteira */
+      min-width: auto;
+      text-align: center;
+    }
+  }
 `;
 
-// 🎯 Rodapé
+/* 🎯 Rodapé */
 export const Footer = styled.footer`
+  position: relative;
   background-color: #3b82f6;
   color: white;
   text-align: center;
   padding: 16px 0;
   border-radius: 30px 30px 0 0;
 
+  /* Linha curvada sutil no topo (separador) */
+  &::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(960px, 88vw);
+    height: 4px;
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 9999px; /* efeito pill */
+  }
+
   p {
     font-size: 0.9rem;
+    margin: 0;
   }
 
   div {
@@ -121,9 +273,18 @@ export const Footer = styled.footer`
       text-decoration: underline;
     }
   }
+
+  @media (max-width: 768px) {
+    padding: 14px 0;
+
+    p,
+    a {
+      font-size: 0.85rem;
+    }
+  }
 `;
 
-// 🎯 Overlay dos modais
+/* 🎯 Overlay dos modais */
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 120px;
@@ -136,18 +297,23 @@ export const ModalOverlay = styled.div`
   &.modalPerfilOverlay {
     right: 20px;
   }
+
+  @media (max-width: 768px) {
+    top: 80px;
+    right: 10px;
+  }
 `;
 
-// 🎯 Modal Perfil
+/* 🎯 Modal Perfil */
 export const ModalPerfil = styled.div`
   background: #3b82f6;
   border-radius: 8px;
   padding: 24px;
-  width: 330px;
+  width: 220px; /* havia duplicidade; mantemos este */
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 220px;
+  color: #ffffff;
 
   button {
     padding: 10px;
@@ -157,10 +323,11 @@ export const ModalPerfil = styled.div`
     color: #ffffff;
     font-weight: 600;
     cursor: pointer;
-  }
+    text-align: left;
 
-  button:hover {
-    background-color: rgba(31, 41, 55, 0.2);
+    &:hover {
+      background-color: rgba(31, 41, 55, 0.2);
+    }
   }
 
   a {
@@ -179,6 +346,16 @@ export const ModalPerfil = styled.div`
   .icon-logout {
     display: flex;
     align-items: center;
-    gap: 30px;
+    gap: 14px;
+
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 200px;
+    padding: 16px;
   }
 `;

@@ -99,16 +99,22 @@ export const UserArea = styled.div`
   h3 {
     font-size: 20px;
     color: #ffffff;
+    margin: 0;
   }
 
   p {
     font-size: 16px;
     color: #e5e7eb;
+    margin: 0;
   }
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 8px;
+    gap: 12px;
+
+    #iconPerfil {
+      width: 44px;
+      height: 44px;
+    }
 
     h3 {
       font-size: 16px;
@@ -239,14 +245,29 @@ export const ButtonSimulacao = styled(ButtonTeste)`
 
 // 🎯 Rodapé
 export const Footer = styled.footer`
+  position: relative;
   background-color: #3b82f6;
   color: white;
   text-align: center;
   padding: 16px 0;
   border-radius: 30px 30px 0 0;
 
+  /* Linha curvada sutil no topo (separador) */
+  &::before {
+    content: "";
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(960px, 88vw);
+    height: 4px;
+    background: rgba(255, 255, 255, 0.65);
+    border-radius: 9999px; /* efeito pill */
+  }
+
   p {
     font-size: 0.9rem;
+    margin: 0;
   }
 
   div {
@@ -265,11 +286,11 @@ export const Footer = styled.footer`
   }
 
   @media (max-width: 768px) {
-    padding: 12px 0;
+    padding: 14px 0;
 
     p,
     a {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
     }
   }
 `;
