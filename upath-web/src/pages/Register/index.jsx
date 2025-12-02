@@ -10,6 +10,7 @@ import {
   InputGroup,
   StoreButtons,
   ErrorMessage,
+  SuccessToast,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -52,6 +53,7 @@ const Register = () => {
 
   const [error, setError] = useState("");
   const [highlightFields, setHighlightFields] = useState({});
+  const [showSuccess, setShowSuccess] = useState(false); // 🔥 ADICIONADO
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,7 +67,7 @@ const Register = () => {
     e.preventDefault();
     setError("");
     setHighlightFields({});
-
+    
     // validações de front
     const emptyFields = Object.entries(formData)
       .filter(([, value]) => value.trim() === "")
@@ -101,7 +103,7 @@ const Register = () => {
       setHighlightFields({ password: true, confirmPassword: true });
       return;
     }
-
+    
     // (opcional) validação de tamanho mínimo de senha, se o back exigir
     if (formData.password.length < 6) {
       setError("A senha deve ter pelo menos 6 caracteres.");
@@ -119,12 +121,12 @@ const Register = () => {
         senha: formData.password,
         confirmSenha: formData.confirmPassword,
       };
-
-      console.log("Enviando payload:", payload);
       
+      console.log("Enviando payload:", payload);
+
       const response = await authApi.register(payload);
       const data = response.data;
-
+      
       // seu RegisterOut está no formato:
       // { success: bool, data: {...}, error: str | None }
       if (!data?.success) {
@@ -132,15 +134,17 @@ const Register = () => {
         return;
       }
 
-      alert("Cadastro realizado com sucesso! Agora faça login.");
-      navigate("/login");
+      // 🔥 Troquei o alert:
+      setShowSuccess(true);
+      setTimeout(() => navigate("/login"), 2000);
+
     } catch (err) {
       console.error(err);
 
       // trata 422 / 409 / etc
       if (err.response) {
         const resp = err.response;
-
+        
         // Caso de erro de validação Pydantic (422)
         if (resp.status === 422 && Array.isArray(resp.data?.detail)) {
           const primeiroErro = resp.data.detail[0]?.msg;
@@ -164,166 +168,175 @@ const Register = () => {
   };
 
   return (
-    <Container>
-      <LeftArea>
-        <StoreButtons>
-          <a
-            href="https://play.google.com/store"
-            target="_blank"
-            rel="noreferrer"
-            id="buttonGooglePlay"
-            className="buttonGooglePlay"
-          >
-            <img src={PlayStoreIcon} alt="Google Play" />
-            <div>
-              <span>Disponível no</span>
-              <strong>Google Play</strong>
-            </div>
-          </a>
+    <>
+      {/* 🔥 Toast de Sucesso */}
+      {showSuccess && (
+        <SuccessToast>
+          Cadastro realizado com sucesso!
+        </SuccessToast>
+      )}
 
-          <a
-            href="https://www.apple.com/br/app-store/"
-            target="_blank"
-            rel="noreferrer"
-            id="buttonAppStore"
-            className="buttonAppStore"
-          >
-            <img src={AppStoreIcon} alt="App Store" />
-            <div>
-              <span>Baixe na</span>
-              <strong>App Store</strong>
-            </div>
-          </a>
-        </StoreButtons>
-        <img src={CelularImg} alt="App Preview" />
-      </LeftArea>
-
-      <RightArea>
-        <div className="logo-area">
-          <img src={Logo} alt="UPATH Logo" className="logo-upath" />
-          <div className="cadastro">
-            <Link to="/login" id="iconVoltar">
-              <img src={VoltarIcon} alt="Voltar" />
-            </Link>
-            <h1>Cadastro</h1>
-          </div>
-        </div>
-
-        <Form onSubmit={handleSubmit}>
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-
-          <label>Nome:</label>
-          <InputGroup>
-            <img src={UserIcon} alt="Nome" />
-            <Input
-              name="name"
-              type="text"
-              placeholder="Digite seu nome..."
-              value={formData.name}
-              onChange={handleChange}
-              className={highlightFields.name ? "input-error" : ""}
-            />
-            <Divider />
-          </InputGroup>
-
-          <label>E-mail:</label>
-          <InputGroup>
-            <img src={EnvelopeIcon} alt="E-mail" />
-            <Input
-              name="email"
-              type="email"
-              placeholder="Digite seu e-mail..."
-              value={formData.email}
-              onChange={handleChange}
-              className={highlightFields.email ? "input-error" : ""}
-            />
-            <Divider />
-          </InputGroup>
-
-          <label>Confirmar e-mail:</label>
-          <InputGroup>
-            <img src={EnvelopeIcon} alt="Confirmação de E-mail" />
-            <Input
-              name="confirmEmail"
-              type="email"
-              placeholder="Confirme seu e-mail..."
-              value={formData.confirmEmail}
-              onChange={handleChange}
-              className={
-                highlightFields.confirmEmail ? "input-error" : ""
-              }
-            />
-            <Divider />
-          </InputGroup>
-
-          <label>Senha:</label>
-          <InputGroup>
-            <img src={LockIcon} alt="Senha" />
-            <Input
-              name="password"
-              type={showPassword.password ? "text" : "password"}
-              placeholder="Digite sua senha..."
-              value={formData.password}
-              onChange={handleChange}
-              className={highlightFields.password ? "input-error" : ""}
-            />
-            <img
-              src={showPassword.password ? EyeSlashIcon : EyeIcon}
-              alt="Mostrar senha"
-              className="eye-icon"
-              onClick={() =>
-                setShowPassword((prev) => ({
-                  ...prev,
-                  password: !prev.password,
-                }))
-              }
-            />
-            <Divider />
-          </InputGroup>
-
-          <label>Repetir senha:</label>
-          <InputGroup>
-            <img src={LockIcon} alt="Repetição de Senha" />
-            <Input
-              name="confirmPassword"
-              type={
-                showPassword.confirmPassword ? "text" : "password"
-              }
-              placeholder="Repita sua senha..."
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className={
-                highlightFields.confirmPassword ? "input-error" : ""
-              }
-            />
-            <img
-              src={
-                showPassword.confirmPassword ? EyeSlashIcon : EyeIcon
-              }
-              alt="Mostrar senha"
-              className="eye-icon"
-              onClick={() =>
-                setShowPassword((prev) => ({
-                  ...prev,
-                  confirmPassword: !prev.confirmPassword,
-                }))
-              }
-            />
-            <Divider />
-          </InputGroup>
-
-          <div className="botao-link">
-            <Button
-              id="buttonCadastrar"
-              className="botao-cadastrar"
-              type="submit"
+      <Container>
+        <LeftArea>
+          <StoreButtons>
+            <a
+              href="https://play.google.com/store"
+              target="_blank"
+              rel="noreferrer"
+              id="buttonGooglePlay"
+              className="buttonGooglePlay"
             >
-              Cadastrar <img src={SetaIcon} alt="Login" className="seta" />
-            </Button>
+              <img src={PlayStoreIcon} alt="Google Play" />
+              <div>
+                <span>Disponível no</span>
+                <strong>Google Play</strong>
+              </div>
+            </a>
+
+            <a
+              href="https://www.apple.com/br/app-store/"
+              target="_blank"
+              rel="noreferrer"
+              id="buttonAppStore"
+              className="buttonAppStore"
+            >
+              <img src={AppStoreIcon} alt="App Store" />
+              <div>
+                <span>Baixe na</span>
+                <strong>App Store</strong>
+              </div>
+            </a>
+          </StoreButtons>
+          <img src={CelularImg} alt="App Preview" />
+        </LeftArea>
+
+        <RightArea>
+          <div className="logo-area">
+            <img src={Logo} alt="UPATH Logo" className="logo-upath" />
+            <div className="cadastro">
+              <Link to="/login" id="iconVoltar">
+                <img src={VoltarIcon} alt="Voltar" />
+              </Link>
+              <h1>Cadastro</h1>
+            </div>
           </div>
-        </Form>
-      </RightArea>
-    </Container>
+
+          <Form onSubmit={handleSubmit}>
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+
+            <label>Nome:</label>
+            <InputGroup>
+              <img src={UserIcon} alt="Nome" />
+              <Input
+                name="name"
+                type="text"
+                placeholder="Digite seu nome..."
+                value={formData.name}
+                onChange={handleChange}
+                className={highlightFields.name ? "input-error" : ""}
+              />
+              <Divider />
+            </InputGroup>
+
+            <label>E-mail:</label>
+            <InputGroup>
+              <img src={EnvelopeIcon} alt="E-mail" />
+              <Input
+                name="email"
+                type="email"
+                placeholder="Digite seu e-mail..."
+                value={formData.email}
+                onChange={handleChange}
+                className={highlightFields.email ? "input-error" : ""}
+              />
+              <Divider />
+            </InputGroup>
+
+            <label>Confirmar e-mail:</label>
+            <InputGroup>
+              <img src={EnvelopeIcon} alt="Confirmação de E-mail" />
+              <Input
+                name="confirmEmail"
+                type="email"
+                placeholder="Confirme seu e-mail..."
+                value={formData.confirmEmail}
+                onChange={handleChange}
+                className={
+                  highlightFields.confirmEmail ? "input-error" : ""
+                }
+              />
+              <Divider />
+            </InputGroup>
+
+            <label>Senha:</label>
+            <InputGroup>
+              <img src={LockIcon} alt="Senha" />
+              <Input
+                name="password"
+                type={showPassword.password ? "text" : "password"}
+                placeholder="Digite sua senha..."
+                value={formData.password}
+                onChange={handleChange}
+                className={highlightFields.password ? "input-error" : ""}
+              />
+              <img
+                src={showPassword.password ? EyeSlashIcon : EyeIcon}
+                alt="Mostrar senha"
+                className="eye-icon"
+                onClick={() =>
+                  setShowPassword((prev) => ({
+                    ...prev,
+                    password: !prev.password,
+                  }))
+                }
+              />
+              <Divider />
+            </InputGroup>
+
+            <label>Repetir senha:</label>
+            <InputGroup>
+              <img src={LockIcon} alt="Repetição de Senha" />
+              <Input
+                name="confirmPassword"
+                type={
+                  showPassword.confirmPassword ? "text" : "password"
+                }
+                placeholder="Repita sua senha..."
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={
+                  highlightFields.confirmPassword ? "input-error" : ""
+                }
+              />
+              <img
+                src={
+                  showPassword.confirmPassword ? EyeSlashIcon : EyeIcon
+                }
+                alt="Mostrar senha"
+                className="eye-icon"
+                onClick={() =>
+                  setShowPassword((prev) => ({
+                    ...prev,
+                    confirmPassword: !prev.confirmPassword,
+                  }))
+                }
+              />
+              <Divider />
+            </InputGroup>
+
+            <div className="botao-link">
+              <Button
+                id="buttonCadastrar"
+                className="botao-cadastrar"
+                type="submit"
+              >
+                Cadastrar <img src={SetaIcon} alt="Login" className="seta" />
+              </Button>
+            </div>
+          </Form>
+        </RightArea>
+      </Container>
+    </>
   );
 };
 
