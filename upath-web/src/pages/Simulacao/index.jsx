@@ -78,7 +78,7 @@ const Teste = () => {
       return;
     }
 
-    fetch("http://localhost:3000/predict", {
+    fetch("http://localhost:4000/predict", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ curso, nota: parseFloat(nota) }),

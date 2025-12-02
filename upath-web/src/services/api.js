@@ -6,8 +6,8 @@ export const FASTAPI_BASE_URL = "http://127.0.0.1:8001/api/v1";
 // ou "http://localhost:8001/api/v1"
 
 // URLs das IAs (mantém do jeito que estava)
-export const NODE_CHAT_URL = "http://localhost:4000";
-export const NODE_ML_URL = "http://localhost:3000";
+export const NODE_CHAT_URL = "http://localhost:3000";
+export const NODE_ML_URL = "http://localhost:4000";
 
 // Cliente Axios configurado
 export const apiFast = axios.create({
