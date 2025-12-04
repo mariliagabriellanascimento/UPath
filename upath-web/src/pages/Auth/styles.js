@@ -36,17 +36,8 @@ export const Container = styled.div`
     padding: 24px 32px;
   }
 
-  @media (min-width: ${bp.tabletXLMin}) and (max-width: ${bp.tabletXLMax}) {
-    gap: 40px;
-    padding: 32px 48px;
-  }
-
-  @media (orientation: portrait) {
-    padding-top: 32px;
-    padding-bottom: 32px;
-  }
 `;
-
+ 
 export const LeftArea = styled.div`
   display: flex;
   flex-direction: row;
@@ -67,19 +58,6 @@ export const LeftArea = styled.div`
 
   /* TABLET COMUM */
   @media (min-width: ${bp.tabletMin}) and (max-width: ${bp.tabletMax}) {
-    img {
-      width: 380px;
-    }
-  }
-
-  /* TABLET GRANDE */
-  @media (min-width: ${bp.tabletXLMin}) and (max-width: ${bp.tabletXLMax}) {
-    img {
-      width: 480px;
-    }
-  }
-
-  @media (orientation: landscape) and (min-width: ${bp.tabletMin}) and (max-width: ${bp.tabletMax}) {
     img {
       width: 420px;
     }
@@ -310,34 +288,6 @@ export const StoreButtons = styled.div`
   /* MOBILE: esconder os botões */
   @media (max-width: ${bp.mobileMax}) {
     display: none;
-  }
-
-  /* TABLET COMUM */
-  @media (min-width: ${bp.tabletMin}) and (max-width: ${bp.tabletMax}) {
-    top: 60px;
-    a {
-      width: 140px;
-      img {
-        width: 24px;
-        height: 24px;
-      }
-    }
-  }
-
-  /* TABLET GRANDE */
-  @media (min-width: ${bp.tabletXLMin}) and (max-width: ${bp.tabletXLMax}) {
-    top: 80px;
-    a {
-      width: 150px;
-      img {
-        width: 26px;
-        height: 26px;
-      }
-    }
-  }
-
-  @media (orientation: landscape) and (min-width: ${bp.tabletMin}) and (max-width: ${bp.tabletXLMax}) {
-    top: 40px;
   }
 `;
 

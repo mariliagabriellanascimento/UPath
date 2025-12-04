@@ -1,13 +1,37 @@
 import styled from "styled-components";
 
+/* Breakpoints — ajuste se preferir outros valores */
+const bp = {
+  sm: "480px",   // smartphone
+  md: "768px",   // tablets menores
+  lg: "1024px",  // tablets maiores / laptops
+};
+
 export const Container = styled.div`
   font-family: "Poppins", sans-serif;
   background-color: #3b82f6;
-  height: 100vh;
+
+  /* Fundo estável com zoom */
+  min-height: 100svh;
+  min-height: 100vh; /* fallback */
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   padding: 0 5%;
+
+  /* Em tablets: manter layout confortável sem estourar */
+  @media (max-width: ${bp.lg}) {
+    padding: 0 4%;
+    gap: 24px;
+  }
+
+  /* Em mobile: foco no formulário (mantém web igual sem mudar comportamento) */
+  @media (max-width: ${bp.md}) {
+    justify-content: center;
+    padding: 24px 20px;
+  }
 `;
 
 export const LeftArea = styled.div`
@@ -21,6 +45,20 @@ export const LeftArea = styled.div`
     max-width: 550px;
     max-height: 420px;
     object-fit: contain;
+  }
+
+  /* Em tablets menores: reduz um pouco a imagem para caber melhor */
+  @media (max-width: ${bp.lg}) {
+    img {
+      width: 420px;
+    }
+  }
+
+  /* Em mobile: oculta a imagem (como você pediu) */
+  @media (max-width: ${bp.md}) {
+    img {
+      display: none;
+    }
   }
 `;
 
@@ -36,24 +74,27 @@ export const RightArea = styled.div`
   .logo-area {
     margin-bottom: 10px;
     text-align: center;
-    
+
     & .logo-upath {
       width: 175px;
       align-self: center;
-      }
+    }
   }
 
   h1 {
-    
+    /* Título mais proporcional com clamp */
     font-weight: 900;
     text-align: left;
     width: 100%;
+    font-size: clamp(22px, 2.6vw, 28px);
+    line-height: 1.2;
   }
 
   h3 {
     font-weight: 500;
-    font-size: 20px;
+    font-size: clamp(16px, 2.1vw, 20px);
     text-align: left;
+    line-height: 1.35;
   }
 
   .esquecimento {
@@ -62,6 +103,16 @@ export const RightArea = styled.div`
     align-items: center;
     margin-bottom: 10px;
   }
+
+  /* Tablets: manter tudo cabendo sem overflow */
+  @media (max-width: ${bp.lg}) {
+    padding-bottom: 220px;
+  }
+
+  /* Mobile: reduzir o padding-bottom para evitar rolagem desnecessária */
+  @media (max-width: ${bp.md}) {
+    padding-bottom: 120px;
+  }
 `;
 
 export const Form = styled.form`
@@ -69,7 +120,10 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: 378px;
+
+  /* Evita overflow em telas menores mantendo o limite de largura */
+  width: 100%;
+  max-width: 378px;
 
   label {
     text-align: left;
@@ -96,6 +150,11 @@ export const Form = styled.form`
     display: flex;
     justify-content: end;
   }
+
+  /* Em tablets/celular, manter espaçamento confortável sem alterar botões */
+  @media (max-width: ${bp.md}) {
+    gap: 0.75rem;
+  }
 `;
 
 export const InputGroup = styled.div`
@@ -109,6 +168,12 @@ export const InputGroup = styled.div`
     transform: translateY(-50%);
     width: 24px;
     height: 24px;
+  }
+
+  @media (max-width: ${bp.md}) {
+    img {
+      top: 50%;
+    }
   }
 `;
 
@@ -124,6 +189,11 @@ export const Input = styled.input`
 
   &::placeholder {
     color: #e5e7eb;
+  }
+
+  /* Em células e tablets pequenos, evitar quebra de linha feia */
+  @media (max-width: ${bp.sm}) {
+    font-size: 18px;
   }
 `;
 
@@ -222,6 +292,11 @@ export const StoreButtons = styled.div`
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
   }
+
+  /* Em celular: ocultar os botões (como você pediu) */
+  @media (max-width: ${bp.md}) {
+    display: none;
+  }
 `;
 
 export const ErrorMessage = styled.div`
@@ -234,3 +309,33 @@ export const ErrorMessage = styled.div`
   font-weight: 500;
   margin-bottom: 10px;
 `;
+
+export const Toast = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  background: #1f2937;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  font-size: 18px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  z-index: 99999;
+  animation: fadeInScale 0.25s ease forwards;
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+`;    

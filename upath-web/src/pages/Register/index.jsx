@@ -53,7 +53,7 @@ const Register = () => {
 
   const [error, setError] = useState("");
   const [highlightFields, setHighlightFields] = useState({});
-  const [showSuccess, setShowSuccess] = useState(false); // 🔥 ADICIONADO
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

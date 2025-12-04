@@ -18,13 +18,16 @@ const tabletLandscape = `
 export const Container = styled.div`
   font-family: "Poppins", sans-serif;
   background-color: #3b82f6;
-  min-height: 100vh;
+
+  /* Fundo estável com zoom */
+  min-height: 100svh;
+  min-height: 100vh; /* fallback */
+  width: 100%;
+
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
   padding: 0 5%;
-  overflow-y: auto;
 
   /* Celular */
   @media (max-width: 480px) {
@@ -39,14 +42,14 @@ export const Container = styled.div`
 
   /* Tablets (regras unificadas de largura + altura) */
   @media ${tabletUnified} {
-    justify-content: center;    
-    gap: 32px;                 
-    padding: 24px;              
+    justify-content: center; /* Centraliza as duas áreas */
+    gap: 32px; /* Espaço consistente entre áreas */
+    padding: 24px; /* Ajuste suave de respiro */
   }
 
   /* Refino por orientação para manter igual comportamento */
   @media ${tabletPortrait} {
-    flex-direction: row;        
+    flex-direction: row; /* Mantém lado a lado quando couber */
   }
 
   @media ${tabletLandscape} {
@@ -63,7 +66,7 @@ export const LeftArea = styled.div`
   img {
     width: 100%;
     max-width: 550px;
-    max-height: 420px;          
+    max-height: 420px;
     object-fit: contain;
   }
 
@@ -88,7 +91,7 @@ export const LeftArea = styled.div`
 
   /* Regras unificadas para tablets (largura+altura) */
   @media ${tabletUnified} {
-    flex-direction: column;    
+    flex-direction: column; /* Botões acima, imagem abaixo */
     align-items: center;
     img {
       max-width: 300px;
@@ -103,10 +106,13 @@ export const LeftArea = styled.div`
 `;
 
 export const RightArea = styled.div`
-  min-width: 384px;
+  max-width: 384px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   color: white;
+  position: relative;
+  padding-bottom: 24px;
 
   .logo-area {
     margin-bottom: 10px;
@@ -116,19 +122,38 @@ export const RightArea = styled.div`
       width: 175px;
       align-self: center;
     }
+
+    @media (max-width: 1366px) {
+      .logo-area {
+        margin-bottom: 0;
+      }
+      .logo-upath {
+        width: 100px;
+      }
+    }
   }
 
   h1 {
+    /* Título mais proporcional com clamp */
     font-weight: 900;
     text-align: left;
     width: 100%;
-    font-size: clamp(20px, 2.5vw, 28px);
+    font-size: clamp(22px, 2.6vw, 28px);
+    line-height: 1.2;
+  }
+
+  h3 {
+    font-weight: 500;
+    font-size: clamp(16px, 2.1vw, 20px);
+    text-align: left;
+    line-height: 1.35;
   }
 
   .cadastro {
     display: flex;
     gap: 10px;
     align-items: center;
+    margin-bottom: 10px;
   }
 
   @media (max-width: 768px) {
@@ -164,6 +189,12 @@ export const Form = styled.form`
     font-size: clamp(18px, 2vw, 24px);
     color: #ffffff;
     font-weight: 600;
+  }
+
+  @media (max-width: 1366px) {
+    label {
+      font-size: 18px;
+    }
   }
 
   @media (max-width: 768px) {
@@ -210,9 +241,10 @@ export const InputGroup = styled.div`
     height: 24px;
   }
 
+  /* NÃO ALTERAR EYE ICON (mantido como solicitado) */
   .eye-icon {
     position: absolute;
-    left: 90%; 
+    left: 90%;
     top: 30%;
     transform: translateY(-50%);
     width: 24px;
@@ -246,8 +278,14 @@ export const Input = styled.input`
     border-radius: 8px;
     background-color: rgba(239, 68, 68, 0.2);
   }
-`;
 
+  @media (max-width: 1366px) {
+    font-size: 16px;
+    padding: 5px;
+    padding-left: 2.8rem;
+  }
+
+`;
 
 export const Button = styled.button`
   padding: 0.9rem;
@@ -260,22 +298,23 @@ export const Button = styled.button`
   cursor: pointer;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-
   &:hover {
     background: #059669;
   }
-
 
   &.botao-cadastrar {
     width: 150px;
   }
 
-
   .seta {
     margin-left: 5px;
   }
-`;
 
+  @media (max-width: 1366px) {
+    padding: 10px;
+  }
+
+`;
 
 export const Divider = styled.div`
   display: flex;
@@ -285,14 +324,12 @@ export const Divider = styled.div`
   margin: 1rem 0;
   font-size: 20px;
 
-
   &::before,
   &::after {
     content: "";
     flex: 1;
     border-bottom: 1px solid #ffffff;
   }
-
 
   &:not(:empty)::before {
     margin-right: 32px;
@@ -303,8 +340,11 @@ export const Divider = styled.div`
     margin-left: 32px;
     margin-right: 32px;
   }
-`;
 
+  @media (max-width: 1366px) {
+    margin: 5px 0;
+  }
+`;
 
 export const StoreButtons = styled.div`
   display: flex;
@@ -334,7 +374,6 @@ export const StoreButtons = styled.div`
       display: flex;
       flex-direction: column;
       line-height: 1.1;
-
 
       span {
         font-size: 12px;
@@ -383,7 +422,7 @@ export const SuccessToast = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
+
   background: #1f2937;
   color: #fff;
   padding: 20px 30px;
@@ -406,4 +445,4 @@ export const SuccessToast = styled.div`
       transform: translate(-50%, -50%) scale(1);
     }
   }
-`;                                                  
+`;

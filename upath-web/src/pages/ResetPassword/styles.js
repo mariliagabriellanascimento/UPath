@@ -9,16 +9,15 @@ export const Container = styled.div`
   font-family: "Poppins", sans-serif;
   background-color: #3b82f6;
 
-  /* Fundo que acompanha zoom/viewport dinâmico */
-  min-height: 100vh;
+  /* Fundo estável com zoom */
   min-height: 100svh;
-  min-height: 100dvh;
+  min-height: 100vh; /* fallback */
+  width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: space-evenly;
   padding: 0 5%;
-  width: 100%;
 
   /* MOBILE: coluna, centralizado e com espaçamento */
   @media (max-width: ${BP_TABLET_MIN - 1}px) {
@@ -26,11 +25,6 @@ export const Container = styled.div`
     justify-content: center;
     gap: 24px;
     padding: 16px;
-  }
-
-  /* TABLET: leve ajuste no espaçamento lateral */
-  @media (min-width: ${BP_TABLET_MIN}px) and (max-width: ${BP_TABLET_MAX}px) {
-    padding: 0 3.5%;
   }
 `;
 
@@ -98,7 +92,6 @@ export const RightArea = styled.div`
   /* TABLET: leve ajuste de tipografia/padding */
   @media (min-width: ${BP_TABLET_MIN}px) and (max-width: ${BP_TABLET_MAX}px) {
     max-width: clamp(360px, 42vw, 480px);
-    padding-bottom: 120px;
 
     h3 {
       font-size: 18px;
@@ -351,3 +344,33 @@ export const ErrorMessage = styled.div`
   font-weight: 500;
   margin-bottom: 10px;
 `;
+
+export const SuccessToast = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  background: #1f2937;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  font-size: 18px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  z-index: 99999;
+  animation: fadeInScale 0.25s ease forwards;
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+`;                                                  

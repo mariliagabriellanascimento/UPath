@@ -11,6 +11,7 @@ import {
   FiltrosContainer,
   GraficoContainer,
   Button,
+  Toast,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -52,6 +53,8 @@ const HomeAdmin = () => {
   const [totalUsuarios, setTotalUsuarios] = useState(null);
   const [loading, setLoading] = useState(false);
   const [erro, setErro] = useState("");
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   const gerarRelatorio = async () => {
     setErro("");
@@ -77,12 +80,19 @@ const HomeAdmin = () => {
         if (data.data.total_usuarios !== undefined) {
           setTotalUsuarios(data.data.total_usuarios);
         }
+        setToastMessage("Relatório gerado com sucesso!");
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2500);
       } else {
-        setErro("Erro ao gerar relatório.");
+        setToastMessage("Erro ao gerar relatório.");
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2500);
       }
     } catch (err) {
       console.error(err);
-      setErro("Erro ao conectar com o servidor.");
+      setToastMessage("Erro ao conectar com o servidor.");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2500);
     } finally {
       setLoading(false);
     }
@@ -115,125 +125,132 @@ const HomeAdmin = () => {
       } else {
         const data = await response.json();
         console.error("Erro no logout:", data.message || "Erro desconhecido");
-        alert("Erro ao tentar fazer logout. Tente novamente.");
+        setToastMessage("Erro ao tentar fazer logout. Tente novamente.");
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 2500);
       }
     } catch (error) {
       console.error("Erro ao realizar logout:", error);
-      alert("Erro no servidor. Tente novamente.");
+      setToastMessage("Erro no servidor. Tente novamente.");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 2500);
     }
   };
 
   return (
-    <Container>
-      <Header>
-        <div className="logo">
-          <img src={Logo} alt="UPATH Logo" className="logo-upath" />
-        </div>
-        <h1>Painel Administrativo</h1>
-        <UserArea>
-          <div className="user-info">
-            <h3>{primeiroNome}</h3>
-            <p>Administrador</p>
+    <>
+      {showToast && <Toast>{toastMessage}</Toast>}
+      <Container>
+        <Header>
+          <div className="logo">
+            <img src={Logo} alt="UPATH Logo" className="logo-upath" />
           </div>
-          <img
-            id="iconPerfil"
-            src={DefaultAvatar}
-            alt="Perfil"
-            onClick={() => setShowPerfil(!showPerfil)}
-          />
-        </UserArea>
-      </Header>
-
-      <Main>
-        <h1>Gerenciamento de Métricas</h1>
-        <RelatoriosContainer>
-          <FiltrosContainer>
-            <div className="intro-text">
-              <h1>Gerar Métricas</h1>
-              <p>Selecione os parâmetros.</p>
+          <h1>Painel Administrativo</h1>
+          <UserArea>
+            <div className="user-info">
+              <h3>{primeiroNome}</h3>
+              <p>Administrador</p>
             </div>
+            <img
+              id="iconPerfil"
+              src={DefaultAvatar}
+              alt="Perfil"
+              onClick={() => setShowPerfil(!showPerfil)}
+            />
+          </UserArea>
+        </Header>
 
-            <div className="tipo-relatorio-select">
-              <label htmlFor="tipoRelatorio">Tipo de Relatório:</label>
-              <select
-                id="tipoRelatorio"
-                value={tipoRelatorio}
-                onChange={(e) => setTipoRelatorio(e.target.value)}
-              >
-                <option value="">Selecione</option>
-                <option value="usuarios">Usuários Ativos</option>
-                <option value="acessos">Acessos</option>
-                <option value="erros">Erros do Sistema</option>
-              </select>
-            </div>
+        <Main>
+          <h1>Gerenciamento de Métricas</h1>
+          <RelatoriosContainer>
+            <FiltrosContainer>
+              <div className="intro-text">
+                <h1>Gerar Métricas</h1>
+                <p>Selecione os parâmetros.</p>
+              </div>
 
-            <div className="periodo-select">
-              <label htmlFor="periodo">Filtro:</label>
-              <select
-                id="periodo"
-                value={periodo}
-                onChange={(e) => setPeriodo(e.target.value)}
-              >
-                <option value="">Selecione</option>
-                <option value="7d">Últimos 7 dias</option>
-                <option value="30d">Últimos 30 dias</option>
-                <option value="90d">Últimos 90 dias</option>
-              </select>
-            </div>
+              <div className="tipo-relatorio-select">
+                <label htmlFor="tipoRelatorio">Tipo de Relatório:</label>
+                <select
+                  id="tipoRelatorio"
+                  value={tipoRelatorio}
+                  onChange={(e) => setTipoRelatorio(e.target.value)}
+                >
+                  <option value="">Selecione</option>
+                  <option value="usuarios">Usuários Ativos</option>
+                  <option value="acessos">Acessos</option>
+                  <option value="erros">Erros do Sistema</option>
+                </select>
+              </div>
 
-            <Button onClick={gerarRelatorio} disabled={loading}>
-              {loading ? "Carregando..." : "Gerar Relatório"}
-            </Button>
+              <div className="periodo-select">
+                <label htmlFor="periodo">Filtro:</label>
+                <select
+                  id="periodo"
+                  value={periodo}
+                  onChange={(e) => setPeriodo(e.target.value)}
+                >
+                  <option value="">Selecione</option>
+                  <option value="7d">Últimos 7 dias</option>
+                  <option value="30d">Últimos 30 dias</option>
+                  <option value="90d">Últimos 90 dias</option>
+                </select>
+              </div>
 
-            {erro && <p style={{ color: "red", margin: "0"}}>{erro}</p>}
-          </FiltrosContainer>
+              <Button onClick={gerarRelatorio} disabled={loading}>
+                {loading ? "Carregando..." : "Gerar Relatório"}
+              </Button>
 
-          <GraficoContainer>
-            <div className="grafico-barras">
-              {dadosGrafico.valores &&
-                dadosGrafico.valores.map((valor, i) => (
-                  <div
-                    key={i}
-                    className="barra"
-                    style={{ height: `${valor * 2}px` }}
-                  />
-                ))}
-            </div>
-            <div className="legenda">
-              {dadosGrafico.labels &&
-                dadosGrafico.labels.map((label, i) => (
-                  <span key={i}>{label}</span>
-                ))}
-            </div>
-            {totalUsuarios !== null && (
-              <p>Total de usuários: {totalUsuarios}</p>
-            )}
-          </GraficoContainer>
-        </RelatoriosContainer>
-      </Main>
+              {erro && <p style={{ color: "red", margin: "0" }}>{erro}</p>}
+            </FiltrosContainer>
 
-      <Footer>
-        <p>UPath © 2025 - Todos os direitos reservados</p>
-        <div>
-          <a href="#">Contato</a> | <a href="#">Política de Privacidade</a> |{" "}
-          <a href="#">Termos de Uso</a>
-        </div>
-      </Footer>
+            <GraficoContainer>
+              <div className="grafico-barras">
+                {dadosGrafico.valores &&
+                  dadosGrafico.valores.map((valor, i) => (
+                    <div
+                      key={i}
+                      className="barra"
+                      style={{ height: `${valor * 2}px` }}
+                    />
+                  ))}
+              </div>
+              <div className="legenda">
+                {dadosGrafico.labels &&
+                  dadosGrafico.labels.map((label, i) => (
+                    <span key={i}>{label}</span>
+                  ))}
+              </div>
+              {totalUsuarios !== null && (
+                <p>Total de usuários: {totalUsuarios}</p>
+              )}
+            </GraficoContainer>
+          </RelatoriosContainer>
+        </Main>
 
-      {showPerfil && (
-        <ModalOverlay>
-          <ModalPerfil>
-            <Link>
-              <button id="buttonSair" onClick={realizarLogout}>
-                <div className="icon-logout">
-                  <img src={LogoutIcon} alt="Log Out" /> Log Out
-                </div>
-              </button>
-            </Link>
-          </ModalPerfil>
-        </ModalOverlay>
-      )}
-    </Container>
+        <Footer>
+          <p>UPath © 2025 - Todos os direitos reservados</p>
+          <div>
+            <a href="#">Contato</a> | <a href="#">Política de Privacidade</a> |{" "}
+            <a href="#">Termos de Uso</a>
+          </div>
+        </Footer>
+
+        {showPerfil && (
+          <ModalOverlay>
+            <ModalPerfil>
+              <Link>
+                <button id="buttonSair" onClick={realizarLogout}>
+                  <div className="icon-logout">
+                    <img src={LogoutIcon} alt="Log Out" /> Log Out
+                  </div>
+                </button>
+              </Link>
+            </ModalPerfil>
+          </ModalOverlay>
+        )}
+      </Container>
+    </>
   );
 };
 

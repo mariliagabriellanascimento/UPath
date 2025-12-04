@@ -10,8 +10,8 @@ import {
   InputGroup,
   StoreButtons,
   ErrorMessage,
-} 
-from "./styles";
+  SuccessToast,
+} from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
 import CelularImg from "../../assets/celular.svg";
@@ -34,6 +34,7 @@ const ResetPassword = () => {
   const [confirmSenha, setConfirmSenha] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState({
     senha: false,
     confirmSenha: false,
@@ -53,7 +54,9 @@ const ResetPassword = () => {
     setErro(false);
 
     if (!token) {
-      setMensagem("Token inválido ou ausente. Tente iniciar o processo novamente.");
+      setMensagem(
+        "Token inválido ou ausente. Tente iniciar o processo novamente."
+      );
       setErro(true);
       return;
     }
@@ -90,8 +93,9 @@ const ResetPassword = () => {
       setMensagem(data.message || "Senha redefinida com sucesso!");
       setErro(false);
 
-      alert("Senha redefinida com sucesso! Faça login com a nova senha.");
-      navigate("/login");
+      alert("");
+      setShowSuccess(true);
+      setTimeout(() => navigate("/login"), 2000);
     } catch (error) {
       console.error(error);
 
@@ -106,118 +110,124 @@ const ResetPassword = () => {
   };
 
   return (
-    <Container>
-      <LeftArea>
-        <StoreButtons>
-          <a
-            href="https://play.google.com/store"
-            target="_blank"
-            rel="noreferrer"
-            className="buttonGooglePlay"
-          >
-            <img src={PlayStoreIcon} alt="Google Play" />
-            <div>
-              <span>Disponível no</span>
-              <strong>Google Play</strong>
-            </div>
-          </a>
-
-          <a
-            href="https://www.apple.com/br/app-store/"
-            target="_blank"
-            rel="noreferrer"
-            className="buttonAppStore"
-          >
-            <img src={AppStoreIcon} alt="App Store" />
-            <div>
-              <span>Baixe na</span>
-              <strong>App Store</strong>
-            </div>
-          </a>
-        </StoreButtons>
-        <img src={CelularImg} alt="App Preview" />
-      </LeftArea>
-
-      <RightArea>
-        <div className="logo-area">
-          <img src={Logo} alt="UPATH Logo" className="logo-upath" />
-
-          <div className="redefinir">
-            <Link to="/retrieve" id="iconVoltar">
-              <img src={VoltarIcon} alt="Voltar" />
-            </Link>
-            <h1>Redefinir Senha</h1>
-          </div>
-
-          <h3>Defina uma nova senha para sua conta:</h3>
-        </div>
-
-        <Form onSubmit={handleSubmit}>
-          {mensagem && (
-            <ErrorMessage className={erro ? "erro" : "sucesso"}>
-              {mensagem}
-            </ErrorMessage>
-          )}
-
-          <label>Nova senha:</label>
-          <InputGroup>
-            <img src={LockIcon} alt="Senha" />
-            <Input
-              type={showPassword.senha ? "text" : "password"}
-              placeholder="Digite a nova senha..."
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-            />
-            <img
-              src={showPassword.senha ? EyeSlashIcon : EyeIcon}
-              alt="Mostrar senha"
-              className="eye-icon"
-              onClick={() =>
-                setShowPassword((prev) => ({
-                  ...prev,
-                  senha: !prev.senha,
-                }))
-              }
-            />
-            <Divider />
-          </InputGroup>
-
-          <label>Confirmar nova senha:</label>
-          <InputGroup>
-            <img src={LockIcon} alt="Confirmar Senha" />
-            <Input
-              type={showPassword.confirmSenha ? "text" : "password"}
-              placeholder="Repita a nova senha..."
-              value={confirmSenha}
-              onChange={(e) => setConfirmSenha(e.target.value)}
-            />
-            <img
-              src={showPassword.confirmSenha ? EyeSlashIcon : EyeIcon}
-              alt="Mostrar senha"
-              className="eye-icon"
-              onClick={() =>
-                setShowPassword((prev) => ({
-                  ...prev,
-                  confirmSenha: !prev.confirmSenha,
-                }))
-              }
-            />
-            <Divider />
-          </InputGroup>
-
-          <div className="botao-link">
-            <Button
-              id="buttonResetPassword"
-              className="botao-resetSenha"
-              type="submit"
+    <>
+      {/* 🔥 Toast de Sucesso */}
+      {showSuccess && (
+        <SuccessToast>Senha redefinida com sucesso! Faça login com a nova senha!</SuccessToast>
+      )}
+      <Container>
+        <LeftArea>
+          <StoreButtons>
+            <a
+              href="https://play.google.com/store"
+              target="_blank"
+              rel="noreferrer"
+              className="buttonGooglePlay"
             >
-              Redefinir
-              <img src={SetaIcon} className="seta" alt="Confirmar" />
-            </Button>
+              <img src={PlayStoreIcon} alt="Google Play" />
+              <div>
+                <span>Disponível no</span>
+                <strong>Google Play</strong>
+              </div>
+            </a>
+
+            <a
+              href="https://www.apple.com/br/app-store/"
+              target="_blank"
+              rel="noreferrer"
+              className="buttonAppStore"
+            >
+              <img src={AppStoreIcon} alt="App Store" />
+              <div>
+                <span>Baixe na</span>
+                <strong>App Store</strong>
+              </div>
+            </a>
+          </StoreButtons>
+          <img src={CelularImg} alt="App Preview" />
+        </LeftArea>
+
+        <RightArea>
+          <div className="logo-area">
+            <img src={Logo} alt="UPATH Logo" className="logo-upath" />
+
+            <div className="redefinir">
+              <Link to="/retrieve" id="iconVoltar">
+                <img src={VoltarIcon} alt="Voltar" />
+              </Link>
+              <h1>Redefinir Senha</h1>
+            </div>
+
+            <h3>Defina uma nova senha para sua conta:</h3>
           </div>
-        </Form>
-      </RightArea>
-    </Container>
+
+          <Form onSubmit={handleSubmit}>
+            {mensagem && (
+              <ErrorMessage className={erro ? "erro" : "sucesso"}>
+                {mensagem}
+              </ErrorMessage>
+            )}
+
+            <label>Nova senha:</label>
+            <InputGroup>
+              <img src={LockIcon} alt="Senha" />
+              <Input
+                type={showPassword.senha ? "text" : "password"}
+                placeholder="Digite a nova senha..."
+                value={senha}
+                onChange={(e) => setSenha(e.target.value)}
+              />
+              <img
+                src={showPassword.senha ? EyeSlashIcon : EyeIcon}
+                alt="Mostrar senha"
+                className="eye-icon"
+                onClick={() =>
+                  setShowPassword((prev) => ({
+                    ...prev,
+                    senha: !prev.senha,
+                  }))
+                }
+              />
+              <Divider />
+            </InputGroup>
+
+            <label>Confirmar nova senha:</label>
+            <InputGroup>
+              <img src={LockIcon} alt="Confirmar Senha" />
+              <Input
+                type={showPassword.confirmSenha ? "text" : "password"}
+                placeholder="Repita a nova senha..."
+                value={confirmSenha}
+                onChange={(e) => setConfirmSenha(e.target.value)}
+              />
+              <img
+                src={showPassword.confirmSenha ? EyeSlashIcon : EyeIcon}
+                alt="Mostrar senha"
+                className="eye-icon"
+                onClick={() =>
+                  setShowPassword((prev) => ({
+                    ...prev,
+                    confirmSenha: !prev.confirmSenha,
+                  }))
+                }
+              />
+              <Divider />
+            </InputGroup>
+
+            <div className="botao-link">
+              <Button
+                id="buttonResetPassword"
+                className="botao-resetSenha"
+                type="submit"
+              >
+                Redefinir
+                <img src={SetaIcon} className="seta" alt="Confirmar" />
+              </Button>
+            </div>
+          </Form>
+        </RightArea>
+      </Container>
+    </>
   );
 };
 

@@ -382,3 +382,33 @@ export const ModalPerfil = styled.div`
     padding: 16px;
   }
 `;
+
+export const Toast = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  background: #1f2937;
+  color: #fff;
+  padding: 20px 30px;
+  border-radius: 12px;
+  font-size: 18px;
+  text-align: center;
+  font-family: "Poppins", sans-serif;
+
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+  z-index: 99999;
+  animation: fadeInScale 0.25s ease forwards;
+
+  @keyframes fadeInScale {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.85);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+`;    

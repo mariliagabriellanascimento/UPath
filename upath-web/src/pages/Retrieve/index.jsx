@@ -10,6 +10,7 @@ import {
   InputGroup,
   StoreButtons,
   ErrorMessage,
+  Toast,
 } from "./styles";
 
 import Logo from "../../assets/logo-upath-2.svg";
@@ -35,6 +36,7 @@ const Retrieve = () => {
   const [email, setEmail] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   const handleRecuperar = async (e) => {
     e.preventDefault();
@@ -59,8 +61,8 @@ const Retrieve = () => {
         console.log("RESET TOKEN (dev): ", data.reset_token);
         navigate(`/reset-password?token=${data.reset_token}`);
       }
-
-      alert("Se o e-mail estiver cadastrado, você poderá redefinir sua senha.");
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
     } catch (error) {
       console.error(error);
       const msg =
@@ -72,82 +74,92 @@ const Retrieve = () => {
   };
 
   return (
-    <Container>
-      <LeftArea>
-        <StoreButtons>
-          <a
-            href="https://play.google.com/store"
-            target="_blank"
-            rel="noreferrer"
-            className="buttonGooglePlay"
-          >
-            <img src={PlayStoreIcon} alt="Google Play" />
-            <div>
-              <span>Disponível no</span>
-              <strong>Google Play</strong>
+    <>
+      {/* 🔥 Toast de Sucesso */}
+      {showToast && (
+        <Toast>Se o e-mail estiver cadastrado, você poderá redefinir sua senha!</Toast>
+      )}
+      <Container>
+        <LeftArea>
+          <StoreButtons>
+            <a
+              href="https://play.google.com/store"
+              target="_blank"
+              rel="noreferrer"
+              className="buttonGooglePlay"
+            >
+              <img src={PlayStoreIcon} alt="Google Play" />
+              <div>
+                <span>Disponível no</span>
+                <strong>Google Play</strong>
+              </div>
+            </a>
+
+            <a
+              href="https://www.apple.com/br/app-store/"
+              target="_blank"
+              rel="noreferrer"
+              className="buttonAppStore"
+            >
+              <img src={AppStoreIcon} alt="App Store" />
+              <div>
+                <span>Baixe na</span>
+                <strong>App Store</strong>
+              </div>
+            </a>
+          </StoreButtons>
+          <img src={CelularImg} alt="App Preview" />
+        </LeftArea>
+
+        <RightArea>
+          <div className="logo-area">
+            <img src={Logo} alt="UPATH Logo" className="logo-upath" />
+
+            <div className="esquecimento">
+              <Link to="/login" id="iconVoltar">
+                <img src={VoltarIcon} alt="Voltar" />
+              </Link>
+              <h1>Recuperação</h1>
             </div>
-          </a>
 
-          <a
-            href="https://www.apple.com/br/app-store/"
-            target="_blank"
-            rel="noreferrer"
-            className="buttonAppStore"
-          >
-            <img src={AppStoreIcon} alt="App Store" />
-            <div>
-              <span>Baixe na</span>
-              <strong>App Store</strong>
-            </div>
-          </a>
-        </StoreButtons>
-        <img src={CelularImg} alt="App Preview" />
-      </LeftArea>
-
-      <RightArea>
-        <div className="logo-area">
-          <img src={Logo} alt="UPATH Logo" className="logo-upath" />
-
-          <div className="esquecimento">
-            <Link to="/login" id="iconVoltar">
-              <img src={VoltarIcon} alt="Voltar" />
-            </Link>
-            <h1>Recuperação</h1>
+            <h3>Digite seu e-mail para recuperar sua conta:</h3>
           </div>
 
-          <h3>Digite seu e-mail para recuperar sua conta:</h3>
-        </div>
+          <Form onSubmit={handleRecuperar}>
+            {mensagem && (
+              <ErrorMessage className={erro ? "erro" : "sucesso"}>
+                {mensagem}
+              </ErrorMessage>
+            )}
 
-        <Form onSubmit={handleRecuperar}>
-          {mensagem && (
-            <ErrorMessage className={erro ? "erro" : "sucesso"}>
-              {mensagem}
-            </ErrorMessage>
-          )}
+            <label>E-mail:</label>
+            <InputGroup>
+              <img src={EnvelopeIcon} alt="E-mail" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Digite seu e-mail..."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Divider />
+            </InputGroup>
 
-          <label>E-mail:</label>
-          <InputGroup>
-            <img src={EnvelopeIcon} alt="E-mail" />
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Digite seu e-mail..."
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Divider />
-          </InputGroup>
-
-          <div className="botao-link">
-            <Button id="buttonEnviarEmail" className="botao-enviarEmail" type="submit">
-              Enviar
-              <img src={SetaIcon} className="seta" />
-            </Button>
-          </div>
-        </Form>
-      </RightArea>
-    </Container>
+            <div className="botao-link">
+              <Button
+                id="buttonEnviarEmail"
+                className="botao-enviarEmail"
+                type="submit"
+              >
+                Enviar
+                <img src={SetaIcon} className="seta" />
+              </Button>
+            </div>
+          </Form>
+        </RightArea>
+      </Container>
+    </>
   );
 };
 

@@ -76,15 +76,18 @@ const Login = () => {
               navigate("/homeUser");
             }
           } else {
-            alert("Erro ao autenticar com o Google.");
+            setError("Erro ao autenticar com o Google.");
           }
         })
         .catch((err) => {
           console.error("Erro Google Login:", err);
-          alert("Erro ao autenticar com o Google.");
+          setError(
+            err?.response?.data?.detail ||
+              "Erro ao autenticar com o Google. Tente novamente."
+          );
         });
     };
-  }, [navigate]);
+  }, [navigate, setError]);
 
   const handleLogar = async (e) => {
     e.preventDefault();
