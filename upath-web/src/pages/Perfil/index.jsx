@@ -1,10 +1,13 @@
 // src/pages/Perfil/index.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Container,
   Header,
   Main,
   EditUserArea,
+  AvatarWrapper,
+  Avatar,
+  ChangeImageButton,
   Form,
   InputGroup,
   Input,
@@ -19,6 +22,8 @@ import LockIcon from "../../assets/lock.svg";
 import EyeIcon from "../../assets/eye.svg";
 import EyeSlashIcon from "../../assets/eye-slash.svg";
 import EditIcon from "../../assets/editAtivo.svg";
+import EditImg from "../../assets/edit.svg";
+import DefaultAvatar from "../../assets/default-avatar.svg";
 import { useNavigate } from "react-router-dom";
 
 // 👇 usa o cliente que você já criou
@@ -30,18 +35,28 @@ const Perfil = () => {
   const [senha, setSenha] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [avatarPreview, setAvatarPreview] = useState(DefaultAvatar);
+  const [avatarFile, setAvatarFile] = useState(null);
 
   const navigate = useNavigate();
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     document.title = "Editar Perfil - UPath";
 
     const nomeLocal = localStorage.getItem("userNome");
     if (nomeLocal) setNome(nomeLocal);
-
   }, []);
 
-  // Atualizar no backend (FastAPI)
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const url = URL.createObjectURL(file);
+    setAvatarPreview(url);
+    setAvatarFile(file); // <-- agora guarda o arquivo pra enviar
+  };
+
   const handleUpdate = async (e) => {
     e.preventDefault();
     setError("");
@@ -52,12 +67,21 @@ const Perfil = () => {
         nome,
       };
 
-      // só envia senha se o campo tiver algo
       if (senha && senha.trim()) {
         payload.senha = senha;
       }
 
-      const response = await authApi.updateProfile(payload);
+      // cria o FormData e adiciona o payload JSON
+      const form = new FormData();
+      form.append("payload", JSON.stringify(payload));
+
+      // adiciona a foto SE existir
+      if (avatarFile) {
+        form.append("avatar", avatarFile);
+      }
+
+      // envia para o backend
+      const response = await authApi.updateProfile(form);
       const data = response.data;
 
       if (!data.success) {
@@ -65,13 +89,12 @@ const Perfil = () => {
         return;
       }
 
-      // Atualiza o nome local
       if (data.data?.nome) {
         localStorage.setItem("userNome", data.data.nome);
       }
 
       setSuccess(data.message || "Alterações salvas com sucesso!");
-      setSenha(""); // limpa campo de senha
+      setSenha("");
     } catch (err) {
       console.error(err);
       const msg =
@@ -94,6 +117,18 @@ const Perfil = () => {
         </div>
 
         <EditUserArea>
+          <AvatarWrapper>
+            <Avatar src={avatarPreview} alt="Avatar" />
+            <ChangeImageButton onClick={() => fileInputRef.current.click()}>
+              <img src={EditImg} alt="Editar" />
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+            </ChangeImageButton>
+          </AvatarWrapper>
           <Form onSubmit={handleUpdate}>
             <label>Editar nome:</label>
             <InputGroup>
@@ -158,8 +193,7 @@ const Perfil = () => {
       </Header>
 
       {/* NOTÍCIAS */}
-      <Main>
-      </Main>
+      <Main></Main>
 
       <Footer>
         <p>UPath © 2025 - Todos os direitos reservados</p>

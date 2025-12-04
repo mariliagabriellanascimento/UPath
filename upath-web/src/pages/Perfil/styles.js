@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 // 🎯 Container geral (fundo azul + evitar overflow lateral)
 export const Container = styled.div`
   font-family: "Poppins", sans-serif;
@@ -11,13 +10,11 @@ export const Container = styled.div`
   min-height: 100vh;
   overflow-x: hidden; /* evita faixa branca por overflow */
 
-
   /* Box-sizing para evitar que paddings estourem a largura */
   *, *::before, *::after {
     box-sizing: border-box;
   }
 `;
-
 
 // 🎯 Cabeçalho (centralizado + ocupa boa parte da tela)
 export const Header = styled.header`
@@ -29,36 +26,30 @@ export const Header = styled.header`
   justify-content: center; /* centro vertical */
   gap: 20px;
 
-
   /* 🔑 Faz o header ocupar boa parte da altura da viewport,
      trazendo o conteúdo para o "meio" da página */
   min-height: calc(100vh - 160px);
   /* Ajuste fino: se quiser ainda mais ao centro, aumente esse 160 para 180–200 */
 
-
   /* Respiro lateral adaptativo (contido para celulares pequenos) */
   padding: 24px clamp(14px, 4.5vw, 28px);
   border-radius: 0 0 30px 30px;
-
 
   /* Lápis removido sem mexer no index */
   .iconEdit {
     display: none;
   }
 
-
   .voltar {
     display: flex;
     align-items: center;
     gap: 35px;
-
 
     button {
       background: none;
       border: none;
       cursor: pointer;
     }
-
 
     h2 {
       margin: 0;
@@ -68,7 +59,6 @@ export const Header = styled.header`
       text-align: center;
     }
   }
-
 
   @media (max-width: 768px) {
     /* Em mobile, reservamos um pouco mais para rodapé/respirar */
@@ -83,7 +73,6 @@ export const Header = styled.header`
   }
 `;
 
-
 export const EditUserArea = styled.div`
   display: flex;
   align-items: center;
@@ -91,18 +80,15 @@ export const EditUserArea = styled.div`
   gap: 24px;
   width: 100%;
 
-
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 16px;
   }
 `;
 
-
 export const AvatarWrapper = styled.div`
   display: flex;
 `;
-
 
 export const Avatar = styled.img`
   width: 100px;
@@ -111,13 +97,11 @@ export const Avatar = styled.img`
   object-fit: cover;
 `;
 
-
 /* botão que abre input file */
 export const ChangeImageButton = styled.label`
   display: flex;
   align-items: end;
   cursor: pointer;
-
 
   img {
     width: 20px;
@@ -130,23 +114,18 @@ export const ChangeImageButton = styled.label`
   }
 `;
 
-
 export const Form = styled.form`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 
-
   /* limite confortável de largura e centralização */
   width: 100%;
   max-width: 420px;
-  margin-inline: auto;
-
 
   /* respiro lateral leve; não altera ícones */
   padding-inline: clamp(6px, 2.5vw, 12px);
-
 
   label {
     text-align: left;
@@ -155,7 +134,6 @@ export const Form = styled.form`
     font-weight: 600;
   }
 
-
   p {
     margin-top: 1rem;
     font-size: 20px;
@@ -163,13 +141,11 @@ export const Form = styled.form`
     align-self: center;
   }
 
-
   a {
     color: #ffffff;
     text-decoration: none;
     cursor: pointer;
     font-size: 20px;
-
 
     &:hover {
       text-decoration: underline;
@@ -179,7 +155,6 @@ export const Form = styled.form`
     }
   }
 
-
   .botoes {
     display: flex;
     align-self: center;
@@ -188,7 +163,6 @@ export const Form = styled.form`
     justify-content: center;
   }
 
-
   @media (max-width: 768px) {
     .botoes {
       gap: 16px;
@@ -196,12 +170,10 @@ export const Form = styled.form`
   }
 `;
 
-
 export const InputGroup = styled.div`
   /* 🔙 Mantido exatamente como você tinha */
   position: relative;
   width: 100%;
-
 
   img {
     position: absolute;
@@ -211,7 +183,6 @@ export const InputGroup = styled.div`
     width: 24px;
     height: 24px;
   }
-
 
   .eye-icon {
     position: absolute;
@@ -224,13 +195,11 @@ export const InputGroup = styled.div`
     opacity: 0.8;
     transition: opacity 0.1s ease;
 
-
     &:hover {
       opacity: 1;
     }
   }
 `;
-
 
 export const Input = styled.input`
   padding: 0.5rem;
@@ -242,12 +211,10 @@ export const Input = styled.input`
   background: transparent;
   color: #e5e7eb;
 
-
   &::placeholder {
     color: #e5e7eb;
   }
 `;
-
 
 export const Button = styled.button`
   padding: 0.9rem;
@@ -259,7 +226,6 @@ export const Button = styled.button`
   cursor: pointer;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-
   &.botao-cancelar {
     background: #ef4444;
     width: 120px;
@@ -270,18 +236,15 @@ export const Button = styled.button`
     }
   }
 
-
   &.botao-confirmar {
     background: #10B981;
     width: 120px;
-
 
     &:hover {
       background: #10B981e3;
     }
   }
 `;
-
 
 export const Divider = styled.div`
   display: flex;
@@ -291,7 +254,6 @@ export const Divider = styled.div`
   margin: 1rem 0;
   font-size: 20px;
 
-
   &::before,
   &::after {
     content: "";
@@ -299,19 +261,16 @@ export const Divider = styled.div`
     border-bottom: 1px solid #ffffff;
   }
 
-
   &:not(:empty)::before {
     margin-right: 32px;
     margin-left: 32px;
   }
-
 
   &:not(:empty)::after {
     margin-left: 32px;
     margin-right: 32px;
   }
 `;
-
 
 // 🎯 Área principal (mantida apenas como respiro, já que o conteúdo está no Header)
 export const Main = styled.main`
@@ -322,11 +281,9 @@ export const Main = styled.main`
   justify-content: center;
   gap: 24px;
 
-
   /* respiro lateral adaptativo */
   padding: clamp(12px, 4vh, 24px) clamp(14px, 5vw, 28px);
 `;
-
 
 // 🎯 Notícias (mantidas caso você volte com elas futuramente)
 export const NoticiasSection = styled.section`
@@ -336,14 +293,12 @@ export const NoticiasSection = styled.section`
     margin-bottom: 24px;
   }
 
-
   .cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
   }
 `;
-
 
 export const CardNoticias = styled.div`
   background-color: #fff;
@@ -352,11 +307,9 @@ export const CardNoticias = styled.div`
   padding: 12px;
   transition: 0.3s;
 
-
   &:hover {
     transform: translateY(-3px);
   }
-
 
   img {
     width: 100%;
@@ -366,20 +319,17 @@ export const CardNoticias = styled.div`
     margin-bottom: 10px;
   }
 
-
   h4 {
     font-weight: 700;
     margin-bottom: 4px;
     font-size: 1rem;
   }
 
-
   p {
     font-size: 0.9rem;
     color: #1f2937;
   }
 `;
-
 
 // 🎯 Rodapé — linha curvada sutil no topo, mantendo sua paleta
 export const Footer = styled.footer`
@@ -389,7 +339,6 @@ export const Footer = styled.footer`
   text-align: center;
   padding: 16px 0;
   border-radius: 30px 30px 0 0;
-
 
   /* Linha de separação suave (pill) */
   &::before {
@@ -404,17 +353,14 @@ export const Footer = styled.footer`
     border-radius: 9999px; /* efeito circular/pílula */
   }
 
-
   p {
     font-size: 0.9rem;
     margin: 0;
     color: #ffffff;
   }
 
-
   div {
     margin-top: 8px;
-
 
     a {
       color: #fff;
@@ -423,16 +369,13 @@ export const Footer = styled.footer`
       font-size: 0.9rem;
     }
 
-
     a:hover {
       text-decoration: underline;
     }
   }
 
-
   @media (max-width: 768px) {
     padding: 14px 0;
-
 
     p,
     a {
@@ -440,6 +383,3 @@ export const Footer = styled.footer`
     }
   }
 `;
-
-
-
