@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { authApi } from "../../services/api";
+
 import {
   Container,
   LeftArea,
@@ -36,8 +38,9 @@ const Auth = () => {
   const [erro, setErro] = useState(false);
   const [carregando, setCarregando] = useState(false);
 
-  // Pega o PIN e email armazenados
-  const emailAdmin = localStorage.getItem("emailAdmin");
+  // Email do admin salvo no login (ex: localStorage.setItem("emailAdmin", user.email))
+  const emailAdmin =
+    localStorage.getItem("emailAdmin") || localStorage.getItem("userEmail");
 
   const handleAutenticar = async (e) => {
     e.preventDefault();
@@ -50,25 +53,27 @@ const Auth = () => {
       return;
     }
 
+    if (!emailAdmin) {
+      setMensagem("Email do administrador não encontrado. Faça login novamente.");
+      setErro(true);
+      return;
+    }
+
     setCarregando(true);
 
     try {
-      const response = await fetch("http://localhost:3000/admin-pin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: emailAdmin,
-          pin: pin,
-        }),
+      // chama FastAPI em /api/v1/auth/admin-pin
+      const response = await authApi.adminPin({
+        email: emailAdmin,
+        pin: pin,
       });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (!response.ok) {
+      // Se o backend retornar algo tipo { success: false, message: "..." }
+      if (data.success === false) {
         setErro(true);
-        setMensagem(data.error || "Erro ao autenticar.");
+        setMensagem(data.message || "Erro ao autenticar.");
         setCarregando(false);
         return;
       }
@@ -80,8 +85,15 @@ const Auth = () => {
 
       setTimeout(() => navigate("/homeAdmin"), 800);
     } catch (error) {
+      console.error(error);
+
+      const backendMsg =
+        error?.response?.data?.detail ||
+        error?.response?.data?.message ||
+        "Erro ao conectar com o servidor.";
+
       setErro(true);
-      setMensagem("Erro ao conectar com o servidor.");
+      setMensagem(backendMsg);
       setCarregando(false);
     }
   };

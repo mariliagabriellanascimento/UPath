@@ -30,5 +30,10 @@ export const authApi = {
   forgotPassword: (data) => apiFast.post("/auth/forgot-password", data),
   resetPassword: (data) => apiFast.post("/auth/reset-password", data),
   updateProfile: (data) => apiFast.put("/auth/me", data),
+  adminPin: (data) => apiFast.post("/auth/admin-pin", data),
 
+};
+
+export const adminApi = {
+  preview: (params) => apiFast.get("/admin/reports/preview", { params }),
 };
