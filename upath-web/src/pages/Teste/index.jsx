@@ -48,7 +48,7 @@ const Teste = () => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await fetch("http://localhost:8000/api/v1/user/me", {
+      const res = await fetch("http://localhost:8001/api/v1/user/me", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -70,7 +70,7 @@ const Teste = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8000/api/v1/user/logout", {
+      const response = await fetch("http://localhost:8001/api/v1/user/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

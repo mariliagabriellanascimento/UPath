@@ -4,10 +4,10 @@ import {
   LeftArea,
   RightArea,
   Form,
+  InputGroup,
   Input,
   Button,
   Divider,
-  InputGroup,
   StoreButtons,
   ErrorMessage,
 } from "./styles";
@@ -23,6 +23,8 @@ import PlayStoreIcon from "../../assets/google-play.svg";
 import AppStoreIcon from "../../assets/app-store.svg";
 import { Link, useNavigate } from "react-router-dom";
 
+import { authApi } from "../../services/api";
+
 const Auth = () => {
   const navigate = useNavigate();
 
@@ -35,7 +37,10 @@ const Auth = () => {
   const [mensagem, setMensagem] = useState("");
   const [erro, setErro] = useState(false);
   const [carregando, setCarregando] = useState(false);
-  const sessionId = localStorage.getItem("adminSessionId");
+
+  // Email do admin salvo no login (ex: localStorage.setItem("emailAdmin", user.email))
+  const emailAdmin =
+    localStorage.getItem("emailAdmin") || localStorage.getItem("userEmail");
 
   const handleAutenticar = async (e) => {
     e.preventDefault();
@@ -48,35 +53,49 @@ const Auth = () => {
       return;
     }
 
+    if (!emailAdmin) {
+      setMensagem(
+        "Email do administrador não encontrado. Faça login novamente."
+      );
+      setErro(true);
+      return;
+    }
+
     setCarregando(true);
 
     try {
-      const response = await fetch("http://localhost:8000/api/v1/admin/2fa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ session_id: sessionId, token_4d: pin }),
+      // chama FastAPI em /api/v1/auth/admin-pin
+      const response = await authApi.adminPin({
+        email: emailAdmin,
+        pin: pin,
       });
 
-      const data = await response.json();
+      const data = response.data;
 
-      if (!response.ok || !data.success) {
+      // Se o backend retornar algo tipo { success: false, message: "..." }
+      if (data.success === false) {
         setErro(true);
-        setMensagem(data.error || "Erro ao autenticar.");
+        setMensagem(data.message || "Erro ao autenticar.");
         setCarregando(false);
         return;
       }
 
-      // Sucesso: salvar JWT do admin
-      localStorage.setItem("adminToken", data.data.token);
+      // Sucesso
       setMensagem("Autenticado com sucesso!");
       setErro(false);
       setCarregando(false);
 
       setTimeout(() => navigate("/homeAdmin"), 800);
-    } catch (err) {
-      console.error(err); 
+    } catch (error) {
+      console.error(error);
+
+      const backendMsg =
+        error?.response?.data?.detail ||
+        error?.response?.data?.message ||
+        "Erro ao conectar com o servidor.";
+
       setErro(true);
-      setMensagem("Erro ao conectar com o servidor.");
+      setMensagem(backendMsg);
       setCarregando(false);
     }
   };

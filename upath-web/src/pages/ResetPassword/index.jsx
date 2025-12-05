@@ -93,7 +93,6 @@ const ResetPassword = () => {
       setMensagem(data.message || "Senha redefinida com sucesso!");
       setErro(false);
 
-      alert("");
       setShowSuccess(true);
       setTimeout(() => navigate("/login"), 2000);
     } catch (error) {

@@ -38,7 +38,7 @@ export const Header = styled.header`
   }
 `;
 
-// 🎯 Área do usuário
+// 🎯 Área do usuário (lado direito do cabeçalho)
 export const UserArea = styled.div`
   display: flex;
   align-items: center;
@@ -103,6 +103,95 @@ export const Main = styled.main`
       font-size: 22px;
       text-align: center;
     }
+  }
+`;
+
+// 🎯 Rodapé
+export const Footer = styled.footer`
+  background-color: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 16px 0;
+  border-radius: 30px 30px 0 0;
+
+  p {
+    font-size: 0.9rem;
+  }
+
+  div {
+    margin-top: 8px;
+
+    a {
+      color: #fff;
+      margin: 0 6px;
+      text-decoration: none;
+      font-size: 0.9rem;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px 0;
+
+    p,
+    a {
+      font-size: 0.8rem;
+    }
+  }
+`;
+
+// 🎯 Modal Overlay
+export const ModalOverlay = styled.div`
+  position: fixed;
+  top: 120px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99;
+
+  @media (max-width: 768px) {
+    top: 80px;
+    right: 10px;
+  }
+`;
+
+// 🎯 Modal Perfil
+export const ModalPerfil = styled.div`
+  border-radius: 4px;
+  background-color: #1f2937;
+  padding: 24px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  button {
+    background-color: transparent;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(31, 41, 55, 0.2);
+    }
+  }
+
+  .icon-logout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @media (max-width: 768px) {
+    width: 180px;
+    padding: 16px;
   }
 `;
 
@@ -238,7 +327,6 @@ export const GraficoContainer = styled.div`
     font-size: 14px;
     color: #ffffff;
     gap: 24px;
-    flex-wrap: wrap;
   }
 
   @media (max-width: 1024px) {
@@ -261,7 +349,7 @@ export const GraficoContainer = styled.div`
       font-size: 20px;
     }
   }
-`;
+`;  
 
 // 🎯 Botão
 export const Button = styled.button`
@@ -284,131 +372,3 @@ export const Button = styled.button`
     padding: 8px 16px;
   }
 `;
-
-// 🎯 Rodapé
-export const Footer = styled.footer`
-  background-color: #1f2937;
-  color: white;
-  text-align: center;
-  padding: 16px 0;
-  border-radius: 30px 30px 0 0;
-
-  p {
-    font-size: 0.9rem;
-  }
-
-  div {
-    margin-top: 8px;
-
-    a {
-      color: #fff;
-      margin: 0 6px;
-      text-decoration: none;
-      font-size: 0.9rem;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    padding: 12px 0;
-
-    p,
-    a {
-      font-size: 0.8rem;
-    }
-  }
-`;
-
-// 🎯 Modal Overlay
-export const ModalOverlay = styled.div`
-  position: fixed;
-  top: 120px;
-  right: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 99;
-
-  @media (max-width: 768px) {
-    top: 80px;
-    right: 10px;
-  }
-`;
-
-// 🎯 Modal Perfil
-export const ModalPerfil = styled.div`
-  border-radius: 4px;
-  background-color: #1f2937;
-  padding: 24px;
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  button {
-    background-color: transparent;
-    color: #fff;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  a {
-    display: inline-block;
-    width: 100%;
-  }
-
-  a button {
-    width: 100%;
-  }
-
-  .icon-logout {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  @media (max-width: 768px) {
-    width: 180px;
-    padding: 16px;
-  }
-`;
-
-export const Toast = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  
-  background: #1f2937;
-  color: #fff;
-  padding: 20px 30px;
-  border-radius: 12px;
-  font-size: 18px;
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
-  z-index: 99999;
-  animation: fadeInScale 0.25s ease forwards;
-
-  @keyframes fadeInScale {
-    from {
-      opacity: 0;
-      transform: translate(-50%, -50%) scale(0.85);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, -50%) scale(1);
-    }
-  }
-`;    
