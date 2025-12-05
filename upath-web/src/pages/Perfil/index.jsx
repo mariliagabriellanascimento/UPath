@@ -63,25 +63,14 @@ const Perfil = () => {
     setSuccess("");
 
     try {
-      const payload = {
-        nome,
-      };
+      const payload = { nome };
 
       if (senha && senha.trim()) {
         payload.senha = senha;
       }
 
-      // cria o FormData e adiciona o payload JSON
-      const form = new FormData();
-      form.append("payload", JSON.stringify(payload));
-
-      // adiciona a foto SE existir
-      if (avatarFile) {
-        form.append("avatar", avatarFile);
-      }
-
-      // envia para o backend
-      const response = await authApi.updateProfile(form);
+      // agora envia JSON direto
+      const response = await authApi.updateProfile(payload);
       const data = response.data;
 
       if (!data.success) {
@@ -91,6 +80,7 @@ const Perfil = () => {
 
       if (data.data?.nome) {
         localStorage.setItem("userNome", data.data.nome);
+        setNome(data.data.nome);
       }
 
       setSuccess(data.message || "Alterações salvas com sucesso!");
@@ -104,6 +94,7 @@ const Perfil = () => {
       setError(msg);
     }
   };
+
 
   return (
     <Container>

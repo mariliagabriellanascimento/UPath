@@ -50,7 +50,7 @@ const HomeUser = () => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await fetch("http://localhost:8001/api/v1/user/me", {
+      const res = await fetch("http://localhost:8001/api/v1/user/profile", {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
