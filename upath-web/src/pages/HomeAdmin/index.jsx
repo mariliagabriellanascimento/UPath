@@ -25,13 +25,13 @@ const HomeAdmin = () => {
   const [showPerfil, setShowPerfil] = useState(false);
   const [userNome, setUserNome] = useState("");
 
-  // filtros
-  const [tipoRelatorio, setTipoRelatorio] = useState("");
-  const [periodo, setPeriodo] = useState("");
+  // filtros – já com padrão
+  const [tipoRelatorio, setTipoRelatorio] = useState("usuarios");
+  const [periodo, setPeriodo] = useState("7d");
 
   // dados do gráfico vindos do back
-  const [labels, setLabels] = useState(["Seg", "Ter", "Qua", "Qui", "Sex"]);
-  const [valores, setValores] = useState([60, 90, 40, 80, 70]); // valores iniciais só pra não ficar vazio
+  const [labels, setLabels] = useState([]);
+  const [valores, setValores] = useState([]);
   const [totalUsuarios, setTotalUsuarios] = useState(null);
 
   // feedback
@@ -114,10 +114,19 @@ const HomeAdmin = () => {
       </Header>
 
       <Main>
-
         {erro && <p style={{ color: "red", marginBottom: 8 }}>{erro}</p>}
         {mensagem && !erro && (
           <p style={{ color: "green", marginBottom: 8 }}>{mensagem}</p>
+        )}
+
+        {/* Cards de métricas rápidas */}
+        {totalUsuarios !== null && (
+          <div className="kpi-row">
+            <div className="kpi-card">
+              <h4>Total de usuários no período</h4>
+              <strong>{totalUsuarios}</strong>
+            </div>
+          </div>
         )}
 
         <RelatoriosContainer>
@@ -168,27 +177,32 @@ const HomeAdmin = () => {
 
           {/* Gráfico com dados da API */}
           <GraficoContainer>
-            <h2>Gráfico de Acesso</h2>
-
-            {totalUsuarios !== null && (
-              <p style={{ marginBottom: 12 }}>
-                Total de usuários no período: <strong>{totalUsuarios}</strong>
-              </p>
-            )}
+            <div className="grafico-header">
+              <h2>Gráfico de Acesso</h2>
+              {totalUsuarios !== null && (
+                <span className="sub">
+                  Total no período: <strong>{totalUsuarios}</strong>
+                </span>
+              )}
+            </div>
 
             <div className="grafico-barras">
+              {valores.length === 0 && (
+                <p className="sem-dados">
+                  Nenhum dado para o período selecionado.
+                </p>
+              )}
+
               {valores.map((valor, i) => (
-                <div
-                  key={i}
-                  className="barra"
-                  style={{ height: `${valor * 2}px` }}
-                  title={`${labels[i]}: ${valor}`}
-                ></div>
-              ))}
-            </div>
-            <div className="legenda">
-              {labels.map((label, idx) => (
-                <span key={idx}>{label}</span>
+                <div key={i} className="coluna">
+                  <span className="valor">{valor}</span>
+                  <div
+                    className="barra"
+                    style={{ height: `${Math.max(valor, 1) * 10}px` }}
+                    title={`${labels[i]}: ${valor}`}
+                  />
+                  <span className="label">{labels[i]}</span>
+                </div>
               ))}
             </div>
           </GraficoContainer>

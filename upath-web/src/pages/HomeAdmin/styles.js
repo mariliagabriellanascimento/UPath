@@ -80,9 +80,9 @@ export const Main = styled.main`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 40px;
+  padding: 40px 16px;
+  gap: 16px;
 
   h1 {
     color: #1f2937;
@@ -90,8 +90,37 @@ export const Main = styled.main`
     margin-bottom: 20px;
   }
 
+  .kpi-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .kpi-card {
+    background: #020617;
+    border-radius: 16px;
+    padding: 12px 20px;
+    min-width: 220px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(15, 23, 42, 0.6);
+
+    h4 {
+      font-size: 0.9rem;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    strong {
+      font-size: 1.6rem;
+      color: #e5e7eb;
+    }
+  }
+
   @media (max-width: 1024px) {
     padding: 24px;
+
     h1 {
       font-size: 28px;
     }
@@ -99,9 +128,15 @@ export const Main = styled.main`
 
   @media (max-width: 768px) {
     padding: 16px;
+
     h1 {
       font-size: 22px;
       text-align: center;
+    }
+
+    .kpi-row {
+      flex-direction: column;
+      align-items: center;
     }
   }
 `;
@@ -195,24 +230,27 @@ export const ModalPerfil = styled.div`
   }
 `;
 
-// 🎯 Container dos relatórios
+// 🎯 Container dos relatórios (layout em 2 colunas)
 export const RelatoriosContainer = styled.div`
-  display: flex;
-  background-color: #1f2937;
-  padding: 30px;
-  border-radius: 12px;
-  gap: 30px;
+  background-color: #0b1220;
+  padding: 30px 32px;
+  border-radius: 20px;
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr;
+  gap: 32px;
+  max-width: 900px;
+  width: 100%;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.8);
 
   @media (max-width: 1024px) {
-    flex-direction: column;
-    align-items: center;
+    grid-template-columns: 1fr;
     padding: 20px;
-    gap: 20px;
+    gap: 24px;
   }
 
   @media (max-width: 768px) {
     padding: 16px;
-    gap: 16px;
+    gap: 20px;
   }
 `;
 
@@ -220,18 +258,18 @@ export const RelatoriosContainer = styled.div`
 export const FiltrosContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 32px;
   align-items: flex-start;
 
-  h1 {
+  .intro-text h1 {
     color: #ffffff;
-    font-size: 32px;
+    font-size: 28px;
+    margin-bottom: 4px;
   }
 
-  p {
-    color: #ffffff;
-    font-size: 16px;
-    text-align: left;
+  .intro-text p {
+    color: #d1d5db;
+    font-size: 14px;
     margin: 0;
   }
 
@@ -239,51 +277,46 @@ export const FiltrosContainer = styled.div`
   .periodo-select {
     display: flex;
     flex-direction: column;
+    gap: 6px;
   }
 
   label {
-    font-weight: bold;
+    font-weight: 600;
     color: #ffffff;
-    font-size: 20px;
+    font-size: 16px;
   }
 
   select {
-    background: #1f2937;
+    background: #020617;
     color: #ffffff;
-    border: none;
-    border-radius: 6px;
+    border: 1px solid #374151;
+    border-radius: 8px;
     padding: 8px 12px;
-    font-size: 16px;
+    font-size: 14px;
     outline: none;
   }
 
+  .botao-link {
+    margin-top: 8px;
+  }
+
   @media (max-width: 1024px) {
-    align-items: center;
-    text-align: center;
-    gap: 30px;
+    align-items: stretch;
 
-    h1 {
-      font-size: 26px;
-    }
-
-    label {
-      font-size: 18px;
+    .intro-text h1 {
+      font-size: 24px;
     }
   }
 
   @media (max-width: 768px) {
     gap: 20px;
 
-    h1 {
-      font-size: 22px;
-    }
-
-    label {
-      font-size: 16px;
+    .intro-text h1 {
+      font-size: 20px;
     }
 
     select {
-      font-size: 14px;
+      font-size: 13px;
       padding: 6px 10px;
     }
   }
@@ -291,52 +324,86 @@ export const FiltrosContainer = styled.div`
 
 // 🎯 Gráfico
 export const GraficoContainer = styled.div`
-  border-radius: 12px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 10px;
-  margin-top: 40px;
+  color: #e5e7eb;
+  gap: 12px;
 
-  h2 {
-    margin-bottom: 10px;
-    color: #ffffff;
-    font-size: 24px;
+  .grafico-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+
+    h2 {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    .sub {
+      font-size: 0.8rem;
+      color: #9ca3af;
+
+      strong {
+        color: #e5e7eb;
+      }
+    }
   }
 
   .grafico-barras {
+    margin-top: 4px;
+    height: 260px;
     display: flex;
     align-items: flex-end;
-    height: 200px;
-    gap: 10px;
-    background: #ffffff;
-    padding: 10px;
-    border-radius: 8px 8px 0 0;
+    justify-content: center;
+    gap: 16px;
+    padding: 16px;
+    background: #020617;
+    border-radius: 16px;
+    box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+  }
+
+  .sem-dados {
+    color: #9ca3af;
+    font-size: 0.85rem;
+  }
+
+  .coluna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .valor {
+    font-size: 0.75rem;
+    color: #9ca3af;
   }
 
   .barra {
-    width: 40px;
-    background: #3b82f6;
-    border-radius: 8px 8px 0 0;
+    width: 26px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #6366f1, #4f46e5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
   }
 
-  .legenda {
-    display: flex;
-    justify-content: space-between;
-    margin: 0px 24px;
-    font-size: 14px;
-    color: #ffffff;
-    gap: 24px;
+  .barra:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(79, 70, 229, 0.4);
+    opacity: 0.95;
+  }
+
+  .label {
+    font-size: 0.75rem;
+    color: #9ca3af;
   }
 
   @media (max-width: 1024px) {
-    align-items: center;
-    width: 100%;
-
     .grafico-barras {
       flex-wrap: wrap;
       justify-content: center;
       height: auto;
+      min-height: 200px;
     }
   }
 
@@ -345,11 +412,11 @@ export const GraficoContainer = styled.div`
       width: 20px;
     }
 
-    h2 {
-      font-size: 20px;
+    .grafico-header h2 {
+      font-size: 1rem;
     }
   }
-`;  
+`;
 
 // 🎯 Botão
 export const Button = styled.button`
@@ -361,14 +428,19 @@ export const Button = styled.button`
   font-weight: 500;
   cursor: pointer;
   transition: 0.3s;
-  font-size: 20px;
+  font-size: 16px;
 
   &:hover {
     background-color: #7e22ce;
   }
 
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
   @media (max-width: 768px) {
-    font-size: 16px;
+    font-size: 14px;
     padding: 8px 16px;
   }
 `;
