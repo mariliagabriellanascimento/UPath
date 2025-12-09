@@ -1,24 +1,33 @@
 import { useEffect, useState, useRef } from "react";
+import { NODE_CHAT_URL } from "../services/api";
 import "./chat.css";
 
-const BACKEND_URL = "http://localhost:3000";
+const BACKEND_URL = NODE_CHAT_URL;
 
-export default function Chat({ setFinalizou }) {
+export default function Chat({ setFinalizou, setSessionId }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [sessionId, setSessionIdLocal] = useState(null);
   const startedRef = useRef(false);
-  const messagesEndRef = useRef(null); 
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, loading]); 
+  }, [messages, loading]);
 
   const addMessage = (text, sender) => {
     setMessages((prev) => [...prev, { text, sender }]);
   };
 
   const setLoadingState = (v) => setLoading(v);
+
+  const handleSessionIdFromResponse = (data) => {
+    if (data.sessionId) {
+      setSessionIdLocal(data.sessionId);
+      if (setSessionId) setSessionId(data.sessionId); // passa para o pai (Teste)
+    }
+  };
 
   const sendMessage = async (message) => {
     setLoadingState(true);
@@ -27,9 +36,13 @@ export default function Chat({ setFinalizou }) {
       const response = await fetch(`${BACKEND_URL}/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message }),
+        body: JSON.stringify({ message, sessionId }), // 👈 envia o id se existir
       });
+
       const data = await response.json();
+
+      handleSessionIdFromResponse(data); // 👈 atualiza sessão, se veio
+
       addMessage(data.reply, "assistant");
       if (data.final) {
         setTimeout(() => {
@@ -67,10 +80,11 @@ export default function Chat({ setFinalizou }) {
         const res = await fetch(`${BACKEND_URL}/chat`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: "Começar" }),
+          body: JSON.stringify({ message: "Começar", sessionId: null }), // sem id
         });
 
         const data = await res.json();
+        handleSessionIdFromResponse(data); // 👈 pega o sessionId gerado
         addMessage(data.reply, "assistant");
       } catch {
         addMessage("Não foi possível conectar ao servidor.", "assistant");

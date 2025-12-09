@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FASTAPI_BASE_URL } from "../../services/api";
 import {
   Container,
   Header,
@@ -24,6 +25,7 @@ const Teste = () => {
   // Estados dos modais
   const [showPerfil, setShowPerfil] = useState(false);
   const [finalizou, setFinalizou] = useState(false);
+  const [sessionId, setSessionId] = useState(null);
 
   // Estado do link ativo
   const [activeLink, setActiveLink] = useState("teste");
@@ -48,7 +50,7 @@ const Teste = () => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await fetch("http://localhost:8001/api/v1/user/me", {
+      const res = await fetch(`${FASTAPI_BASE_URL}/user/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -70,7 +72,7 @@ const Teste = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8001/api/v1/user/logout", {
+      const response = await fetch(`${FASTAPI_BASE_URL}/user/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

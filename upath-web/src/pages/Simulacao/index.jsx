@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { FASTAPI_BASE_URL, NODE_ML_URL } from "../../services/api";
 import {
   Container,
   Header,
@@ -51,7 +52,7 @@ const Simulacao = () => {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const res = await fetch("http://localhost:8001/api/v1/user/me", {
+      const res = await fetch(`${FASTAPI_BASE_URL}/user/me`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {
@@ -82,7 +83,7 @@ const Simulacao = () => {
       return;
     }
 
-    fetch("http://localhost:4000/predict", {
+    fetch(`${NODE_ML_URL}/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ curso, nota: parseFloat(nota) }),
@@ -113,7 +114,7 @@ const Simulacao = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8001/api/v1/user/logout", {
+      const response = await fetch(`${FASTAPI_BASE_URL}/user/logout`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

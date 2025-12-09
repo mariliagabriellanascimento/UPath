@@ -1,23 +1,37 @@
 import { useEffect, useState } from "react";
+import { NODE_CHAT_URL } from "../services/api";
 import "./chat.css";
 
-const BACKEND_URL = "http://localhost:3000";
+const BACKEND_URL = NODE_CHAT_URL;
 
-export default function Resultado() {
+export default function Resultado({ sessionId }) {
   const [resultado, setResultado] = useState(null);
 
   useEffect(() => {
+    if (!sessionId) {
+      setResultado("Sessão inválida. Tente refazer o teste.");
+      return;
+    }
+
     const carregar = async () => {
       try {
-        const res = await fetch(`${BACKEND_URL}/resultado`);
+        const res = await fetch(
+          `${BACKEND_URL}/resultado?sessionId=${encodeURIComponent(sessionId)}`
+        );
         const data = await res.json();
-        setResultado(data.resultado);
+
+        if (data.error) {
+          setResultado(data.error);
+        } else {
+          setResultado(data.resultado);
+        }
       } catch {
         setResultado("Erro ao carregar resultado.");
       }
     };
+
     carregar();
-  }, []);
+  }, [sessionId]);
 
   return (
     <div className="resultado-wrapper">
