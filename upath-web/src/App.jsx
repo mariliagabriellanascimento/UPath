@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Retrieve from "./pages/Retrieve";
@@ -11,6 +11,7 @@ import Simulacao from "./pages/Simulacao";
 import Perfil from "./pages/Perfil";
 import Sobre from "./pages/Sobre";
 import HomeAdmin from "./pages/HomeAdmin";
+
 
 function App() {
   return (
