@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NODE_CHAT_URL } from "../services/api";
-import "./chat.css";
+import "./Chat.css";
 
 const BACKEND_URL = NODE_CHAT_URL;
 
