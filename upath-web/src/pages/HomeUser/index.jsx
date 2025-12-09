@@ -15,7 +15,7 @@ import {
   Toast,
 } from "./styles";
 
-import EquipeUPathImg from "../../assets/EquipeUPath.png";
+import EquipeUPathImg from "../../assets/equipeUPath.png";
 
 import Logo from "../../assets/logo-upath-2.svg";
 import DefaultAvatar from "../../assets/default-avatar.svg";
